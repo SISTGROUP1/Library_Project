@@ -36,7 +36,7 @@
 						<li><a href="#">App Development</a></li>
 					</ul>
 				</li>
-				<li><a href="#">Blog</a></li>
+				<li><a href="#">Blog1</a></li>
 				<li><a href="#">About</a></li>
 				<li><a href="#">Contact</a></li>
 			</ul>
