@@ -25,15 +25,12 @@
 			<ul class="flexnav">
 				<li><a href="#">Home</a></li>
 				<li>
-					<a href="#">Portofolio</a>
+					<a href="main.jsp">도서관이용</a>
 					<ul>
-						<li><a href="#">Web design</a></li>
-						<li><a href="#">Web development</a></li>
-						<li>
-							<a href="#">Programming</a>
-						</li>
-						<li><a href="#">Identity</a></li>
-						<li><a href="#">App Development</a></li>
+						<li><a href="../libUse/libReserveInfo">도서관 이용 시간</a></li>
+						<li><a href="../libUse/libTimeInfo">대출.반납.연장.예약</a></li>
+						<li><a href="../libUse/seatReservation">자리 예약</a></li>
+						<li><a href="../libUse/libWayInfo">찾아오시는 길</a></li>
 					</ul>
 				</li>
 				<li><a href="#">Blog1</a></li>
