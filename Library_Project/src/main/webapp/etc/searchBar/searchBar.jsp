@@ -7,6 +7,11 @@
 <title>Theory by TEMPLATED</title>
 <script type="text/javascript" src="../assets/js/searchBar.js"></script>
 <link rel="stylesheet" href="../assets/css/searchBar.scss">
+<style type="text/css">
+	button:hover{
+		background-color: white;
+	}
+</style>
 </head>
 <body>
 <form class="search-form">
