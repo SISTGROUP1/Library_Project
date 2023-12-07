@@ -8,13 +8,15 @@
 </head>
 <body>
 <header id="header"><div class="inner">
-					<a href="index.html" class="logo">Theory</a>
-					<nav id="nav"><a href="index.html">Home</a>
-						<a href="generic.html">Generic</a>
-						<a href="elements.html">Elements</a>
+					<a href="index.html" class="logo">
+						<img src="../images/lib_logo.png" alt="로고 이미지">
+					</a>
+					<nav id="nav"><a href="../user/login.jsp">로그인</a>
+						<a href="../user/userjoin.jsp">회원가입</a>
+						<a href="../user/mypage.jsp">마이페이지</a>
 					</nav><a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
 				</div>
-			</header><!-- Banner --><section id="banner"><h1>Welcome to Theory</h1>
+			</header><!-- Banner --><section id="banner"><h1>서 울 도 서 관</h1>
 				<p>A free responsive HTML5 website template by TEMPLATED.</p>
 			</section>
 </body>
