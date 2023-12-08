@@ -10,7 +10,7 @@
 <body>
 <div class="container">
 		<div style="position:relative;z-index:1;margin:0;">
-			<ul class="flexnav">
+			<ul class="flexnav" style="padding-left: 25%">
 				<li>
 					<a href="main.jsp">자료검색</a>
 					<ul>
