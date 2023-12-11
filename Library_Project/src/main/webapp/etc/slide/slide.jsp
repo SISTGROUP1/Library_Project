@@ -13,7 +13,7 @@
 			<div class="slider">
         <div class="slide-viewer" style="height: 600px;">
             <div class="slide-group">
-                <div class="slide slide-1">
+                <div class="slide slide-1" style="margin-top: 0px;">
                 	<div class="inner">
 					<header><h2>Ipsum Feugiat</h2>
 						<p>Semper suscipit posuere apede</p>
@@ -46,13 +46,13 @@
 				</div>
 			
                 </div>
-                <div class="slide slide-2">
+                <div class="slide slide-2" style="margin-top: 0px;">
                 	<img src="https://images.unsplash.com/photo-1522204657746-fccce0824cfd?ixlib=rb-0.3.5&s=ddc8760689fba9224d60fc5a1b031506&auto=format&fit=crop&w=750&q=80" alt="">
                 </div>
-                <div class="slide slide-3">
+                <div class="slide slide-3" style="margin-top: 0px;">
                 	<img src="https://images.unsplash.com/photo-1522204605090-c9a2ae146cb3?ixlib=rb-0.3.5&s=100f74b5889eb85b11e510c8e1a5df4a&auto=format&fit=crop&w=891&q=80" alt="">
                 </div>
-                <div class="slide slide-4">
+                <div class="slide slide-4" style="margin-top: 0px;">
                 	<img src="https://images.unsplash.com/photo-1494571258015-05dbfa433963?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=af4fb855b99cd856d5e7a6ff9e500c58&auto=format&fit=crop&w=740&q=80" alt="">
                 </div>
             </div>

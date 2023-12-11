@@ -97,13 +97,13 @@
 .slide-btn {
   border: none;
   background: none;
-  color: #000;
+  color: #000 !important;
   font-size: 200%;
   line-height: 0.5em;
   outline: none;
 }
 
 .slide-btn.active, .slide-btn:hover {
-  color: #ed8e6c;
+  color: #ed8e6c !important;
   cursor: pointer;
 }

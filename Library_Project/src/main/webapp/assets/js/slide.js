@@ -71,6 +71,9 @@ $(document).ready(function () {
 
             $.each($slides, function(index) {
                 var $button = $('<button type="button" class="slide-btn">&bull;</button>');
+                $button.hover(function(){
+						$(this).css('background-color','transparent');
+				});
                 if (index === currentIndex) {
                     $button.addClass('active');
                 }
