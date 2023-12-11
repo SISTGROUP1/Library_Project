@@ -20,37 +20,10 @@
 							<footer><a href="#" class="button special">More</a>
 							</footer></article></div>
 				</div>
-			</section><!-- Two --><section id="two" class="wrapper style1 special"><div class="inner">
-					<header><h2>Ipsum Feugiat</h2>
-						<p>Semper suscipit posuere apede</p>
-					</header><div class="flex flex-4">
-						<div class="box person">
-							<div class="image round">
-								<img src="../images/pic03.jpg" alt="Person 1" width="168" height="168"></div>
-							<h3>Magna</h3>
-							<p>Cipdum dolor</p>
-						</div>
-						<div class="box person">
-							<div class="image round">
-								<img src="../images/pic04.jpg" alt="Person 2" width="168" height="168"></div>
-							<h3>Ipsum</h3>
-							<p>Vestibulum comm</p>
-						</div>
-						<div class="box person">
-							<div class="image round">
-								<img src="../images/pic05.jpg" alt="Person 3" width="168" height="168"></div>
-							<h3>Tempus</h3>
-							<p>Fusce pellentes</p>
-						</div>
-						<div class="box person">
-							<div class="image round">
-								<img src="../images/pic06.jpg" alt="Person 4" width="168" height="168"></div>
-							<h3>Dolore</h3>
-							<p>Praesent placer</p>
-						</div>
-					</div>
-				</div>
-			</section><!-- Three --><section id="three" class="wrapper special"><div class="inner">
+			</section>
+			<!-- slide include -->
+			<jsp:include page="../etc/slide/slide.jsp"></jsp:include>
+			<!-- Three --><section id="three" class="wrapper special"><div class="inner">
 					<header class="align-center"><h2>Nunc Dignissim</h2>
 						<p>Aliquam erat volutpat nam dui </p>
 					</header><div class="flex flex-2">
