@@ -12,7 +12,7 @@
 					<a href="index.html" class="logo">
 						<img src="../images/lib_logo2.png" alt="로고 이미지">
 					</a>
-					<nav id="nav"><a href="../user/login.jsp">로그인</a>
+					<nav id="nav"><a href="../user/login.do">로그인</a>
 						<a href="../user/userjoin.jsp">회원가입</a>
 						<a href="../user/mypage.jsp">마이페이지</a>
 					</nav><a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
