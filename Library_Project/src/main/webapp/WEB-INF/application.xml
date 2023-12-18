@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+	<bean id="list" class="com.sist.model.BookModel"/>
+	<bean id="detail" class="com.sist.model.DetailModel"/>
+	<bean id="main" class="com.sist.model.MainModel"/>
+	<bean id="program" class="com.sist.model.ProgramModel"/>
+</beans>
