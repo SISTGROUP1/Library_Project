@@ -11,6 +11,7 @@ public class UserDAO {
 	private CreateDBCPConnection dbconn=new CreateDBCPConnection();
 	private static UserDAO dao;
 	
+	
 	public static UserDAO newInstance()
 	{
 		if(dao==null)

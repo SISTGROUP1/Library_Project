@@ -11,6 +11,7 @@ import com.sist.vo.UserVO;;
 
 public class UserModel {
 	
+	
 	@RequestMapping("user/login.do")
 	public String user_login(HttpServletRequest request, HttpServletResponse response)
 	{
