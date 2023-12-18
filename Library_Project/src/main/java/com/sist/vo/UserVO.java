@@ -8,6 +8,7 @@ public class UserVO {
 	private int hno;
 	private String hintQ,hintA;
 	private Date signdate;
+	
 	public String getUserID() {
 		return userID;
 	}
