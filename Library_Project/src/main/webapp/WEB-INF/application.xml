@@ -4,4 +4,5 @@
 	<bean id="detail" class="com.sist.model.DetailModel"/>
 	<bean id="main" class="com.sist.model.MainModel"/>
 	<bean id="program" class="com.sist.model.ProgramModel"/>
+	<bean id="library" class="com.sist.model.LibraryUseModel"/>
 </beans>
