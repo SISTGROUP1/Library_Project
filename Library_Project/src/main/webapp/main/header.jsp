@@ -10,7 +10,7 @@
 			<header id="header">
 				<div class="inner">
 					<a href="index.html" class="logo">
-						<img src="../images/lib_logo.png" alt="로고 이미지">
+						<img src="../images/lib_logo2.png" alt="로고 이미지">
 					</a>
 					<nav id="nav"><a href="../user/login.jsp">로그인</a>
 						<a href="../user/userjoin.jsp">회원가입</a>
