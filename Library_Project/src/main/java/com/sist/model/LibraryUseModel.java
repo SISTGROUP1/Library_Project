@@ -13,4 +13,20 @@ public class LibraryUseModel {
 		request.setAttribute("main_jsp", "../libUse/lib_submenu.jsp");
 		return "../main/main.jsp";
 	}
+	
+	@RequestMapping("libUse/libReserveInfo.do")
+	public String libUse_libReserveInfo(HttpServletRequest request, HttpServletResponse response)
+	{
+		request.setAttribute("libUse_jsp", "../libUse/libReserveInfo.jsp");
+		request.setAttribute("main_jsp", "../libUse/lib_submenu.jsp");
+		return "../main/main.jsp";
+	}
+	
+	@RequestMapping("libUse/libWayInfo.do")
+	public String libUse_libWayInfo(HttpServletRequest request, HttpServletResponse response)
+	{
+		request.setAttribute("libUse_jsp", "../libUse/libWayInfo.jsp");
+		request.setAttribute("main_jsp", "../libUse/lib_submenu.jsp");
+		return "../main/main.jsp";
+	}
 }
