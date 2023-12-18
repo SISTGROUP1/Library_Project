@@ -2,4 +2,5 @@
 <beans>
 	<bean id="main" class="com.sist.model.MainModel"/>
 	<bean id="library" class="com.sist.model.LibraryUseModel"/>
+	<bean id="user" class="com.sist.model.UserModel"/>
 </beans>
