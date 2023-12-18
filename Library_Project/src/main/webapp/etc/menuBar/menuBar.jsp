@@ -22,10 +22,10 @@
 				<li>
 					<a href="main.jsp">도서관이용</a>
 					<ul>
-						<li><a href="../libUse/libReserveInfo">도서관 이용 시간</a></li>
-						<li><a href="../libUse/libTimeInfo">대출.반납.연장.예약</a></li>
-						<li><a href="../libUse/seatReservation">자리 예약</a></li>
-						<li><a href="../libUse/libWayInfo">찾아오시는 길</a></li>
+						<li><a href="../libUse/libTimeInfo.do">도서관 이용 시간</a></li>
+						<li><a href="../libUse/libReservationInfo.do">대출.반납.연장.예약</a></li>
+						<li><a href="../libUse/seatReservation.do">자리 예약</a></li>
+						<li><a href="../libUse/libWayInfo.do">찾아오시는 길</a></li>
 					</ul>
 				</li>
 				<li>
