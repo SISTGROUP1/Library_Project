@@ -69,4 +69,9 @@ public class BookModel {
 		
 		return "/main/main.jsp";
 	}
+	@RequestMapping("searchBook/alqResult.do")
+	public String Serach_Deatail(HttpServletRequest request, HttpServletResponse response) {
+		
+		return "";
+	}
 }

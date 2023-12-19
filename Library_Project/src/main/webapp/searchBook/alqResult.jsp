@@ -51,11 +51,11 @@
 					<tr>
 						<td width="15%" align="center" rowspan="8">
 							<c:set var="data" value="../images/defaultImage.jpg"/>
-					        <img src="${vo.image==null?data:vo.image }" style="width:100%;height:100%;">
+					        <a href="../searchBook/alqResult.do?isbn=${vo.isbn }"><img src="${vo.image==null?data:vo.image }" style="width:100%;height:100%;"></a>
 						</td>
 						<td width="85%" align="left">
 							<span id="title" style="font-weight: bold;">
-								<a href="#" style="color:black;text-decoration: none;">${vo.booktitle }</a>
+								<a href="../searchBook/alqResult.do?isbn=${vo.isbn }" style="color:black;text-decoration: none;">${vo.booktitle }</a>
 							</span>
 						</td>
 					</tr>
