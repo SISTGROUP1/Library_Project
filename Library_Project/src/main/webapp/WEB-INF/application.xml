@@ -5,4 +5,5 @@
 	<bean id="user" class="com.sist.model.UserModel"/>
 	<bean id="book" class="com.sist.model.BookModel"></bean>
 	<bean id="otherLib" class="com.sist.model.OtherLibModel"></bean>
+	<bean id="program" class="com.sist.model.ProgramModel"/>
 </beans>

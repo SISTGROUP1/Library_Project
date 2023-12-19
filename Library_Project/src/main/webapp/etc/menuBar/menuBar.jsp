@@ -34,7 +34,7 @@
 						<li><a href="../libUse/libReserveInfo">공지사항</a></li>
 						<li><a href="../libUse/libTimeInfo">보도자료</a></li>
 						<li><a href="../libUse/seatReservation">일정 및 행사</a></li>
-						<li><a href="../libUse/seatReservation">프로그램 신청</a></li>
+						<li><a href="../program/programList.do">프로그램 신청</a></li>
 					</ul>
 				</li>
 				<li>
