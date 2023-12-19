@@ -84,7 +84,7 @@
 			  	<input type="submit" value="완료" class="btn btn-sm btn-primary" >
 			  </td>
 			  <td width="350px" align="center">
-		  	  	<input type="submit" value="취소" class="btn btn-sm btn-primary">
+		  	  	<input type="button" value="취소" onClick="location.href='../main/main.do'" class="btn btn-sm btn-primary">
 		  	  </td>
 		  </tr>
 	  </table>
