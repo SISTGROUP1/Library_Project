@@ -9,7 +9,7 @@
 <body>
 			<header id="header">
 				<div class="inner">
-					<a href="index.html" class="logo">
+					<a href="../main/main.do" class="logo">
 						<img src="../images/lib_logo2.png" alt="로고 이미지">
 					</a>
 					<nav id="nav"><a href="../user/login.do">로그인</a>

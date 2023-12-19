@@ -7,6 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<center>
+		<h1>새로 들어온 책</h1>
+	</center>
 </body>
 </html>

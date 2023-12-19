@@ -7,6 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<div class="center">
+		<h1>선호도서</h1>
+	</div>
 </body>
 </html>

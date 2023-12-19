@@ -12,11 +12,11 @@
 		<div style="position:relative;z-index:1;margin:0;">
 			<ul class="flexnav" style="padding-left: 25%">
 				<li>
-					<a href="main.jsp">자료검색</a>
+					<a href="../searchBook/alq.do">자료검색</a>
 					<ul>
-						<li><a href="../libUse/libReserveInfo">자료탐색</a></li>
-						<li><a href="../libUse/libTimeInfo">새로 들어온 책</a></li>
-						<li><a href="../libUse/seatReservation">대출이 많은 책</a></li>
+						<li><a href="../searchBook/alq.do">자료탐색</a></li>
+						<li><a href="../searchBook/newarrival.do">새로 들어온 책</a></li>
+						<li><a href="../searchBook/favorLoan.do">대출이 많은 책</a></li>
 					</ul>
 				</li>
 				<li>
@@ -40,7 +40,7 @@
 				<li>
 					<a href="main.jsp">우리동네 도서관</a>
 					<ul>
-						<li><a href="../libUse/libReserveInfo">도서관 찾기</a></li>
+						<li><a href="../otherLib/obs.do">도서관 찾기</a></li>
 					</ul>
 				</li>
 			</ul>

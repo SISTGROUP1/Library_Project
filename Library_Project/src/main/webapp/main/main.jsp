@@ -28,6 +28,7 @@
 		<script src="../assets/js/skel.min.js"></script>
 		<script src="../assets/js/util.js"></script>
 		<script src="../assets/js/main.js"></script>
+		<script src="../assets/js/aside.js"></script>
 		
 		<script src='https://0.s3.envato.com/files/78833207/js/jquery.flexnav.js'></script>
 		<script  src="../assets/js/menubar.js"></script>
