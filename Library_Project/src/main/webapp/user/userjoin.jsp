@@ -10,7 +10,7 @@
 </head>
 <body>
 <!-- partial:index.partial.html -->
-<a href="index.html" class="logo">
+<a href="index.html" class="lg">
   <img src="../images/lib_logo2.png" alt="로고 이미지">
 </a>
 <h1 class="h">서울도서관</h1>
