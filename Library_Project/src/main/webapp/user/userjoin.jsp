@@ -10,6 +10,10 @@
 </head>
 <body>
 <!-- partial:index.partial.html -->
+<a href="index.html" class="logo">
+  <img src="../images/lib_logo2.png" alt="로고 이미지">
+</a>
+<h1 class="h">서울도서관</h1>
 <div class="container">
   <form>
     <div class="row">
@@ -81,10 +85,10 @@
 	  <table class="table">
 		  <tr>
 			  <td width="350px" align="center" rowspan="2">
-			  	<input type="submit" value="완료" class="btn btn-sm btn-primary" >
+			  	<input type="submit" value="완료" class="btn btn-sm btn-primary" style="cursor:pointer;">
 			  </td>
 			  <td width="350px" align="center">
-		  	  	<input type="button" value="취소" onClick="location.href='../main/main.do'" class="btn btn-sm btn-primary">
+		  	  	<input type="button" value="취소" onClick="location.href='../main/main.do'" class="btn btn-sm btn-primary" style="cursor:pointer;">
 		  	  </td>
 		  </tr>
 	  </table>
