@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>CodePen - Responsive Side Bar Website</title>
-  <link rel="stylesheet" href="./userstyle.css">
-
+<meta charset="UTF-8">
+<title>lib_submenu</title>
+  <link rel="stylesheet" href="../etc/sidebar/dist/style.css">
 </head>
 <body>
 <!-- partial:index.partial.html -->
@@ -17,22 +16,24 @@
    V285.429z M462,403.143H50V462h412V403.143z"/>
   </svg>
 </a>
-  <h1>로그인</h1>
+  <h1 id="libname">로그인</h1>
   
-  <section>
+  <nav>
     <ul>
       <li><a href="./login.do">로그인</a></li>
-      <li><a href="./userjoin.do">회원가입</a></li>
-      <li><a href="./idPwd.do">아이디/비번 찾기</a></li>
+      <li><a href="./idPwd.do">아이디/비밀번호찾기</a></li>
+      <li><a href="./userjoin.jsp">회원가입</a></li>
     </ul>
-  </section>
+  </nav>
   
-  <div class="vertical-line"></div>
+  <div class="vertical-line"></div>  
 </aside>
 
-	<jsp:include page="${login_jsp }"></jsp:include>
-	<jsp:include page="${userjoin_jsp}"></jsp:include>
-	<jsp:include page="${idPwd_jsp}"></jsp:include>
+<jsp:include page="${login_jsp }"></jsp:include>
+<jsp:include page="${idPwd_jsp }"></jsp:include>
+
+<!-- partial -->
+  <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script><script  src="./script.js"></script>
 
 </body>
 </html>

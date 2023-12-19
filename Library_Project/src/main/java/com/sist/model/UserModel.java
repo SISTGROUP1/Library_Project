@@ -20,13 +20,6 @@ public class UserModel {
 		return "../main/main.jsp";
 	}
 	
-	@RequestMapping("user/userjoin.do")
-	public String user_userjoin(HttpServletRequest request, HttpServletResponse response)
-	{
-		request.setAttribute("userjoin_jsp", "../user/userjoin.jsp");
-		request.setAttribute("main_jsp", "../user/user_main.jsp");
-		return "../main/main.jsp";
-	}
 	
 	@RequestMapping("user/idPwd.do")
 	public String user_id_pwd(HttpServletRequest request, HttpServletResponse response)
