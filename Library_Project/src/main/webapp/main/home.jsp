@@ -6,7 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="../assets/css/calendar.css">
 <style type="text/css">
 	 th,td{
@@ -138,19 +137,19 @@
 							<table class="calendar_table">
 								<tr>
 									
-									<td><span class="glyphicon glyphicon-road"></span>&nbsp;&nbsp;
+									<td><img src="../images/direct01.gif">&nbsp;&nbsp;
 									<a href="../libUse/libWayInfo.do">찾아오시는 길</a></td>
 								</tr>
 								<tr>
-									<td><span class="glyphicon glyphicon-earphone"></span>&nbsp;&nbsp;
+									<td><img src="../images/direct02.gif">&nbsp;&nbsp;
 									<a href="">전화번호</a></td>
 								</tr>
 								<tr>
-									<td><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;
+									<td><img src="../images/direct03.gif">&nbsp;&nbsp;
 									<a href="https://lib.seoul.go.kr/apload/guide/libraryGuide_2023.pdf">이용 안내 리플릿</a></td>
 								</tr>
 								<tr>
-									<td><span class="glyphicon glyphicon-send"></span>&nbsp;&nbsp;
+									<td><img src="../images/direct04.gif">&nbsp;&nbsp;
 									<a href="https://blog.naver.com/seoul_library">서울도서관 X 동네 책방</a></td>
 								</tr>
 							</table>
