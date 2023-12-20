@@ -6,6 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="../assets/css/calendar.css">
 <style type="text/css">
 	th,td{
 		padding: 5px 10px 5px 10px !important;
@@ -110,20 +112,49 @@
 			<!-- slide include -->
 			<jsp:include page="../etc/slide/slide.jsp"></jsp:include>
 			<!-- Three --><section id="three" class="wrapper special"><div class="inner">
-					<header class="align-center"><h2>Nunc Dignissim</h2>
-						<p>Aliquam erat volutpat nam dui </p>
+					<header class="align-center"><h2>행사달력 및 도서관 현황</h2>
+						<p>행사 정보를 이곳에서 확인하세요</p>
 					</header><div class="flex flex-2">
-						<article><div class="image fit">
-								<img src="../images/pic01.jpg" alt="Pic 01" width="576" height="196"></div>
-							<header><h3>Praesent placerat magna</h3>
-							</header><p>Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor lorem ipsum.</p>
-							<footer><a href="#" class="button special">More</a>
-							</footer></article><article><div class="image fit">
-								<img src="../images/pic02.jpg" alt="Pic 02" width="576" height="196"></div>
-							<header><h3>Fusce pellentesque tempus</h3>
-							</header><p>Sed adipiscing ornare risus. Morbi est est, blandit sit amet, sagittis vel, euismod vel, velit. Pellentesque egestas sem. Suspendisse commodo ullamcorper magna non comodo sodales tempus.</p>
-							<footer><a href="#" class="button special">More</a>
-							</footer></article></div>
+						<!-- 달력 -->
+						<article><div class="calendar">
+  							<span>TODAY</span>				<!-- 서버날짜 들어가게 변경 예정 -->
+
+  							<div class="calendarbox">
+    							<span>수요일</span>
+    							<span>12월 20일</span>
+    							<span>2023</span>
+  							</div>
+ 								</div>
+							<!-- partial -->
+  							<script  src="./script.js"></script>
+  							<header>
+  							<p class="calendar_id"><a href="#">+ 이달의 행사 정보 더보기</a></p>  <!-- # : 행사..? -->
+  							<p class="calendar_id2"><a href="#">+ 이달의 휴관일 확인하기</a></p>	<!-- # : 달력 상세로 넘어가도록 -->
+							</header>
+						</article>
+							
+						<!-- 도서관 현황 -->
+						<article>
+							<table class="calendar_table">
+								<tr>
+									
+									<td><span class="glyphicon glyphicon-road"></span>&nbsp;&nbsp;
+									<a href="../libUse/libWayInfo.do">찾아오시는 길</a></td>
+								</tr>
+								<tr>
+									<td><span class="glyphicon glyphicon-earphone"></span>&nbsp;&nbsp;
+									<a href="">전화번호</a></td>
+								</tr>
+								<tr>
+									<td><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;
+									<a href="https://lib.seoul.go.kr/apload/guide/libraryGuide_2023.pdf">이용 안내 리플릿</a></td>
+								</tr>
+								<tr>
+									<td><span class="glyphicon glyphicon-send"></span>&nbsp;&nbsp;
+									<a href="https://blog.naver.com/seoul_library">서울도서관 X 동네 책방</a></td>
+								</tr>
+							</table>
+						</article></div>
 				</div>
 			</section>
 </body>
