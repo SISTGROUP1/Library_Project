@@ -9,34 +9,34 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="../assets/css/calendar.css">
 <style type="text/css">
-	th,td{
+	 th,td{
 		padding: 5px 10px 5px 10px !important;
 		color: black;
 	}
-	p.sub_hidden{
+	 p.sub_hidden{
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		margin-bottom: 0;
 	}
-	p.con_hidden{
+	 p.con_hidden{
 		width: 300px;
 		height: 125px;
 		overflow-y: hidden;
 		text-overflow: ellipsis;
 		margin-bottom: 0;
 	}
-	a{
+	 a{
 		text-decoration: none;
 		color: black;
 	}
-	div.inner{
+	 div.inner{
 		max-width: 90em;
 	}
-	#boardTable header{
+	 #boardTable header{
 		position: relative;
 	}
-	span.link{
+	 span.link{
 		position: absolute;
 		right: 0;
 		top: -25px;
