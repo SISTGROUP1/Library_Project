@@ -21,7 +21,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </head>
 <body>
-	<div class="col-md-2" id="aside">
+	<div class="col-md-2" id="aside" style="width:20%">
 		<div style="margin-top: 50px;">
 			<div style="margin:0px auto;">
 				<h6>${cate }</h6>
@@ -43,7 +43,7 @@
 			<jsp:include page="../etc/aside/aside.jsp"></jsp:include>
 		</div>
 	</div>
-	<div class="col-md-8">
+	<div class="col-md-8" style="width:70%">
 	<section id="one" class="wrapper"><div class="inner">
 		<div class="flex flex-3">
 			<c:forEach var="vo" items="${list }" >
@@ -126,7 +126,7 @@
 		</ul>
 	</div>
 	</section>
-	<div class="col-md-2">
+	<div class="col-md-2" style="width:10%">
 	</div>
 </body>
 </html>

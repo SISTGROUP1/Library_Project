@@ -22,9 +22,6 @@
 	.col{
 		width:130px;
 	}
-	.card{
-		width:860px;
-	}
 	.table1 tr{
 		background:white !important;
 	}
@@ -41,10 +38,10 @@
 			<div style="height:10px;">
 			</div>
 		<div class="row">
-			<div class="col-md-3">
+			<div class="col-md-3" style="width:20%">
 				<img src="${vo.image }" class="img-fluid" alt="Book Image" style="width:200px;height:300px;">
 			</div>
-			<div class="col-md-9">
+			<div class="col-md-9" style="width:80%">
 				<div class="card">
 					<div class="card-body" >
 						<h1>${vo.booktitle }</h1>
