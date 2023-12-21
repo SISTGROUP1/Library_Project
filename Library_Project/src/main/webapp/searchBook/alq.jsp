@@ -26,7 +26,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">	
 </head>
 	<body>
-		<section id="one" class="wrapper"><div class="inner">
+		<section id="one" class="wrapper" style="padding:40px;"><div class="inner">
 			<h3>자료 탐색</h3>
 			<hr>
 			<div class="flex flex-3">	

@@ -28,7 +28,7 @@
 </style>
 </head>
 <body>
-	<section id="one" class="wrapper"><div class="inner">
+	<section id="one" class="wrapper" style="padding:40px;"><div class="inner">
 			<h3>상세정보</h3>
 			<hr>
 			<div class="container mt-4" style="color:#0C243C;">

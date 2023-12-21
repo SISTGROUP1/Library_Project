@@ -152,4 +152,27 @@ public class LibraryDAO {
 		}
 		return vo;
 	}
+	
+	public String SearchCookieData(String isbn) {
+		String data = "";
+		try {
+			conn = dbconn.getConnection();
+			String sql = "SELECT booktitle FROM bookinfo WHERE isbn=?";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, isbn);
+			
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			data = rs.getString(1);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			dbconn.disConnection(conn, ps);
+		}
+		
+		return data;
+	}
 }

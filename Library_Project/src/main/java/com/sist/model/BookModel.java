@@ -1,6 +1,9 @@
 package com.sist.model;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.sist.vo.*;
@@ -41,11 +44,34 @@ public class BookModel {
 		if(endPage>totalpage)
 			endPage=totalpage;
 		
+		Cookie[] cookies = request.getCookies();
+		ArrayList<bookInfoVO> cList_1 = new ArrayList<bookInfoVO>();
+		int cLength = 0;
+		if(cookies.length>10) cLength = cookies.length-10;
+		for(int i = cookies.length-1;i>cLength;i--) {
+			if(cookies[i].getName().startsWith("book_")) {
+				bookInfoVO vo = new bookInfoVO();
+				String data = cookies[i].getValue();
+				String title = dao.SearchCookieData(data);
+				vo.setIsbn(data);
+				vo.setBooktitle(title);
+				
+				cList_1.add(vo);
+				
+			}
+		}
+		
 		request.setAttribute("list", list);
 		request.setAttribute("totalpage", totalpage);
 		request.setAttribute("curpage", curpage);
+		request.setAttribute("cList_1", cList_1);
 		request.setAttribute("cno", cno);
-		request.setAttribute("cate", cate);
+		try {
+			request.setAttribute("cate", URLEncoder.encode(cate, "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);
 		
@@ -70,7 +96,7 @@ public class BookModel {
 		return "/main/main.jsp";
 	}
 	@RequestMapping("searchBook/alqDetail.do")
-	public String Serach_Deatail(HttpServletRequest request, HttpServletResponse response) {
+	public String Search_Deatail(HttpServletRequest request, HttpServletResponse response) {
 		String isbn = request.getParameter("isbn");
 		
 		LibraryDAO dao = LibraryDAO.newInstance();
@@ -81,5 +107,48 @@ public class BookModel {
 		request.setAttribute("main_jsp", "/searchBook/alqDetail.jsp");
 		
 		return "/main/main.jsp";
+	}
+	@RequestMapping("searchBook/alqDetail_before.do")
+	public String Search_Detail_before(HttpServletRequest request, HttpServletResponse response) {
+		String isbn = request.getParameter("isbn");
+		
+		Cookie cookies = new Cookie("book_"+isbn, isbn);
+		cookies.setPath("/");
+		cookies.setMaxAge(60*60*24);
+		
+		response.addCookie(cookies);
+		
+		return "redirect:../searchBook/alqDetail.do?isbn="+isbn;
+	}
+	
+	@RequestMapping("searchBook/alqDetail_remove.do")
+	public String Search_Detail_remove(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			request.setCharacterEncoding("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String cno = request.getParameter("cno");
+		String page = request.getParameter("page");
+		String cate = request.getParameter("cate");
+		String isbn = request.getParameter("isbn");
+		
+		System.out.println(cno);
+		System.out.println(cate);
+		Cookie[] cookies = request.getCookies();
+		for(int i = cookies.length-1;i>0;i--) {
+			if(cookies[i].getName().equals("book_"+isbn)) {
+				cookies[i].setPath("/");
+				cookies[i].setMaxAge(0);
+				
+				response.addCookie(cookies[i]);
+				
+				break;
+			}
+		}
+		
+		
+		return "redirect:../searchBook/alqResult.do?cno="+cno+"&cate="+cate+"&page="+page;
 	}
 }
