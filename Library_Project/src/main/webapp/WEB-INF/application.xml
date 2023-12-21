@@ -6,4 +6,5 @@
 	<bean id="book" class="com.sist.model.BookModel"></bean>
 	<bean id="otherLib" class="com.sist.model.OtherLibModel"></bean>
 	<bean id="program" class="com.sist.model.ProgramModel"/>
+	<bean id="bookStore" class="com.sist.model.BookStoreModel"/>
 </beans>

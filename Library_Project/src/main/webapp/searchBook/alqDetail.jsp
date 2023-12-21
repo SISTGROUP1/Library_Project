@@ -65,7 +65,7 @@
 				</tr>
 			</table>
 			<div style="text-align:right;">
-                  <a class='btn btn-primary'>Add to Cart</a>
+                  <a href="../bookStore/bookPurchase.do?isbn=${vo.isbn }" class='btn btn-primary'>구매하기</a>
             </div>
             <hr class="separator-line">
 
