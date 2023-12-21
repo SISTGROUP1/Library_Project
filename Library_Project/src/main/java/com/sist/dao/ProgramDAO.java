@@ -15,6 +15,14 @@ public class ProgramDAO {
 	private static ProgramDAO dao;
 	private CreateDBCPConnection dbconn=new CreateDBCPConnection();
 	private final int ROW_SIZE=12;
+	private String[] targets= {
+			"",
+			"영유아",
+			"어린이",
+			"청소년",
+			"성인",
+			"누구나"
+	};
 	
 	public static ProgramDAO newInstance() {
 		if(dao==null) dao=new ProgramDAO();
@@ -49,21 +57,25 @@ public class ProgramDAO {
 		return list;
 	}
 	
-	public List<ProgramVO> programListData(int page){
+	public List<ProgramVO> programListData(int page,int target,String searchType,String search){
 		List<ProgramVO> list=new ArrayList<ProgramVO>();
 		try {
 			conn=dbconn.getConnection();
+			String t=targets[target];
 			String sql="SELECT pno,poster,title,target1,TO_CHAR(edu1,'YYYY-MM-DD'),TO_CHAR(edu2,'YYYY-MM-DD'),capacity,num "
 					+ "FROM (SELECT pno,poster,title,target1,edu1,edu2,capacity,rownum as num "
-					+ "FROM (SELECT pno,poster,title,target1,edu1,edu2,capacity "
+					+ "FROM (SELECT /*+ INDEX_DESC(program pg_pno_pk)*/pno,poster,title,target1,edu1,edu2,capacity "
 					+ "FROM program "
-					+ "ORDER BY pno DESC)) "
+					+ "WHERE "+searchType+" LIKE '%'||?||'%' "
+					+ "AND target1 LIKE '%'||?||'%')) "
 					+ "WHERE num BETWEEN ? AND ?";
 			ps=conn.prepareStatement(sql);
 			int start=(ROW_SIZE*page)-(ROW_SIZE-1);
 			int end=ROW_SIZE*page;
-			ps.setInt(1, start);
-			ps.setInt(2, end);
+			ps.setString(1, search);
+			ps.setString(2, t);
+			ps.setInt(3, start);
+			ps.setInt(4, end);
 			ResultSet rs=ps.executeQuery();
 			while(rs.next()) {
 				ProgramVO vo=new ProgramVO();
@@ -85,13 +97,18 @@ public class ProgramDAO {
 		return list;
 	}
 	
-	public int programListTotalPage() {
+	public int programListTotalPage(int target,String searchType,String search) {
 		int total=0;
 		try {
 			conn=dbconn.getConnection();
+			String t=targets[target];
 			String sql="SELECT CEIL(COUNT(*)/"+ROW_SIZE+") "
-					+ "FROM program";
+					+ "FROM program "
+					+ "WHERE "+searchType+" LIKE '%'||?||'%' "
+					+ "AND target1 LIKE '%'||?||'%'";
 			ps=conn.prepareStatement(sql);
+			ps.setString(1, search);
+			ps.setString(2, t);
 			ResultSet rs=ps.executeQuery();
 			rs.next();
 			total=rs.getInt(1);
@@ -102,6 +119,30 @@ public class ProgramDAO {
 			dbconn.disConnection(conn, ps);
 		}
 		return total;
+	}
+	
+	public int programFindCnt(int target,String searchType,String search) {
+		int find_cnt=0;
+		try {
+			conn=dbconn.getConnection();
+			String t=targets[target];
+			String sql="SELECT COUNT(*) "
+					+ "FROM program "
+					+ "WHERE "+searchType+" LIKE '%'||?||'%' "
+					+ "AND target1 LIKE '%'||?||'%'";
+			ps=conn.prepareStatement(sql);
+			ps.setString(1, search);
+			ps.setString(2, t);
+			ResultSet rs=ps.executeQuery();
+			rs.next();
+			find_cnt=rs.getInt(1);
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return find_cnt;
 	}
 	
 	public ProgramVO programDetailData(int pno) {

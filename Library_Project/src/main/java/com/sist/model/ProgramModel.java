@@ -12,19 +12,36 @@ import com.sist.dao.ProgramDAO;
 import com.sist.vo.ProgramVO;
 
 public class ProgramModel {
+	// 리스트 출력
 	@RequestMapping("program/programList.do")
 	public String program_list(HttpServletRequest request,HttpServletResponse response) {
+		try {
+			request.setCharacterEncoding("UTF-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		String page=request.getParameter("page");
 		if(page==null) page="1";
 		int curpage=Integer.parseInt(page);
+		//------------- 검색 -------------
+		String target=request.getParameter("target");
+		if(target==null) target="0";
+		String searchType=request.getParameter("searchType");
+		if(searchType==null) searchType="title";
+		String search=request.getParameter("search");
+		if(search==null) search="";
+		//-------------------------------
+		//------------- 목록 -------------
 		ProgramDAO dao=ProgramDAO.newInstance();
-		List<ProgramVO> list=dao.programListData(curpage);
-		int totalpage=dao.programListTotalPage();
+		List<ProgramVO> list=dao.programListData(curpage,Integer.parseInt(target),searchType,search);
+		int totalpage=dao.programListTotalPage(Integer.parseInt(target),searchType,search);
 		final int BLOCK=10;
 		int startBlockNum=((curpage-1)/BLOCK*BLOCK)+1;
 		int endBlockNum=((curpage-1)/BLOCK*BLOCK)+BLOCK;
 		if(totalpage<endBlockNum) endBlockNum=totalpage;
-		
+		int find_cnt=dao.programFindCnt(Integer.parseInt(target),searchType,search);
+		//--------------------------------
+		//------------- 쿠키 -------------
 		Cookie[] cookies=request.getCookies();
 		List<ProgramVO> cList=new ArrayList<ProgramVO>();
 		if(cookies!=null) {
@@ -36,6 +53,7 @@ public class ProgramModel {
 				}
 			}
 		}
+		//--------------------------------
 		
 		request.setAttribute("list", list);
 		request.setAttribute("curpage", curpage);
@@ -44,10 +62,15 @@ public class ProgramModel {
 		request.setAttribute("endBlockNum", endBlockNum);
 		request.setAttribute("cList", cList);
 		request.setAttribute("cList_size", cList.size());
+		request.setAttribute("find_cnt", find_cnt);
+		request.setAttribute("target", target);
+		request.setAttribute("searchType", searchType);
+		request.setAttribute("search", search);
 		request.setAttribute("program_jsp", "../program/programList.jsp");
 		request.setAttribute("main_jsp", "../program/program_main.jsp");
 		return "../main/main.jsp";
 	}
+	// 상세보기
 	@RequestMapping("program/programDetail.do")
 	public String program_detail(HttpServletRequest request,HttpServletResponse response) {
 		String pno=request.getParameter("pno");
@@ -58,6 +81,7 @@ public class ProgramModel {
 		request.setAttribute("main_jsp", "../program/program_main.jsp");
 		return "../main/main.jsp";
 	}
+	// 쿠키 추가후 detail로 이동
 	@RequestMapping("program/programDetail_before.do")
 	public String program_detail_before(HttpServletRequest request,HttpServletResponse response) {
 		String pno=request.getParameter("pno");
