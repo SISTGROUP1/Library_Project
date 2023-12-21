@@ -6,37 +6,36 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="../assets/css/calendar.css">
 <style type="text/css">
-	th,td{
+	 th,td{
 		padding: 5px 10px 5px 10px !important;
 		color: black;
 	}
-	p.sub_hidden{
+	 p.sub_hidden{
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		margin-bottom: 0;
 	}
-	p.con_hidden{
+	 p.con_hidden{
 		width: 300px;
 		height: 125px;
 		overflow-y: hidden;
 		text-overflow: ellipsis;
 		margin-bottom: 0;
 	}
-	a{
+	 a{
 		text-decoration: none;
 		color: black;
 	}
-	div.inner{
+	 div.inner{
 		max-width: 90em;
 	}
-	#boardTable header{
+	 #boardTable header{
 		position: relative;
 	}
-	span.link{
+	 span.link{
 		position: absolute;
 		right: 0;
 		top: -25px;
@@ -138,19 +137,19 @@
 							<table class="calendar_table">
 								<tr>
 									
-									<td><span class="glyphicon glyphicon-road"></span>&nbsp;&nbsp;
+									<td><img src="../images/direct01.gif">&nbsp;&nbsp;
 									<a href="../libUse/libWayInfo.do">찾아오시는 길</a></td>
 								</tr>
 								<tr>
-									<td><span class="glyphicon glyphicon-earphone"></span>&nbsp;&nbsp;
+									<td><img src="../images/direct02.gif">&nbsp;&nbsp;
 									<a href="">전화번호</a></td>
 								</tr>
 								<tr>
-									<td><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;
+									<td><img src="../images/direct03.gif">&nbsp;&nbsp;
 									<a href="https://lib.seoul.go.kr/apload/guide/libraryGuide_2023.pdf">이용 안내 리플릿</a></td>
 								</tr>
 								<tr>
-									<td><span class="glyphicon glyphicon-send"></span>&nbsp;&nbsp;
+									<td><img src="../images/direct04.gif">&nbsp;&nbsp;
 									<a href="https://blog.naver.com/seoul_library">서울도서관 X 동네 책방</a></td>
 								</tr>
 							</table>

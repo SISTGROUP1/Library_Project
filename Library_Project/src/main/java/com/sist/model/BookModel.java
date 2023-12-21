@@ -69,9 +69,17 @@ public class BookModel {
 		
 		return "/main/main.jsp";
 	}
-	@RequestMapping("searchBook/alqResult.do")
+	@RequestMapping("searchBook/alqDetail.do")
 	public String Serach_Deatail(HttpServletRequest request, HttpServletResponse response) {
+		String isbn = request.getParameter("isbn");
 		
-		return "";
+		LibraryDAO dao = LibraryDAO.newInstance();
+		bookInfoVO vo = dao.BookDetailSearch(isbn);
+		
+		request.setAttribute("vo", vo);
+		
+		request.setAttribute("main_jsp", "/searchBook/alqDetail.jsp");
+		
+		return "/main/main.jsp";
 	}
 }

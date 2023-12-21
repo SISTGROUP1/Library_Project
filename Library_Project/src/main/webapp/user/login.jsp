@@ -7,7 +7,7 @@
   <title>CodePen - Login to Everdwell</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Raleway'>
-<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'><link rel="stylesheet" href="loginstyle.css">
+<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'><link rel="stylesheet" href="../etc/user/loginstyle.css">
 
 </head>
 <body>
@@ -15,10 +15,10 @@
 <form action="#" id="login-form">
   <div class="heading">서울 도서관</div>
   <div class="left">
-    <label for="email" required >아이디</label> <br />
-    <input type="email" name="email" id="email" /> <br />
-    <label for="password" required>비밀번호</label> <br />
-    <input type="password" name="password" id="pass" /> <br />
+    <label for="email">아이디</label>
+    <input type="text" name="email" id="email" required>
+    <label for="password">비밀번호</label>
+    <input type="password" name="password" id="pass" required>
    </div>
 
   <div class="right">
@@ -39,7 +39,7 @@
   <input type="submit" value="로그인" />
 </form>
 <!-- partial -->
-  <script  src="./script.js"></script>
+  <script  src="../etc/user/user.js"></script>
 
 </body>
 </html>

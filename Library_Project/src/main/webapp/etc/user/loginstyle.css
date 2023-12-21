@@ -79,7 +79,7 @@ div.left label {
   font-size: 1.1em;
   margin-top: 0.6em;
 }
-div.left input[type="password"] {
+div.left input[type="text"], div.left input[type="password"] {
   border: 0.1em solid #dfdfdf;
   padding: 0.5em;
   margin: 1.1em 0;
@@ -95,7 +95,7 @@ div.left input[type="password"] {
   -webkit-transition: all 0.15s ease-in-out;
   transition: all 0.15s ease-in-out;
 }
-input[type="email"]:focus, div.left input[type="password"]:focus {
+div.left input[type="text"]:focus, div.left input[type="password"]:focus {
   outline: none;
   border: 0.1em solid #919191;
 }

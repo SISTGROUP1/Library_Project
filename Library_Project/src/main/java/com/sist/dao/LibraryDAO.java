@@ -54,9 +54,9 @@ public class LibraryDAO {
 		ArrayList<bookInfoVO> list = new ArrayList<bookInfoVO>();
 		try {
 			conn = dbconn.getConnection();
-			String sql = "SELECT booktitle,image,bookauthor,bookpublisher,bookcallnum,bookdate,num "
-					+ "FROM (SELECT booktitle,image,bookauthor,bookpublisher,bookcallnum,bookdate,rownum as num "
-					+ "FROM (SELECT booktitle,image,bookauthor,bookpublisher,bookcallnum,bookdate "
+			String sql = "SELECT booktitle,image,bookauthor,bookpublisher,bookcallnum,bookdate,bookaccessionno,booklocation,isbn,num "
+					+ "FROM (SELECT booktitle,image,bookauthor,bookpublisher,bookcallnum,bookdate,bookaccessionno,booklocation,isbn,rownum as num "
+					+ "FROM (SELECT booktitle,image,bookauthor,bookpublisher,bookcallnum,bookdate,bookaccessionno,booklocation,bookinfo.isbn "
 					+ "FROM bookinfo JOIN bookmain ON bookinfo.isbn = bookmain.isbn WHERE bookmain.cno="+cno+")) "
 					+ "WHERE num BETWEEN ? AND ?";
 			
@@ -75,6 +75,9 @@ public class LibraryDAO {
 				vo.setBookpublisher(rs.getString(4));
 				vo.setBookcallnum(rs.getString(5));
 				vo.setBookdate(rs.getString(6));
+				vo.setBookaccessionno(rs.getString(7));
+				vo.setBooklocation(rs.getString(8));
+				vo.setIsbn(rs.getString(9));
 				
 				list.add(vo);
 			}
@@ -112,5 +115,41 @@ public class LibraryDAO {
 			dbconn.disConnection(conn, ps);
 		}
 		return total;
+	}
+	
+	public bookInfoVO BookDetailSearch(String isbn) {
+		bookInfoVO vo = new bookInfoVO();
+		try {
+			conn = dbconn.getConnection();
+			String sql = "SELECT isbn,booktitle,bookauthor,bookpublisher,bookdtype,bookperson,booksign,bookdate,bookaccessionno,bookcallnum,booklocation,image,bookinfo "
+					+ "FROM bookinfo WHERE isbn=?";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, isbn);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			
+			vo.setIsbn(rs.getString(1));
+			vo.setBooktitle(rs.getString(2));
+			vo.setBookauthor(rs.getString(3));
+			vo.setBookpublisher(rs.getString(4));
+			vo.setBookdtype(rs.getString(5));
+			vo.setBookperson(rs.getString(6));
+			vo.setBooksign(rs.getString(7));
+			vo.setBookdate(rs.getString(8));
+			vo.setBookaccessionno(rs.getString(9));
+			vo.setBookcallnum(rs.getString(10));
+			vo.setBooklocation(rs.getString(11));
+			vo.setImage(rs.getString(12));
+			vo.setBookinfo(rs.getString(13));
+			
+			rs.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return vo;
 	}
 }

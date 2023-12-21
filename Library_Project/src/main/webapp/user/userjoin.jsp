@@ -5,12 +5,12 @@
 <head>
   <meta charset="UTF-8">
   <title>CodePen - form</title>
-  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'><link rel="stylesheet" href="signupstyle.css">
+  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'><link rel="stylesheet" href="../etc/user/userjoinstyle.css">
 
 </head>
 <body>
 <!-- partial:index.partial.html -->
-<a href="index.html" class="lg">
+<a href="index.html" class="logo">
   <img src="../images/lib_logo2.png" alt="로고 이미지">
 </a>
 <h1 class="h">서울도서관</h1>
@@ -40,7 +40,7 @@
     <div class="row">
       <div class="col-half1">
         <h4>생년월일</h4>
-        <div class="input-group">
+
           <div class="col-third">
             <input type="text" placeholder="DD"/>
           </div>
@@ -50,23 +50,21 @@
           <div class="col-third">
             <input type="text" placeholder="YYYY"/>
           </div>
-        </div>
+
       </div>
       <div class="col-half1">
         <h4>성별</h4>
-        <div class="input-group">
           <input id="gender-male" type="radio" name="gender" value="male"/>
           <label for="gender-male">Male</label>
           <input id="gender-female" type="radio" name="gender" value="female"/>
           <label for="gender-female">Female</label>
-        </div>
       </div>
     </div>
     <div class="row">
       <h4>비밀번호 찾기 QnA</h4>
       <div class="col-half">
-        <div class="input-group">
           <select>
+          <div class="input-group">
 			<option>질문 선택</option>
             <option>1. 가장 좋아하는 것은?</option>
             <option>2. 가장 감명깊게 읽은 책은?</option>
@@ -76,11 +74,11 @@
             <option>6. 가장 아끼는 것은?</option>
             <option>7. 가장 기억에 남는 장소는?</option>
             <option>8. 가장 좋아하는 인물은?</option>
+            </div>
           </select>
-        </div>
       </div>
       <div class="input-group">
-        <input type="text" placeholder="질문에 대한 답"/>
+        <input type="text" placeholder="질문에 대한 답" id="a">
       </div>
 	  <table class="table">
 		  <tr>
@@ -94,11 +92,11 @@
 	  </table>
     </div>
     <div class="row">
-      <h4>Terms and Conditions</h4>
-      <div class="input-group">
+      <h4>이용 약관</h4>
+
         <input id="terms" type="checkbox"/>
-        <label for="terms">I accept the terms and conditions for signing up to this service, and hereby confirm I have read the privacy policy.</label>
-      </div>
+        <label for="terms">실명 인증된 아이디로 가입, 위치기반서비스 이용약관, 이벤트・혜택 정보 수신 동의를 포함합니다.</label>
+
     </div>
   </form>
 </div>

@@ -21,7 +21,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </head>
 <body>
-	<div class="col-md-2" id="aside">
+	<div class="col-md-2" id="aside" style="width:20%">
 		<div style="margin-top: 50px;">
 			<div style="margin:0px auto;">
 				<h6>${cate }</h6>
@@ -43,7 +43,7 @@
 			<jsp:include page="../etc/aside/aside.jsp"></jsp:include>
 		</div>
 	</div>
-	<div class="col-md-8">
+	<div class="col-md-8" style="width:70%">
 	<section id="one" class="wrapper"><div class="inner">
 		<div class="flex flex-3">
 			<c:forEach var="vo" items="${list }" >
@@ -51,11 +51,11 @@
 					<tr>
 						<td width="15%" align="center" rowspan="8">
 							<c:set var="data" value="../images/defaultImage.jpg"/>
-					        <a href="../searchBook/alqResult.do?isbn=${vo.isbn }"><img src="${vo.image==null?data:vo.image }" style="width:100%;height:100%;"></a>
+					        <a href="../searchBook/alqDetail.do?isbn=${vo.isbn }"><img src="${vo.image==null?data:vo.image }" style="width:100%;height:100%;"></a>
 						</td>
 						<td width="85%" align="left">
 							<span id="title" style="font-weight: bold;">
-								<a href="../searchBook/alqResult.do?isbn=${vo.isbn }" style="color:black;text-decoration: none;">${vo.booktitle }</a>
+								<a href="../searchBook/alqDetail.do?isbn=${vo.isbn }" style="color:black;text-decoration: none;">${vo.booktitle }</a>
 							</span>
 						</td>
 					</tr>
@@ -99,9 +99,9 @@
 							</thead>
 							<tbody>
 								<tr style="background:white !important;">
-									<td>테스트</td>
+									<td>${vo.booklocation }</td>
 									<td><span id="bookcallnum">${vo.bookcallnum }</span></td>
-									<td>테스트</td>
+									<td>${vo.bookaccessionno }</td>
 									<td>테스트</td>
 								</tr>
 							</tbody>
@@ -126,7 +126,7 @@
 		</ul>
 	</div>
 	</section>
-	<div class="col-md-2">
+	<div class="col-md-2" style="width:10%">
 	</div>
 </body>
 </html>
