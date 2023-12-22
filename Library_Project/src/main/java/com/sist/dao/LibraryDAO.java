@@ -2,7 +2,6 @@ package com.sist.dao;
 import com.sist.dbcp.*;
 import com.sist.vo.*;
 import java.util.*;
-import java.util.Date;
 import java.sql.*;
 
 public class LibraryDAO {
@@ -45,12 +44,7 @@ public class LibraryDAO {
 	}
 	
 	public ArrayList<bookInfoVO> BookInfoData(int cno,int page){
-		/*
-		 * private String isbn,booktitle,bookauthor,bookpublisher,bookdtype,bookperson,booksign,bookdate,bookaccessionno,bookcallnum,booklocation;
-		   private int bino,fixedprice,saleprice;
-		   private String bookinfo,contents,authorinfo,image;
-	       private Date acquisition;
-		 * */
+
 		ArrayList<bookInfoVO> list = new ArrayList<bookInfoVO>();
 		try {
 			conn = dbconn.getConnection();
@@ -164,6 +158,7 @@ public class LibraryDAO {
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			data = rs.getString(1);
+			rs.close();
 			
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -174,5 +169,31 @@ public class LibraryDAO {
 		}
 		
 		return data;
+	}
+	
+	public ArrayList<MiddlectVO> SearchSubmenuData() {
+		ArrayList<MiddlectVO> list = new ArrayList<MiddlectVO>();
+		try {
+			conn = dbconn.getConnection();
+			String sql = "SELECT mno,cno,cate FROM middlect";
+			ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				MiddlectVO vo = new MiddlectVO();
+				vo.setMno(rs.getString(1));
+				vo.setCno(rs.getInt(2));
+				vo.setCate(rs.getString(3));
+				
+				list.add(vo);
+			}
+			rs.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return list;
 	}
 }

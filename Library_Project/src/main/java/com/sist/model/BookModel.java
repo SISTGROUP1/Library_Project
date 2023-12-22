@@ -17,7 +17,11 @@ public class BookModel {
 		
 		ArrayList<MajorctVO> list = dao.Major_Classification();
 		
+		ArrayList<MiddlectVO> sub = dao.SearchSubmenuData();
+		
 		request.setAttribute("list", list);
+		
+		request.setAttribute("sub", sub);
 		
 		request.setAttribute("main_jsp", "/searchBook/alq.jsp");
 		
