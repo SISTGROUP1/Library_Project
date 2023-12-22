@@ -95,6 +95,7 @@
 <body>
 <section id="one" class="wrapper" style="background-color: rgb(246,246,246);">
 	<div class="inner">
+		<div id="notice">
 		<div class="tit">
 				<p>공지사항</p><span><a href="#">
 					<img src="../images/plus_on.png">
