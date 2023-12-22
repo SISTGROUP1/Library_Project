@@ -134,7 +134,6 @@
 					<ul class="menu-wrap">
 						<c:forEach var="vo" items="${list }" >
 								<li id="major" style="background:url(${vo.icon}) no-repeat center 32px #ececec;">
-									<%-- <a  href="../searchBook/alqResult.do?cno=${vo.cno}&cate=${vo.cate}" title="${vo.cate }">${vo.cate }</a> --%>
 									<a  href="#!">${vo.cate }</a>
 									<ul class="menu02" id="sub1-${vo.cno }">
 										<c:forEach var="sub" items="${sub }">

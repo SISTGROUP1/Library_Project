@@ -14,10 +14,6 @@
 			visibility: hidden;
 		}
 	}
-	
-	.table tr th{
-		text-align:center;
-	}
 </style>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </head>
@@ -32,40 +28,29 @@
 	</div>
 	<div class="col-md-8">
 	<section id="one" class="wrapper"><div class="inner">
-	 	<h4 style="color:black">새로 들어온 책</h4>
+	 	<h4 style="color:black">자료탐색</h4>
 		<hr style="padding:2px;background: skyblue;">
 		<div class="flex flex-3">
-			<div class="text-right" style="width:100%;margin-bottom: 5px;">
-				<select style="width:10%;display:unset !important;">
-					<option>30일</option>
-					<option>60일</option>
-					<option>90일</option>
-					<option>120일</option>
-				</select>
-			</div>
-			<table class="table">
-				<tr>
-					<th width=5% id="book_no">No.</th>
-					<th width=45% id="book_title">제목</th>
-					<th width=15% id="book_author">저자</th>
-					<th width=15% id="book_publisher">발행처</th>
-					<th width=10% id="book_date">발행년도</th>
-					<th width=10% id="book_rDate">입수일</th>
-				</tr>
-				<tr>
-					<td  width=5%>No.</td>
-					<td  width=45%>제목</td>
-					<td  width=15%>저자</td>
-					<td  width=15%>발행처</td>
-					<td  width=10%>발행년도</td>
-					<td  width=10%>입수일</td>
-				</tr>
-			</table>
+			<h6>내역이 존재하지 않습니다.</h6>
 		</div>
 		</div>
 		</section>
 	</div>
 	<div class="col-md-2">
+		<div style="margin-top: 50px;"></div>
+		<h6>Cookies</h6>
+		<c:forEach var="c" items="${cList_1 }">
+			<div style="display: flex;">
+				<p style="width:170px; text-overflow: ellipsis;white-space: nowrap;overflow: hidden;"><a href="../searchBook/alqDetail.do?isbn=${c.isbn }" style="color:black;text-decoration: none;">${c.booktitle }</a></p>
+				<form method="post" action="../searchBook/alqDetail_remove.do">
+					<input type=hidden name="page" value="${curpage }">
+					<input type=hidden name="mno" value="${mno}">
+					<input type=hidden name="cno" value="${cno }">
+					<input type=hidden name="isbn" value="${c.isbn }">
+					<input type=submit value="X" style="background-color:white !important;color:black !important;padding:0px !important;line-height:0px !important;height:13px !important;padding-left: 5px !important;">
+				</form>
+			</div>
+		</c:forEach>
 	</div>
 	<div class="text-center" style="clear:both;">
 		<ul class="pagination">

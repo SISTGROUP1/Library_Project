@@ -198,4 +198,18 @@ public class LibraryDAO {
 		}
 		return list;
 	}
+	
+	public ArrayList<bookInfoVO> newArrivalBookData(){
+		ArrayList<bookInfoVO> list = new ArrayList<bookInfoVO>();
+		try {
+			conn = dbconn.getConnection();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return list;
+	}
 }
