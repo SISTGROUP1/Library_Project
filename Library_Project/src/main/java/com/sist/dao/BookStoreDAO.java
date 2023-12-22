@@ -23,12 +23,13 @@ public class BookStoreDAO {
 		BookStoreVO vo=new BookStoreVO();
 		try {
 			conn=dbconn.getConnection();
-			String sql="SELECT isbn, booktitle, bookauthor, bookpublisher, bookinfo, contents, authorinfo, fixedprice, saleprice "
+			String sql="SELECT isbn, booktitle, bookauthor, bookpublisher, bookinfo, contents, authorinfo, fixedprice, saleprice, image "
 					+"FROM bookinfo WHERE isbn=?";
 			ps=conn.prepareStatement(sql);
 			ps.setString(1, isbn);
 			ResultSet rs=ps.executeQuery();
-			rs.next();
+			while(rs.next())
+			{
 			vo.setIsbn(rs.getString(1));
 			vo.setBooktitle(rs.getString(2));
 			vo.setBookauthor(rs.getString(3));
@@ -38,6 +39,8 @@ public class BookStoreDAO {
 			vo.setAuthorinfo(rs.getString(7));
 			vo.setFixedprice(rs.getInt(8));
 			vo.setSaleprice(rs.getInt(9));
+			vo.setImage(rs.getString(10));
+			}
 			rs.close();
 		} catch (Exception e) {
 			// TODO: handle exception

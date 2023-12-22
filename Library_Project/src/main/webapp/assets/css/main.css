@@ -16,7 +16,6 @@
 		border: 0;
 		font-size: 100%;
 		font: inherit;
-		vertical-align: baseline;
 	}
 .image.fit img {
 	width: 100%;
@@ -1588,7 +1587,6 @@
 /* Type */
 
 	body, input, select, textarea {
-		color: #9a9a9a;
 		font-family: 'Black Han Sans', sans-serif;
 		font-family: 'Noto Serif KR', serif;
 		font-size: 13pt;

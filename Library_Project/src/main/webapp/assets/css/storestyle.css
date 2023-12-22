@@ -1,0 +1,90 @@
+@charset "UTF-8";
+.row{
+	width: 75%;
+	height: auto;
+	margin: 0px auto;
+	margin-top: 1.5%;
+}
+
+	#fixedprice{
+		font-size: 20px;
+	}
+	#booktitle{
+		color: midnightblue;
+		font-size: 25px;
+		font-weight: bold;
+	}
+	#bookauthor{
+		color: black;
+	}
+	#saleprice{
+		font-size: 25px;
+		color: orangered;
+		font-weight: bold;
+	}
+	#label{
+		font-size: 10px;
+		color: yellowgreen;
+		font-weight: bold;
+	}
+	#price2{
+		font-size: 25px;
+		font-weight: bold;
+		color: yellowgreen;
+	}
+	#delivery{
+		color: lightslategray;
+	}
+	#star{
+		color: orange;
+		font-weight: bold;
+	}
+	#bold{
+		font-weight: bold;
+	}
+	#count{
+		color: lightslategrey;
+	}
+	img[src*="delivery3"]{
+		width: 20px;
+		height: 20px;
+	}
+	#sel{
+		margin-left: 53.4%;
+    	width: 48%;
+    	height: 40px;
+	}
+	#cart, #buy{
+		width: 200px;
+		height: 60px;
+		font-size: 20px;
+		font-weight: bold;
+	}
+	#cart{
+		background-color: skyblue;
+		color: white;
+	}
+	#buy{
+		background-color: orangered;
+		color: white;
+	}
+	#bookpurchase{
+		
+	}
+	hr{
+		width: 75%;
+		margin: 0px auto;
+	}
+	h2{
+		width: 75%;
+		margin: 0px auto;
+		margin-top: 5%;
+	}
+	p{
+		width: 75%;
+		margin-top: 5%;
+		margin: 0px auto;
+	}
+	table {
+    background-color: white;
+  }

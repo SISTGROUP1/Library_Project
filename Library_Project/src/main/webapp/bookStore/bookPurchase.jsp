@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="../assets/css/storestyle.css">
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 <script type="text/javascript">
@@ -49,49 +50,72 @@ function requestPay() {
 </script>
 </head>
 <body>
+	<h2>도서 구매</h2>
+	<hr>
 	<div class="row">
-		  <table class="table">
+		  <table class="table" id="bookpurchase" background-color="white">
 			  <tr>
-				  <td width="35%" align="center" rowspan="9">
-					  <img src="${vo.image }" id="image">
+				  <td width="35%" align="center" rowspan="8">
+					  <img src="${vo.image }" class="img-fluid" style="width:400px;height:520px;">
 				  </td>
-				  <td width="65%" align="center">
-					  <span id="title">
-					  	${vo.booktitle }
-					  </span>
+				  <td width="65%">
+					  <span id="booktitle">${vo.booktitle }</span>
 				  </td>
 			  </tr>
 			  <tr>
 				  <td width="65%">
-					  <span id="sub">${vo.bookauthor }</span>
+					  저자&nbsp;&nbsp;&nbsp;<span id="bookauthor">${vo.bookauthor }</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					  출판사&nbsp;&nbsp;&nbsp;<span id="bookauthor">${vo.bookpublisher }</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					  ISBN&nbsp;&nbsp;&nbsp;<span id="bookauthor">${vo.isbn }</span>
 				  </td>
 			  </tr>
-			  <tr>
-				  <td width="65%">
-					  <span id="percent">${vo.fixedprice }</span>&nbsp;
-					  <span id="price">${vo.saleprice }</span>
-					  <p>
-						  <del id="psub">17,900원</del>
-					  </p>
-				  </td>
-			  </tr>
-
-			  <tr>
+			   <tr>
 				  <td width="65%">
 					  <span id="star">★★★★★</span>&nbsp;
 					  <span id="bold">4.5</span>
 					  <span id="count">(299)</span>
 				  </td>
 			  </tr>
-			  
+			  <tr>
+				  <td width="65%">
+					  정가&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<del id="fixedprice">${vo.fixedprice }원</del>
+				  </td>
+			  </tr>
+			  <tr>
+				  <td width="65%">
+					  판매가&nbsp;&nbsp;&nbsp;<span id="saleprice">${vo.saleprice }원</span>
+				  </td>
+			  </tr>
+			  <tr>
+			  	<td width="65%">
+					  <select id="sel">
+						  <option>1</option>
+						  <option>2</option>
+						  <option>3</option>
+					  </select>
+				  </td>
+			  </tr>
 			  <tr>
 				  <td width="65%">
 					  <input type="button" value="장바구니" id="cart">
 					  <input type="button" value="바로구매" id="buy" onclick="requestPay()">
-					  <a href="../bookStore/bookPurchase.do" id="cart">돌아가기</a>
 				  </td>
 			  </tr>
 		  </table>
 	  </div>
+	  
+	  <hr>
+	  <h2>목차</h2>
+	  <hr>
+	  <p>${vo.contents }</p>
+	  <h2>책소개</h2>
+	  <hr>
+	  <p>${vo.bookinfo}</p>
+	  <h2>저자소개</h2>
+	  <hr>
+	  <p>${vo.authorinfo}</p>
+	  <h2>리뷰</h2>
+	  <hr>
+	  <p>리뷰입니다.</p>
 </body>
 </html>
