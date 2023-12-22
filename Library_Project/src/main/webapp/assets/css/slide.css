@@ -65,7 +65,7 @@
     transform: translate(50% 50%);
     width: 24px;
     height: 2px;
-    background-color: white;
+    background-color: #ED8E6C;
     z-index: 3;
 }
 .slide-nav .prev::before {
@@ -97,7 +97,7 @@
 .slide-btn {
   border: none;
   background: none;
-  color: #000 !important;
+  color: lightgray !important;
   font-size: 200%;
   line-height: 0.5em;
   outline: none;

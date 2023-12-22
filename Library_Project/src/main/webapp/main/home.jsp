@@ -8,23 +8,80 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="../assets/css/calendar.css">
 <style type="text/css">
-	 th,td{
-		padding: 5px 10px 5px 10px !important;
+	/* 공지사항,보도자료 출력부분 */
+	section#one {
+		padding: 1.5em 0;
+	}
+	section#one #notice{
+		width: 35%;
+	}
+	section#one #notice .tit p{
+		margin-bottom: 0;
+		display: inline-block;
+		color: black;
+		font-weight: bold;
+		font-size: 20px;
+		width: 85%;
+	}
+	section#one #notice .tit span{
+		display: inline-block;
+		padding-left: 10%;
+		text-align: right;
+	}
+	section#one #notice .tit hr{
+		border: 1.5px solid skyblue;
+		margin: 3px 0;
+	}
+	section#one #notice ul{
+		margin-bottom: 0;
+	}
+	section#one #notice .new_notice{
+		background: url("../images/icon_noti.gif") no-repeat left top;
+		padding-left: 60px;
+		padding-bottom: 15px;
+		margin-top: 15px;
+		border-bottom: 1px solid lightgray;
+	}
+	section#one #notice .new_notice a{
+		display: block;
+		color: black;
+		font-size: 20px;
+		font-weight: bold;
+		width: 95%;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;		
+	}
+	section#one #notice .new_notice span{
 		color: black;
 	}
-	 p.sub_hidden{
+	section#one #notice .notice_list{
+		list-style: none;
+		padding: 0;
+		padding-top: 15px;
+	}
+	section#one #notice .notice_list li{
+		padding: 5px 0;
+	}
+	section#one #notice .notice_list li a{
+		color: black;
+		font-size: 16px;
+		font-weight: bold;
+		display: inline-block;
+		width: 85%;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
-		margin-bottom: 0;
 	}
-	 p.con_hidden{
-		width: 300px;
-		height: 125px;
-		overflow-y: hidden;
-		text-overflow: ellipsis;
-		margin-bottom: 0;
+	section#one #notice .notice_list li span{
+		color: black;
+		font-size: 16px;
+		display: inline-block;
+		width: 15%;
+		text-align: right;
+		vertical-align: top;
 	}
+	/* ------------------ */
 	 a{
 		text-decoration: none;
 		color: black;
@@ -32,81 +89,39 @@
 	 div.inner{
 		max-width: 90em;
 	}
-	 #boardTable header{
-		position: relative;
-	}
-	 span.link{
-		position: absolute;
-		right: 0;
-		top: -25px;
-		cursor: pointer;
-		font-size: 50px;
-		padding: 0;
-	}
 </style>
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
-<script type="text/javascript">
-	$(function() {
-		$('.sub_hidden').mouseenter(function() {
-			let sub=$(this).attr("data-sub");
-			let con=$(this).attr("data-con");
-			$('#sub_switch').text(sub);
-			$('#con_switch').text(con);
-		});
-		$('#link1').click(function() {
-			$(location).attr('href','../board/boardList.do');
-		});
-		$('#link2').click(function() {
-			$(location).attr('href','../board/boardList.do');
-		});
-	});
-</script>
 </head>
 <body>
-<section id="one" class="wrapper" style="background-color: rgb(246,246,246);"><div class="inner">
-					<div class="flex flex-2" id="boardTable">
-						<article><header><h3>공지사항</h3>
-							<span class="link" id="link1">+</span>
-							</header>
-							<table class="table">
-								<c:forEach var="vo" items="${boardList }" varStatus="cnt">
-									<c:if test="${cnt.first }">
-										<tr>
-											<th width="50%"><p class="sub_hidden" style="width: 300px;" id="sub_switch">${vo.subject }</p></th>
-											<td width="35%">
-												<a href="../board/boardDetail.do?no=${vo.no }">
-													<p class="sub_hidden" style="width: 210px;" data-sub="${vo.subject }" data-con="${vo.content }">${vo.subject }</p>
-												</a>
-											</td>
-											<td width="15%">${vo.dbday }</td>
-										</tr>
-										<tr>
-											<td width="50%" rowspan="4"><p class="con_hidden" id="con_switch">${vo.content }</p></td>
-									</c:if>
-									<c:if test="${!cnt.first }">
-										<td width="35%">
-											<a href="../board/boardDetail.do?no=${vo.no }">
-												<p class="sub_hidden" style="width: 210px;" data-sub="${vo.subject }" data-con="${vo.content }">${vo.subject }</p>
-											</a>
-										</td>
-										<td width="15%">${vo.dbday }</td>
-									</tr>
-									</c:if>
-								</c:forEach>
-							</table></article>
-							<article><header><h3>보도자료</h3>
-							<span class="link" id="link2">+</span>
-							</header>
-							<table class="table">
-								<c:forEach var="vo" items="${boardList }">
-									<tr>
-										<td width="85%"><p class="sub_hidden" style="width: 520px;">${vo.subject }</p></td>
-										<td width="15%">${vo.dbday }</td>
-									</tr>
-								</c:forEach>
-							</table></article>
-							</div>
-				</div>
+<section id="one" class="wrapper" style="background-color: rgb(246,246,246);">
+	<div class="inner">
+		<div class="tit">
+				<p>공지사항</p><span><a href="#">
+					<img src="../images/plus_on.png">
+				</a></span>
+			</div>
+			<div class="new_notice">
+				<a href="#">[목마교육도서관] 12월 8-9일 도서관 이용 자제 안내</a><span>23.12.08</span>
+			</div>
+			<ul class="notice_list">
+				<li>
+					<a href="#">[목마교육도서관] 12월 휴관일 안내</a><span>23.11.25</span>
+				</li>
+				<li>
+					<a href="#">[목마교육도서관] 12월 휴관일 안내</a><span>23.11.25</span>
+				</li>
+				<li>
+					<a href="#">[목마교육도서관] 12월 휴관일 안내</a><span>23.11.25</span>
+				</li>
+				<li>
+					<a href="#">[목마교육도서관] 12월 휴관일 안내</a><span>23.11.25</span>
+				</li>
+				<li>
+					<a href="#">[목마교육도서관] 12월 휴관일 안내</a><span>23.11.25</span>
+				</li>
+			</ul>
+		</div>
+	</div>
 			</section>
 			<!-- slide include -->
 			<jsp:include page="../etc/slide/slide.jsp"></jsp:include>

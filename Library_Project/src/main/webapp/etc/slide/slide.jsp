@@ -17,16 +17,36 @@
 	});
 </script>
 <style type="text/css">
-	div.box.person{
-		padding: 0;
+	section#two{
+		background: #F0F8FF;
 	}
-	div.image{
+	section#two .slide{
+		margin-top: 3rem;
+	}
+	section#two div.box.person{
+		padding: 0;
+		border-radius: 10px;
+		overflow: hidden;
+		background-color: #F5F5F5;
+		border: 1.5px solid skyblue;
+		padding-bottom: 15px;
+	}
+	section#two div.image{
 		width: 100%;
 	}
-	header{
+	section#two header{
 		position: relative;
+		margin-bottom: 3em;
 	}
-	#link{
+	section#two h2{
+		color: black;
+		font-weight: bold;
+	}
+	section#two hr{
+		border: 1px solid skyblue;
+		margin: 1em 0;
+	}
+	section#two #link{
 		position: absolute;
 		right: 0;
 		bottom: 0;
@@ -34,24 +54,53 @@
 		font-size: 50px;
 		padding: 0;
 	}
+	section#two #link:hover{
+		color: #ED8E6C;
+	}
+	section#two .slide-nav div{
+		background-color: transparent;
+	}
+	section#two .slide-btn{
+		color: lightgray;
+	}
+	section#two .flex .image img{
+		position: relative;
+	}
+	section#two .flex .image .img_dark{
+		display: none;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: black;
+		opacity: 0.1;
+	}
+	section#two .flex .image:hover .img_dark{
+		display: block;
+	}
 </style>
 </head>
 <body>
-<section id="two" class="wrapper style1 special" style="height: 800px;padding-top: 0;">
+<section id="two" class="wrapper style1 special" style="height: 700px;padding-top: 0;">
 			<div class="slider">
-        <div class="slide-viewer" style="height: 800px;">
+        <div class="slide-viewer" style="height: 700px;">
             <div class="slide-group">
                 <div class="slide slide-1">
                 	<div class="inner">
 					<header><h2>독서 문화 프로그램</h2>
 						<span id="link">+</span>
-						<hr style="background: white;height: 1px;border: 0;opacity: 0.2;">
+						<hr>
 					</header><div class="flex flex-4">
 						<c:forEach var="vo" items="${programList }">
-							<div class="box person" style="background-color: rgb(213,213,213);padding-bottom: 15px;">
+							
+							<div class="box person">
+							<a href="#">
 							<div class="image">
-								<img src="${vo.poster }" alt="Person 1" width="168"></div>
+								<img src="${vo.poster }" alt="Person 1" width="168">
+								<span class="img_dark"></span></div>
 							<h3 style="color: black;font-size: 16px;">${fn:length(vo.title) gt 13 ? fn:substring(vo.title,0,13)+='...' : vo.title }</h3>
+							</a>
 						</div>
 						</c:forEach>
 					</div>
@@ -61,13 +110,16 @@
                 	<div class="inner">
 					<header><h2>독서 문화 프로그램</h2>
 						<span id="link">+</span>
-						<hr style="background: white;height: 1px;border: 0;opacity: 0.2;">
+						<hr>
 					</header><div class="flex flex-4">
 						<c:forEach var="vo" items="${programList }">
-							<div class="box person" style="background-color: rgb(213,213,213);padding-bottom: 15px;">
+							<div class="box person">
+							<a href="#">
 							<div class="image">
-								<img src="${vo.poster }" alt="Person 1" width="168"></div>
+								<img src="${vo.poster }" alt="Person 1" width="168">
+								<span class="img_dark"></span></div>
 							<h3 style="color: black;font-size: 16px;">${fn:length(vo.title) gt 13 ? fn:substring(vo.title,0,13)+='...' : vo.title }</h3>
+							</a>
 						</div>
 						</c:forEach>
 					</div>
@@ -77,13 +129,16 @@
                 	<div class="inner">
 					<header><h2>독서 문화 프로그램</h2>
 						<span id="link">+</span>
-						<hr style="background: white;height: 1px;border: 0;opacity: 0.2;">
+						<hr>
 					</header><div class="flex flex-4">
 						<c:forEach var="vo" items="${programList }">
-							<div class="box person" style="background-color: rgb(213,213,213);padding-bottom: 15px;">
+							<div class="box person">
+							<a href="#">
 							<div class="image">
-								<img src="${vo.poster }" alt="Person 1" width="168"></div>
+								<img src="${vo.poster }" alt="Person 1" width="168">
+								<span class="img_dark"></span></div>
 							<h3 style="color: black;font-size: 16px;">${fn:length(vo.title) gt 13 ? fn:substring(vo.title,0,13)+='...' : vo.title }</h3>
+							</a>
 						</div>
 						</c:forEach>
 					</div>
