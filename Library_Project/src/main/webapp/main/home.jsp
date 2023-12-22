@@ -89,6 +89,9 @@
 	 div.inner{
 		max-width: 90em;
 	}
+	h2{
+	font-weight: bold;
+	}
 </style>
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 </head>
@@ -129,7 +132,7 @@
 			<!-- Three --><section id="three" class="wrapper special"><div class="inner">
 					<header class="align-center"><h2>행사달력 및 도서관 현황</h2>
 						<p>행사 정보를 이곳에서 확인하세요</p>
-					</header><div class="flex flex-2">
+					</header><div class="flex flex-5">
 						<!-- 달력 -->
 						<article><div class="calendar">
   							<span>TODAY</span>				<!-- 서버날짜 들어가게 변경 예정 -->
@@ -142,10 +145,7 @@
  								</div>
 							<!-- partial -->
   							<script  src="./script.js"></script>
-  							<header>
-  							<p class="calendar_id"><a href="#">+ 이달의 행사 정보 더보기</a></p>  <!-- # : 행사..? -->
-  							<p class="calendar_id2"><a href="#">+ 이달의 휴관일 확인하기</a></p>	<!-- # : 달력 상세로 넘어가도록 -->
-							</header>
+  				
 						</article>
 							
 						<!-- 도서관 현황 -->
