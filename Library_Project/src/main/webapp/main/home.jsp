@@ -169,7 +169,47 @@
 									<a href="https://blog.naver.com/seoul_library">서울도서관 X 동네 책방</a></td>
 								</tr>
 							</table>
-						</article></div>
+						</article>
+						
+						<article>
+							<div class="homeinfo_banner">
+  								<div class="homeinfo_slide">
+            						<a href="https://web.seoul.flybookscreen.kr/"><img src="../images/homeinfo_banner_img1.jpg" width="470px" height="350px"></a>
+        						</div>
+        						<div class="homeinfo_slide">
+            						<a href="http://culture.seoul.go.kr"><img src="../images/homeinfo_banner_img2.jpg" width="470px" height="350px"></a>
+        						</div>
+        						<div class="homeinfo_slide">
+            						<a href="https://news.seoul.go.kr/gov/archives/511987"><img src="../images/homeinfo_banner_img3.jpg" width="470px" height="350px"></a>
+        						</div>
+ 							</div>
+ 							<script>
+						        let currentSlide = 0;
+						        const slides = document.querySelectorAll('.homeinfo_slide');
+						        const slideCount = slides.length;
+						 
+						        function showSlide(n) {
+						            slides.forEach(slide => slide.style.display = 'none');
+						            slides[n].style.display = 'block';
+						        }
+						 
+						        function nextSlide() {
+						            currentSlide = (currentSlide + 1) % slideCount;
+						            showSlide(currentSlide);
+						        }
+						 
+						        function prevSlide() {
+						            currentSlide = (currentSlide - 1 + slideCount) % slideCount;
+						            showSlide(currentSlide);
+						        }
+						 
+						        document.addEventListener('DOMContentLoaded', () => {
+						            showSlide(currentSlide);
+						            setInterval(nextSlide, 3000); // 1초마다 자동 슬라이드
+						        });
+						    </script>
+						</article>
+						</div>
 				</div>
 			</section>
 </body>

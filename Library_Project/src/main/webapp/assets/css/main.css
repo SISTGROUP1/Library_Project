@@ -1906,6 +1906,10 @@
 		.flex.flex-2 article {
 			width: 47%;
 		}
+		.flex.flex-5 article {
+			margin: 0px auto;
+			width: 30%;
+		}
 
 		.flex.flex-3 article {
 			position: relative;
