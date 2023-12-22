@@ -65,18 +65,28 @@ public class BookModel {
 			}
 		}
 		
-		request.setAttribute("list", list);
-		request.setAttribute("totalpage", totalpage);
-		request.setAttribute("curpage", curpage);
-		request.setAttribute("cList_1", cList_1);
-		request.setAttribute("cno", cno);
-		request.setAttribute("cate", cate);
-		request.setAttribute("mno", mno);
-		request.setAttribute("startPage", startPage);
-		request.setAttribute("endPage", endPage);
-		
-		request.setAttribute("main_jsp", "/searchBook/alqResult.jsp");
-		
+		if(list.size()!=0) {
+			request.setAttribute("list", list);
+			request.setAttribute("totalpage", totalpage);
+			request.setAttribute("curpage", curpage);
+			request.setAttribute("cList_1", cList_1);
+			request.setAttribute("cno", cno);
+			request.setAttribute("cate", cate);
+			request.setAttribute("mno", mno);
+			request.setAttribute("startPage", startPage);
+			request.setAttribute("endPage", endPage);
+			
+			request.setAttribute("main_jsp", "/searchBook/alqResult.jsp");
+		}
+		else {
+			request.setAttribute("cate", cate);
+			request.setAttribute("curpage", curpage);
+			request.setAttribute("mno", mno);
+			request.setAttribute("cno", cno);
+			request.setAttribute("cList_1", cList_1);
+			
+			request.setAttribute("main_jsp", "/searchBook/alqNoData.jsp");
+		}
 		return "/main/main.jsp";
 	}
 	
