@@ -14,7 +14,7 @@
 					</a>
 					<nav id="nav"><a href="../user/login.do">로그인</a>
 						<a href="../user/userjoin.jsp">회원가입</a>
-						<a href="../user/mypage.jsp">마이페이지</a>
+						<a href="../mypage/mypage_main.do">마이페이지</a>
 					</nav><a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
 				</div>
 			</header>
