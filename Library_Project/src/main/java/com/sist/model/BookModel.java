@@ -32,13 +32,14 @@ public class BookModel {
 	public String Search_alqResult(HttpServletRequest request,HttpServletResponse response) {
 		
 		String cno = request.getParameter("cno");
+		String mno = request.getParameter("mno");
 		String page = request.getParameter("page");
 		String cate = request.getParameter("cate");
 		if(page==null) page = "1";
 		int curpage = Integer.parseInt(page);
 		
 		LibraryDAO dao = LibraryDAO.newInstance();
-		ArrayList<bookInfoVO> list = dao.BookInfoData(Integer.parseInt(cno),curpage);
+		ArrayList<bookInfoVO> list = dao.BookInfoData(Integer.parseInt(cno),mno,curpage);
 		int totalpage = dao.BookInfoTotal(Integer.parseInt(cno));
 		
 		final int BLOCK=10;

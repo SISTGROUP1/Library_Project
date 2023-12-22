@@ -43,7 +43,7 @@ public class LibraryDAO {
 		return list;
 	}
 	
-	public ArrayList<bookInfoVO> BookInfoData(int cno,int page){
+	public ArrayList<bookInfoVO> BookInfoData(int cno,String mno,int page){
 
 		ArrayList<bookInfoVO> list = new ArrayList<bookInfoVO>();
 		try {
