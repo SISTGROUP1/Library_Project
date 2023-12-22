@@ -139,7 +139,7 @@
 									<ul class="menu02" id="sub1-${vo.cno }">
 										<c:forEach var="sub" items="${sub }">
 											<c:if test="${sub.cno==vo.cno }">
-												<li><a href="#" class="more" title="${sub.cate }" style="font-size: 16px;color: #000;font-weight: 300;display: block;position: relative;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;padding: 0 15px;">${sub.cate }</a></li>
+												<li style="float: none;height: 40px;width: 100%;"><a href="#" class="more" title="${sub.cate }" style="font-size: 16px;color: #000;font-weight: 300;display: block;position: relative;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;padding: 0 15px;text-align: left;">${sub.cate }</a></li>
 											</c:if>
 										</c:forEach>
 									</ul>
