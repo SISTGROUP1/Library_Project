@@ -26,7 +26,7 @@
 	<div class="col-md-2" id="aside">
 		<div style="margin-top: 50px;">
 			<div style="margin:0px auto;">
-				<h6><%=URLDecoder.decode(request.getParameter("cate")) %></h6>
+				<h6>${cate }</h6>
 			</div>
 			<jsp:include page="../etc/aside/aside.jsp"></jsp:include>
 		</div>
@@ -106,13 +106,14 @@
 		</section>
 	</div>
 	<div class="col-md-2">
+		<div style="margin-top: 50px;"></div>
 		<h6>Cookies</h6>
 		<c:forEach var="c" items="${cList_1 }">
 			<div style="display: flex;">
 				<p style="width:170px; text-overflow: ellipsis;white-space: nowrap;overflow: hidden;"><a href="../searchBook/alqDetail.do?isbn=${c.isbn }" style="color:black;text-decoration: none;">${c.booktitle }</a></p>
 				<form method="post" action="../searchBook/alqDetail_remove.do">
 					<input type=hidden name="page" value="${curpage }">
-					<input type=hidden name="cate" value="${cate}">
+					<input type=hidden name="mno" value="${mno}">
 					<input type=hidden name="cno" value="${cno }">
 					<input type=hidden name="isbn" value="${c.isbn }">
 					<input type=submit value="X" style="background-color:white !important;color:black !important;padding:0px !important;line-height:0px !important;height:13px !important;padding-left: 5px !important;">
@@ -123,13 +124,13 @@
 	<div class="text-center">
 		<ul class="pagination">
 			<c:if test="${startPage>1 }">
-				<li><a href="../searchBook/alqResult.do?page=${startPage-1}&cno=${cno}&cate=${cate}">&lt;</a></li>
+				<li><a href="../searchBook/alqResult.do?page=${startPage-1}&cno=${cno}&mno=${mno}">&lt;</a></li>
 			</c:if>
 			<c:forEach var="i" begin="${startPage }" end="${endPage }">
-				<li ${curpage==i?"class=active":"" }><a href="../searchBook/alqResult.do?page=${i}&cno=${cno}&cate=${cate}">${i }</a></li>
+				<li ${curpage==i?"class=active":"" }><a href="../searchBook/alqResult.do?page=${i}&cno=${cno}&mno=${mno}">${i }</a></li>
 			</c:forEach>
 			<c:if test="${endPage<totalpage }">
-					<li><a href="../searchBook/alqResult.do?page=${endPage+1}&cno=${cno}&cate=${cate}">&gt;</a></li>
+					<li><a href="../searchBook/alqResult.do?page=${endPage+1}&cno=${cno}&mno=${mno}">&gt;</a></li>
 			</c:if>
 		</ul>
 	</div>

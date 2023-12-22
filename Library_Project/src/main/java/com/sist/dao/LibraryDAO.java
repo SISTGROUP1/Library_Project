@@ -48,18 +48,21 @@ public class LibraryDAO {
 		ArrayList<bookInfoVO> list = new ArrayList<bookInfoVO>();
 		try {
 			conn = dbconn.getConnection();
+
 			String sql = "SELECT booktitle,image,bookauthor,bookpublisher,bookcallnum,bookdate,bookaccessionno,booklocation,isbn,num "
 					+ "FROM (SELECT booktitle,image,bookauthor,bookpublisher,bookcallnum,bookdate,bookaccessionno,booklocation,isbn,rownum as num "
-					+ "FROM (SELECT booktitle,image,bookauthor,bookpublisher,bookcallnum,bookdate,bookaccessionno,booklocation,bookinfo.isbn "
-					+ "FROM bookinfo JOIN bookmain ON bookinfo.isbn = bookmain.isbn WHERE bookmain.cno="+cno+")) "
-					+ "WHERE num BETWEEN ? AND ?";
+					+ "FROM (SELECT booktitle,image,bookauthor,bookpublisher,bookcallnum,bookdate,bookaccessionno,booklocation,isbn "
+					+ "FROM bookinfo WHERE isbn in(SELECT isbn FROM BOOKMAIN WHERE MNO in(SELECT mno FROM MIDDLECT JOIN MAJORCT ON MIDDLECT.cno = MAJORCT.cno WHERE MAJORCT.cno=? AND MIDDLECT.mno=?)) "
+					+ ")) WHERE num BETWEEN ? AND ?";
 			
 			int row_size = 12;
 			int start = (row_size*page)-(row_size-1);
 			int end = (row_size*page);
 			ps = conn.prepareStatement(sql);
-			ps.setInt(1, start);
-			ps.setInt(2, end);
+			ps.setInt(1, cno);
+			ps.setString(2, mno);
+			ps.setInt(3, start);
+			ps.setInt(4, end);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				bookInfoVO vo = new bookInfoVO();
@@ -87,16 +90,15 @@ public class LibraryDAO {
 		return list;
 	}
 	
-	public int BookInfoTotal(int cno) {
+	public int BookInfoTotal(int cno,String mno) {
 		int total= 0;
 		try {
 			conn = dbconn.getConnection();
-			String sql = "SELECT CEIL(COUNT(*)/12) "
-					+ "FROM bookinfo JOIN bookmain "
-					+ "ON bookinfo.isbn = bookmain.isbn "
-					+ "WHERE bookmain.cno="+cno;
+			String sql = "SELECT CEIL(COUNT(*)/12) FROM BOOKMAIN WHERE MNO in(SELECT mno FROM MIDDLECT JOIN MAJORCT ON MIDDLECT.cno = MAJORCT.cno WHERE MAJORCT.cno=? AND MIDDLECT.mno=?)";
 			
 			ps = conn.prepareStatement(sql);
+			ps.setInt(1, cno);
+			ps.setString(2, mno);
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			total = rs.getInt(1);

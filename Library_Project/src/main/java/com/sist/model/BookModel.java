@@ -1,6 +1,5 @@
 package com.sist.model;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import javax.servlet.http.Cookie;
@@ -40,7 +39,7 @@ public class BookModel {
 		
 		LibraryDAO dao = LibraryDAO.newInstance();
 		ArrayList<bookInfoVO> list = dao.BookInfoData(Integer.parseInt(cno),mno,curpage);
-		int totalpage = dao.BookInfoTotal(Integer.parseInt(cno));
+		int totalpage = dao.BookInfoTotal(Integer.parseInt(cno),mno);
 		
 		final int BLOCK=10;
 		int startPage=((curpage-1)/BLOCK*BLOCK)+1;
@@ -71,12 +70,8 @@ public class BookModel {
 		request.setAttribute("curpage", curpage);
 		request.setAttribute("cList_1", cList_1);
 		request.setAttribute("cno", cno);
-		try {
-			request.setAttribute("cate", URLEncoder.encode(cate, "UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		request.setAttribute("cate", cate);
+		request.setAttribute("mno", mno);
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);
 		
@@ -136,11 +131,9 @@ public class BookModel {
 		}
 		String cno = request.getParameter("cno");
 		String page = request.getParameter("page");
-		String cate = request.getParameter("cate");
+		String mno = request.getParameter("mno");
 		String isbn = request.getParameter("isbn");
 		
-		System.out.println(cno);
-		System.out.println(cate);
 		Cookie[] cookies = request.getCookies();
 		for(int i = cookies.length-1;i>0;i--) {
 			if(cookies[i].getName().equals("book_"+isbn)) {
@@ -154,6 +147,6 @@ public class BookModel {
 		}
 		
 		
-		return "redirect:../searchBook/alqResult.do?cno="+cno+"&cate="+cate+"&page="+page;
+		return "redirect:../searchBook/alqResult.do?cno="+cno+"&mno="+mno+"&page="+page;
 	}
 }
