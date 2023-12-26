@@ -50,7 +50,7 @@
 					<th width=15% id="book_author">저자</th>
 					<th width=15% id="book_publisher">발행처</th>
 					<th width=10% id="book_date">발행년도</th>
-					<th width=10% id="book_rDate">입수일</th>
+					<th width=10% id="book_rDate">대출횟수</th>
 				</tr>
 				<tr>
 					<td  width=5%>No.</td>

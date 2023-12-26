@@ -16,7 +16,7 @@ public class BookModel {
 		
 		ArrayList<MajorctVO> list = dao.Major_Classification();
 		
-		ArrayList<MiddlectVO> sub = dao.SearchSubmenuData();
+		ArrayList<MiddlectVO> sub = dao.SearchSubmenuData(0,"");
 		
 		request.setAttribute("list", list);
 		
@@ -33,13 +33,14 @@ public class BookModel {
 		String cno = request.getParameter("cno");
 		String mno = request.getParameter("mno");
 		String page = request.getParameter("page");
-		String cate = request.getParameter("cate");
 		if(page==null) page = "1";
 		int curpage = Integer.parseInt(page);
 		
 		LibraryDAO dao = LibraryDAO.newInstance();
 		ArrayList<bookInfoVO> list = dao.BookInfoData(Integer.parseInt(cno),mno,curpage);
-		int totalpage = dao.BookInfoTotal(Integer.parseInt(cno),mno);
+		ArrayList<MiddlectVO> CategoryData = dao.SearchSubmenuData(1, mno);
+		int total = dao.BookInfoTotal(Integer.parseInt(cno),mno);
+		int totalpage = (int)Math.ceil((total/12.0));
 		
 		final int BLOCK=10;
 		int startPage=((curpage-1)/BLOCK*BLOCK)+1;
@@ -67,11 +68,12 @@ public class BookModel {
 		
 		if(list.size()!=0) {
 			request.setAttribute("list", list);
+			request.setAttribute("total", total);
 			request.setAttribute("totalpage", totalpage);
 			request.setAttribute("curpage", curpage);
 			request.setAttribute("cList_1", cList_1);
 			request.setAttribute("cno", cno);
-			request.setAttribute("cate", cate);
+			request.setAttribute("cate", CategoryData);
 			request.setAttribute("mno", mno);
 			request.setAttribute("startPage", startPage);
 			request.setAttribute("endPage", endPage);
@@ -79,7 +81,7 @@ public class BookModel {
 			request.setAttribute("main_jsp", "/searchBook/alqResult.jsp");
 		}
 		else {
-			request.setAttribute("cate", cate);
+			request.setAttribute("cate", CategoryData);
 			request.setAttribute("curpage", curpage);
 			request.setAttribute("mno", mno);
 			request.setAttribute("cno", cno);
@@ -100,6 +102,36 @@ public class BookModel {
 	
 	@RequestMapping("searchBook/newarrival.do")
 	public String Search_newarrival(HttpServletRequest request,HttpServletResponse response) {
+		String page = request.getParameter("page");
+		String acq = request.getParameter("acq");
+
+		if(page==null) {
+			page = "1";
+		}
+		if(acq==null) {
+			acq = "30";
+		}
+		int curpage = Integer.parseInt(page);
+		int acqdate = Integer.parseInt(acq);
+		
+		LibraryDAO dao = LibraryDAO.newInstance();
+		ArrayList<bookInfoVO> list = dao.newArrivalBookData(curpage, acqdate);
+		int total = dao.newArrivalTotal(acqdate);
+		int totalpage = (int)Math.ceil((total)/100.0);
+		
+		final int BLOCK=10;
+		int startPage=((curpage-1)/BLOCK*BLOCK)+1;
+		int endPage=((curpage-1)/BLOCK*BLOCK)+BLOCK;
+		
+		if(endPage>totalpage)
+			endPage=totalpage;
+		
+		request.setAttribute("list", list);
+		request.setAttribute("total", total);
+		request.setAttribute("totalpage", totalpage);
+		request.setAttribute("startpage", startPage);
+		request.setAttribute("endpage", endPage);
+		request.setAttribute("curpage", curpage);
 		
 		request.setAttribute("main_jsp", "/searchBook/newarrival.jsp");
 		

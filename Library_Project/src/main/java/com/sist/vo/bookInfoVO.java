@@ -6,6 +6,15 @@ public class bookInfoVO {
 	private int bino,fixedprice,saleprice;
 	private String bookinfo,contents,authorinfo,image;
 	private Date acquisition;
+	private int count;
+	
+	
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
 	public String getIsbn() {
 		return isbn;
 	}

@@ -94,7 +94,7 @@ public class LibraryDAO {
 		int total= 0;
 		try {
 			conn = dbconn.getConnection();
-			String sql = "SELECT CEIL(COUNT(*)/12) FROM BOOKMAIN WHERE MNO in(SELECT mno FROM MIDDLECT JOIN MAJORCT ON MIDDLECT.cno = MAJORCT.cno WHERE MAJORCT.cno=? AND MIDDLECT.mno=?)";
+			String sql = "SELECT COUNT(*) FROM BOOKMAIN WHERE MNO in(SELECT mno FROM MIDDLECT JOIN MAJORCT ON MIDDLECT.cno = MAJORCT.cno WHERE MAJORCT.cno=? AND MIDDLECT.mno=?)";
 			
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, cno);
@@ -173,12 +173,23 @@ public class LibraryDAO {
 		return data;
 	}
 	
-	public ArrayList<MiddlectVO> SearchSubmenuData() {
+	public ArrayList<MiddlectVO> SearchSubmenuData(int range,String mno) {
 		ArrayList<MiddlectVO> list = new ArrayList<MiddlectVO>();
 		try {
 			conn = dbconn.getConnection();
-			String sql = "SELECT mno,cno,cate FROM middlect";
+			String sql ="";
+			if(range==0) {
+				sql = "SELECT mno,cno,cate FROM middlect";
+			}
+			else if(range==1) {
+				sql = "SELECT mno,cno,cate FROM middlect "
+						+ "WHERE mno = ?";
+			}
+			
 			ps = conn.prepareStatement(sql);
+			if(range==1) {
+				ps.setString(1, mno);
+			}
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				MiddlectVO vo = new MiddlectVO();
@@ -199,10 +210,39 @@ public class LibraryDAO {
 		return list;
 	}
 	
-	public ArrayList<bookInfoVO> newArrivalBookData(){
+	public ArrayList<bookInfoVO> newArrivalBookData(int page,int acq){
 		ArrayList<bookInfoVO> list = new ArrayList<bookInfoVO>();
 		try {
 			conn = dbconn.getConnection();
+			String sql = "SELECT image,isbn,booktitle,bookauthor,bookpublisher,bookdate,ACQUISITION,num "
+					+ "FROM (SELECT image,isbn,booktitle,bookauthor,bookpublisher,bookdate,ACQUISITION,rownum as num "
+					+ "FROM (SELECT image,isbn,booktitle,bookauthor,bookpublisher,bookdate,ACQUISITION "
+					+ "FROM bookinfo WHERE acquisition>(SYSDATE-?) "
+					+ "ORDER BY acquisition DESC)) WHERE num BETWEEN ? AND ?";
+			ps = conn.prepareStatement(sql);
+			int rowpage = 100;
+			int start = (page*rowpage)-(rowpage-1);
+			int end = (page*rowpage);
+			ps.setInt(1, acq);
+			ps.setInt(2, start);
+			ps.setInt(3, end);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				bookInfoVO vo = new bookInfoVO();
+				vo.setImage(rs.getString(1));
+				vo.setIsbn(rs.getString(2));
+				vo.setBooktitle(rs.getString(3));
+				vo.setBookauthor(rs.getString(4));
+				vo.setBookpublisher(rs.getString(5));
+				vo.setBookdate(rs.getString(6));
+				vo.setAcquisition(rs.getDate(7));
+				vo.setCount(rs.getInt(8));
+				
+				list.add(vo);
+			}
+			rs.close();
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -212,4 +252,27 @@ public class LibraryDAO {
 		}
 		return list;
 	}
+	
+	public int newArrivalTotal(int acq) {
+		int total = 0;
+		try {
+			conn = dbconn.getConnection();
+			String sql = "SELECT COUNT(*) "
+					+ "FROM bookinfo WHERE acquisition>(SYSDATE-?)";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, acq);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			total = rs.getInt(1);
+			rs.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return total;
+	}
+	
 }

@@ -44,7 +44,7 @@
 			<div class="col-md-9" style="width:80%">
 				<div class="card">
 					<div class="card-body" >
-						<h1>${vo.booktitle }</h1>
+						<h1 style="font-size: 25px">${vo.booktitle }</h1>
 						<p>${vo.bookauthor }</p>
 			<table class="table1" style="border-collapse: unset;">
 				<tr>

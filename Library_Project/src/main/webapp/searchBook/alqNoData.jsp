@@ -21,7 +21,10 @@
 	<div class="col-md-2" id="aside">
 		<div style="margin-top: 50px;">
 			<div style="margin:0px auto;">
-				<h6>${cate }</h6>	
+				<c:forEach var="cate" items="${cate }">
+					<h6>${cate.cate }</h6>
+				</c:forEach>
+				<h6>총 ${total }건 중 ${total }건 출력</h6>
 			</div>
 			<jsp:include page="../etc/aside/aside.jsp"></jsp:include>
 		</div>

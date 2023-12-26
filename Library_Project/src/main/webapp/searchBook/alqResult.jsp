@@ -3,6 +3,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="format" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,7 +27,10 @@
 	<div class="col-md-2" id="aside">
 		<div style="margin-top: 50px;">
 			<div style="margin:0px auto;">
-				<h6>${cate }</h6>
+				<c:forEach var="cate" items="${cate }">
+					<h6>검색어<font style="color: #ff5a46;">[카테고리분류:${cate.cate }]</font></h6>
+				</c:forEach>
+				<h6>총 <format:formatNumber value="${total }" type="number"/>건 중 <format:formatNumber value="${total }" type="number"/>건 출력</h6>
 			</div>
 			<jsp:include page="../etc/aside/aside.jsp"></jsp:include>
 		</div>
@@ -90,10 +94,10 @@
 								</thead>
 								<tbody>
 									<tr style="background:white !important;">
-										<td>${vo.booklocation }</td>
-										<td><span id="bookcallnum">${vo.bookcallnum }</span></td>
-										<td>${vo.bookaccessionno }</td>
-										<td>테스트</td>
+										<td style="text-align:center !important;">${vo.booklocation }</td>
+										<td style="text-align:center !important;"><span id="bookcallnum">${vo.bookcallnum }</span></td>
+										<td style="text-align:center !important;">${vo.bookaccessionno }</td>
+										<td style="text-align:center !important;">테스트</td>
 									</tr>
 								</tbody>
 							</table>
@@ -121,7 +125,7 @@
 			</div>
 		</c:forEach>
 	</div>
-	<div class="text-center">
+	<div class="text-center" style="clear:both;">
 		<ul class="pagination">
 			<c:if test="${startPage>1 }">
 				<li><a href="../searchBook/alqResult.do?page=${startPage-1}&cno=${cno}&mno=${mno}">&lt;</a></li>
