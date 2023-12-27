@@ -29,36 +29,11 @@
 		text-align: center;
 		font-weight: bold;
 	}
-	#title{
+	.caption .title{
 		width: 230px;
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;
-	}
-	#searchBar select{
-		display: inline-block;
-		width: 150px;
-	}
-	#searchOp{
-		width: 120px;
-		float: left;
-	}
-	#searchBar{
-		background: url("https://www.junggulib.or.kr/include/image/common/bg_pattern.png");
-		padding: 15px;
-	}
-	#searchBar > div{
-		background-color: white;
-	}
-	#searchBar input{
-		height: 46px;
-	}
-	#searchBar input[type="submit"]{
-		width: 90px;
-		font-size: 18px;
-		line-height: 0;
-		padding: 0;
-		font-weight: normal;
 	}
 	.caption p:last-child {
 		margin-bottom: 0;
@@ -66,10 +41,58 @@
 	.caption p:nth-child(2),.caption p:nth-child(3) {
 		margin-bottom: 5px;
 	}
+	.least{
+		position: relative;
+	}
+	.least img{
+		border: 0.5px solid black;
+	}
+	.least a.cookieDeleteBtn{
+		position: absolute;
+		top: 0;
+		right: 0;
+		color: black;
+		background-color: white;
+		padding: 0 2px;
+		border-top: 0.5px solid black;
+		border-right: 0.5px solid black;
+		text-decoration: none;
+		cursor: pointer;
+	}
+	.least a.cookieDeleteBtn:hover {
+		color: #ed8e6c;
+	}
 </style>
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 <script type="text/javascript">
-	
+	$(function() {
+		/* $(".least  a.cookieDeleteBtn").click(function(){
+			let url=$(this).attr("data-href")
+			console.log(url)
+			$.ajax({
+				type: "GET",
+				url: url,
+				data: {},
+				success:function(){
+					console.log("삭제 완료")
+				}
+			})			
+		}) */
+		/* let target_hidden=$("#target_hidden").attr("value")
+		let targets=document.querySelectorAll("#target_hidden+select option")
+		for(let target of targets){
+			if(target.value===target_hidden){
+				target.selected=true
+			}
+		}
+		let searchType_hidden=$("#searchType_hidden").attr("value")
+		let searchTypes=document.querySelectorAll("#searchType_hidden+select option")
+		for(let searchType of searchTypes){
+			if(searchType.value===searchType_hidden){
+				searchType.selected=true
+			}
+		} */
+	})
 </script>
 </head>
 <body>
@@ -78,6 +101,7 @@
 	<div id="searchBar">
 		<div style="padding: 15px;">
 		<div>
+			<%-- <input type="hidden" id="target_hidden" value="${target }"> --%>
 			<select name="target" style="margin-right: 10px;line-height: 0;" class="input-lg">
 				<option value="0">대상</option>
 				<option value="1">영유아</option>
@@ -88,12 +112,13 @@
 			</select>
 			<select name="status" style="line-height: 0;" class="input-lg">
 				<option value="0">접수상태</option>
-				<option value="0">접수중</option>
-				<option value="0">접수마감</option>
-				<option value="0">종료</option>
+				<option value="1">접수중</option>
+				<option value="2">접수마감</option>
+				<option value="3">종료</option>
 			</select>
 		</div>
 		<div style="margin-top: 10px;">
+			<%-- <input type="hidden" id="searchType_hidden" value="${searchType }"> --%>
 			<select id="searchOp" name="searchType" style="line-height: 0;" class="input-lg">
 				<option value="title">프로그램명</option>
 				<option value="place">장소</option>
@@ -115,7 +140,7 @@
 	      			<a href="../program/programDetail_before.do?pno=${vo.pno }" style="text-decoration: none;">
 	        			<img src="${vo.poster }" style="width:100%;height: 300px;">
 	        			<div class="caption">
-	          				<p style="font-size: 20px;font-weight: bold;" id="title">${vo.title }</p>
+	          				<p style="font-size: 20px;font-weight: bold;" class="title">${vo.title }</p>
 	          				<p class="text-center">${vo.target1 }</p>
 	          				<c:if test="${vo.edu1_str eq vo.edu2_str }">
 	          					<p class="text-center" style="font-size: 16px;">${vo.edu1_str }</p>
@@ -158,9 +183,10 @@
 			<c:set var="cnt" value="${cList_size-1 }"/>
 			<c:forEach var="vo" items="${cList }" begin="0" end="8">
 				<a href="../program/programDetail.do?pno=${vo.pno }">
-				<ul style="list-style: none" id="least_${cnt }">
-					<li style="float: left;">
+				<ul style="list-style: none">
+					<li style="float: left;" class="least">
 						<img src="${vo.poster }" title="${vo.title }" style="max-width: 106px;height: 150px;">
+						<a class="cookieDeleteBtn" data-href="../program/programCookieDelete.do?pno=${vo.pno }">X</a>
 					</li>
 				</ul>
 				</a>

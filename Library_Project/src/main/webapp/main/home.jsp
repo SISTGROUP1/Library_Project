@@ -11,11 +11,19 @@
 	/* 공지사항,보도자료 출력부분 */
 	section#one {
 		padding: 1.5em 0;
+		background-color: white;
 	}
-	section#one #notice{
+	section#one .inner {
+		float: left;
+		margin-left: 7.5%;
+		margin-bottom: 30px;
+	}
+	section#one .notice{
 		width: 35%;
+		float: left;
+		margin-right: 5%;
 	}
-	section#one #notice .tit p{
+	section#one .notice .tit p{
 		margin-bottom: 0;
 		display: inline-block;
 		color: black;
@@ -23,26 +31,26 @@
 		font-size: 20px;
 		width: 85%;
 	}
-	section#one #notice .tit span{
+	section#one .notice .tit span{
 		display: inline-block;
 		padding-left: 10%;
 		text-align: right;
 	}
-	section#one #notice .tit hr{
+	section#one .notice .tit hr{
 		border: 1.5px solid skyblue;
 		margin: 3px 0;
 	}
-	section#one #notice ul{
+	section#one .notice ul{
 		margin-bottom: 0;
 	}
-	section#one #notice .new_notice{
+	section#one .notice .new_notice{
 		background: url("../images/icon_noti.gif") no-repeat left top;
 		padding-left: 60px;
 		padding-bottom: 15px;
 		margin-top: 15px;
 		border-bottom: 1px solid lightgray;
 	}
-	section#one #notice .new_notice a{
+	section#one .notice .new_notice a{
 		display: block;
 		color: black;
 		font-size: 20px;
@@ -52,34 +60,74 @@
 		overflow: hidden;
 		text-overflow: ellipsis;		
 	}
-	section#one #notice .new_notice span{
+	section#one .notice .new_notice span{
 		color: black;
 	}
-	section#one #notice .notice_list{
+	section#one .notice .notice_list{
 		list-style: none;
 		padding: 0;
 		padding-top: 15px;
 	}
-	section#one #notice .notice_list li{
+	section#one .notice .notice_list li{
 		padding: 5px 0;
 	}
-	section#one #notice .notice_list li a{
+	section#one .notice .notice_list li a{
 		color: black;
 		font-size: 16px;
 		font-weight: bold;
 		display: inline-block;
-		width: 85%;
+		width: 80%;
+		padding-right: 5%;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
-	section#one #notice .notice_list li span{
+	section#one .notice .notice_list li span{
 		color: black;
 		font-size: 16px;
 		display: inline-block;
 		width: 15%;
 		text-align: right;
 		vertical-align: top;
+	}
+	/* ------------------ */
+	/* 요약정보출력 */
+	section#one #lib_summary_info{
+		width: 20%;
+		height: 30%;
+		float: left;
+	}
+	section#one #lib_summary_info table{
+		margin: 0;
+		border-collapse: unset;
+		color: black;
+	}
+	section#one #lib_summary_info td{
+		background-color: white;
+		padding-top: 0.3em;
+		padding-bottom: 0.3em;
+	}
+	section#one #lib_summary_info td[rowspan="2"]{
+		background: url("../images/banner_icon06_off.png") no-repeat top center;
+		background-size: 75px 60px;
+		background-color: white;
+	}
+	section#one #lib_summary_info .summary_date{
+		font-size: 17px;
+		font-weight: bold;
+	}
+	/* ------------------ */
+	/*  */
+	section#one #small_slide{
+		width: 20%;
+		height: 210px;
+		float: left;
+		background: url("../images/banner_sm1.png") no-repeat top left;
+		background-size: cover;
+		background-position: -15px 0;
+		margin-top: 10px;
+		border: 1px solid skyblue;
+		border-radius: 10px;
 	}
 	/* ------------------ */
 	 a{
@@ -89,42 +137,86 @@
 	 div.inner{
 		max-width: 90em;
 	}
-	h2{
-	font-weight: bold;
-	}
 </style>
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 </head>
 <body>
-<section id="one" class="wrapper" style="background-color: rgb(246,246,246);">
+<section id="one" class="wrapper">
 	<div class="inner">
-		<div id="notice">
+		<div class="notice">
 		<div class="tit">
 				<p>공지사항</p><span><a href="#">
 					<img src="../images/plus_on.png">
 				</a></span>
 			</div>
 			<div class="new_notice">
-				<a href="#">[목마교육도서관] 12월 8-9일 도서관 이용 자제 안내</a><span>23.12.08</span>
+				<a href="#">2023년 희망 및 긴급도서 구입 마감 안내</a><span>2023-12-11</span>
 			</div>
 			<ul class="notice_list">
 				<li>
-					<a href="#">[목마교육도서관] 12월 휴관일 안내</a><span>23.11.25</span>
+					<a href="#">2023년 희망 및 긴급도서 구입 마감 안내</a><span>2023-12-11</span>
 				</li>
 				<li>
-					<a href="#">[목마교육도서관] 12월 휴관일 안내</a><span>23.11.25</span>
+					<a href="#">도서관은 핫하다: 끄고, 도서관으로(OFF&LIBRARY) 캠페인 안내</a><span>2023-02-14</span>
 				</li>
 				<li>
-					<a href="#">[목마교육도서관] 12월 휴관일 안내</a><span>23.11.25</span>
+					<a href="#">서울시 북스타트: 엄마 북(Book)돋움 책상자를 신청하세요. </a><span>2023-02-14</span>
 				</li>
 				<li>
-					<a href="#">[목마교육도서관] 12월 휴관일 안내</a><span>23.11.25</span>
+					<a href="#">서울시 북스타트: 엄마 북(Book)돋움 책상자를 신청하세요. </a><span>2023-02-14</span>
 				</li>
 				<li>
-					<a href="#">[목마교육도서관] 12월 휴관일 안내</a><span>23.11.25</span>
+					<a href="#">서울시 북스타트: 엄마 북(Book)돋움 책상자를 신청하세요. </a><span>2023-02-14</span>
 				</li>
 			</ul>
 		</div>
+		<div class="notice">
+		<div class="tit">
+				<p>보도자료</p><span><a href="#">
+					<img src="../images/plus_on.png">
+				</a></span>
+			</div>
+			<div class="new_notice">
+				<a href="#">서울시민이 꼽은 올해 최고 정책은 `책읽는 서울광장·광화문 책마당`</a><span>2023-12-21</span>
+			</div>
+			<ul class="notice_list">
+				<li>
+					<a href="#">서울시민이 꼽은 올해 최고 정책은 `책읽는 서울광장·광화문 책마당`</a><span>2023-12-21</span>
+				</li>
+				<li>
+					<a href="#">서울도서관, 세계적인 그림책 작가 `바루` 초청 `그림책으로 보는 환경 토론회` 개최</a><span>2023-12-05</span>
+				</li>
+				<li>
+					<a href="#">서울도서관, 세계적인 그림책 작가 `바루` 초청 `그림책으로 보는 환경 토론회` 개최</a><span>2023-12-05</span>
+				</li>
+				<li>
+					<a href="#">서울도서관, 세계적인 그림책 작가 `바루` 초청 `그림책으로 보는 환경 토론회` 개최</a><span>2023-12-05</span>
+				</li>
+				<li>
+					<a href="#">서울도서관, 세계적인 그림책 작가 `바루` 초청 `그림책으로 보는 환경 토론회` 개최</a><span>2023-12-05</span>
+				</li>
+			</ul>
+		</div>
+		<div id="lib_summary_info">
+			<table class="table">
+				<tr>
+					<td rowspan="2"></td>
+					<td class="summary_date">2023년 12월 22일</td>
+				</tr>
+				<tr>
+					<td>09:00&nbsp;~&nbsp;21:00</td>
+				</tr>
+				<tr>
+					<td>대출&nbsp;:&nbsp;856권</td>
+					<td>반납&nbsp;:&nbsp;751권</td>
+				</tr>
+				<tr>
+					<td>예약&nbsp;:&nbsp;116권</td>
+					<td>새로들어온책&nbsp;:&nbsp;53권</td>
+				</tr>
+			</table>
+		</div>
+		<div id="small_slide"></div>
 	</div>
 			</section>
 			<!-- slide include -->
@@ -132,7 +224,7 @@
 			<!-- Three --><section id="three" class="wrapper special"><div class="inner">
 					<header class="align-center"><h2>행사달력 및 도서관 현황</h2>
 						<p>행사 정보를 이곳에서 확인하세요</p>
-					</header><div class="flex flex-5">
+					</header><div class="flex flex-2">
 						<!-- 달력 -->
 						<article><div class="calendar">
   							<span>TODAY</span>				<!-- 서버날짜 들어가게 변경 예정 -->
@@ -145,7 +237,10 @@
  								</div>
 							<!-- partial -->
   							<script  src="./script.js"></script>
-  				
+  							<header>
+  							<p class="calendar_id"><a href="#">+ 이달의 행사 정보 더보기</a></p>  <!-- # : 행사..? -->
+  							<p class="calendar_id2"><a href="#">+ 이달의 휴관일 확인하기</a></p>	<!-- # : 달력 상세로 넘어가도록 -->
+							</header>
 						</article>
 							
 						<!-- 도서관 현황 -->
