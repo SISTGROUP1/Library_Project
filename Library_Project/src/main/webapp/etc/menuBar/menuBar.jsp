@@ -29,7 +29,7 @@
 					</ul>
 				</li>
 				<li>
-					<a href="main.jsp">신청 및 소식</a>
+					<a href="../Board/announcement.do">신청 및 소식</a>
 					<ul>
 						<li><a href="../Board/announcement.do">공지사항</a></li>
 						<li><a href="../Board/news.do">보도자료</a></li>

@@ -224,7 +224,7 @@
 			<!-- Three --><section id="three" class="wrapper special"><div class="inner">
 					<header class="align-center"><h2>행사달력 및 도서관 현황</h2>
 						<p>행사 정보를 이곳에서 확인하세요</p>
-					</header><div class="flex flex-2">
+					</header><div class="flex flex-3">
 						<!-- 달력 -->
 						<article><div class="calendar">
   							<span>TODAY</span>				<!-- 서버날짜 들어가게 변경 예정 -->

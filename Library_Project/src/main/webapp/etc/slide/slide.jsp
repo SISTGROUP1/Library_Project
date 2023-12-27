@@ -19,6 +19,7 @@
 <style type="text/css">
 	section#two{
 		background: #F0F8FF;
+		clear: both;
 	}
 	section#two .slide{
 		margin-top: 3rem;
