@@ -1,17 +1,24 @@
 package com.sist.model;
 
+import java.io.PrintWriter;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import com.sist.controller.RequestMapping;
 import com.sist.dao.UserDAO;
-import com.sist.vo.UserVO;;
+import com.sist.vo.UserVO;
+import com.sist.vo.UserVO;
+import com.sist.vo.ZipcodeVO;;
 
 public class UserModel {
 	
-	
+	// 로그인 페이지로
 	@RequestMapping("user/login.do")
 	public String user_login(HttpServletRequest request, HttpServletResponse response)
 	{
@@ -20,11 +27,187 @@ public class UserModel {
 		return "../main/main.jsp";
 	}
 	
+	// 로그인
+	@RequestMapping("user/login_ok.do")
+	public void user_login_ok(HttpServletRequest request,HttpServletResponse response)
+	{
+		String id=request.getParameter("email");
+		String pwd=request.getParameter("pass");
+		
+		UserDAO dao=UserDAO.newInstance();
+		
+		UserVO vo=dao.UserLogin(id, pwd);
+		System.out.println(vo.getMsg());
+		if(vo.getMsg().equals("OK"))
+		{
+			// 세션에 저장
+			HttpSession session=request.getSession();
+			session.setAttribute("email", vo.getUserID());
+			session.setAttribute("name", vo.getName());
+			session.setAttribute("admin", vo.getAdmin());
+		}
+		
+		// ajax로 전송
+		try
+		{
+			PrintWriter out=response.getWriter();
+			out.write(vo.getMsg());
+		}
+		catch(Exception ex) {}
+	}
 	
+	// 로그아웃
+	@RequestMapping("user/logout.do")
+	public String user_logout(HttpServletRequest request,HttpServletResponse response)
+	{
+		HttpSession session=request.getSession();
+		session.invalidate();    // 저장된 내용 다 지움
+		return "redirect:../main/main.do";
+	}
+	
+	
+	// 아이디/비번찾기 페이지로
 	@RequestMapping("user/idPwd.do")
 	public String user_id_pwd(HttpServletRequest request, HttpServletResponse response)
 	{
 		request.setAttribute("idPwd_jsp", "../user/idPwd.jsp");
+		request.setAttribute("main_jsp", "../user/user_main.jsp");
+		return "../main/main.jsp";
+	}
+	
+	// 회원가입
+	@RequestMapping("user/userjoin.do")
+	public String user_join(HttpServletRequest request, HttpServletResponse response)
+	{
+		// 힌트목록
+		UserDAO dao=UserDAO.newInstance();
+		List<String> hList=dao.hintQuestion();
+		request.setAttribute("hList", hList);
+		request.setAttribute("userjoin_jsp", "../user/userjoin.jsp");
+		request.setAttribute("main_jsp", "../user/user_main.jsp");
+		
+		return "../main/main.jsp";
+	}
+	
+	@RequestMapping("user/idcheck.do")
+	public String user_idcheck(HttpServletRequest request,HttpServletResponse response)
+	{
+		return "../user/idcheck.jsp";
+	}
+	
+	@RequestMapping("user/idcheck_ok.do")
+	public void user_idcheck_ok(HttpServletRequest request,HttpServletResponse response)
+	{
+		String id=request.getParameter("id");
+		UserDAO dao=UserDAO.newInstance();
+		int count=dao.UserIdCheck(id);
+		try
+		{
+			// Ajax로 값을 전송
+			PrintWriter out=response.getWriter();
+			out.write(String.valueOf(count));
+		} catch (Exception ex){}
+	}
+	
+	@RequestMapping("user/post.do")
+	public String user_post(HttpServletRequest request,HttpServletResponse response)
+	{
+		return "../user/post.jsp";
+	}
+	
+	@RequestMapping("user/post_ok.do")
+	public void user_post_ok(HttpServletRequest request,HttpServletResponse response)
+	{
+		try
+		{
+			request.setCharacterEncoding("UTF-8");
+		}
+		catch(Exception ex) {}
+		
+		String dong=request.getParameter("dong");   // jsp에 data의 키 이름과 같아야
+		UserDAO dao=UserDAO.newInstance();
+		int count=dao.postCount(dong);
+		
+		JSONArray arr=new JSONArray();
+		if(count==0)
+		{
+			JSONObject obj=new JSONObject();
+			obj.put("count", count);
+			arr.add(obj);			
+		}
+		else
+		{
+			int i=0;
+			List<ZipcodeVO> list=dao.post(dong);
+			for(ZipcodeVO vo:list)
+			{
+				JSONObject obj=new JSONObject();
+				// {zipcode:111,addr:'...',count:2},{}
+				obj.put("zipcode", vo.getZipcode());
+				obj.put("address", vo.getAddress());
+				if(i==0)
+				{
+					obj.put("count",count);
+				}
+				arr.add(obj);
+				i++;
+			}
+		}
+		
+		try 
+		{
+			response.setContentType("application/x-www-form-urlencoded; charset=UTF-8");
+			PrintWriter out=response.getWriter();
+			out.write(arr.toJSONString());
+		}
+		catch (Exception ex) {}
+	}
+	
+		
+	@RequestMapping("user/join_ok.do")
+	public String user_join_ok(HttpServletRequest request,HttpServletResponse response)
+	{
+		try 
+		{
+			request.setCharacterEncoding("UTF-8");
+		} 
+		catch (Exception ex) {}
+		String userid=request.getParameter("id1");
+		String pwd=request.getParameter("pwd");
+		String name=request.getParameter("name");
+		String gender=request.getParameter("gender");
+		String birthday=request.getParameter("birthday");
+		String email=request.getParameter("email");
+		String post=request.getParameter("post1");
+		String addr1=request.getParameter("addr1");
+		String addr2=request.getParameter("addr2");
+		String phone=request.getParameter("phone");
+		int hint=Integer.valueOf(request.getParameter("hint"));
+		String hintA=request.getParameter("hintA");
+		
+		UserVO vo=new UserVO();
+		vo.setUserID(userid);
+		vo.setPwd(pwd);
+		vo.setName(name);
+		vo.setGender(gender);
+		vo.setBirth(birthday);
+		vo.setEmail(email);
+		vo.setPost(post);
+		vo.setAddr1(addr1);
+		vo.setAddr2(addr2);
+		vo.setPhone(phone);
+		vo.setHno(hint);
+		vo.setHintA(hintA);
+		
+		UserDAO dao=UserDAO.newInstance();
+		dao.UserInsert(vo);
+		return "redirect:../main/main.do";
+	}
+	
+	@RequestMapping("user/mUpBefore.do")
+	public String user_mUB(HttpServletRequest request, HttpServletResponse response)
+	{
+		request.setAttribute("mUpBefore_jsp", "../user/mUpBefore.jsp");
 		request.setAttribute("main_jsp", "../user/user_main.jsp");
 		return "../main/main.jsp";
 	}

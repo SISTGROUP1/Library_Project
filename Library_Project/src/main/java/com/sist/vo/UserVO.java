@@ -4,7 +4,7 @@ import java.util.*;
 
 public class UserVO {
 	private String userID,pwd,name,gender,post,addr1,addr2,phone,
-	               birth,email,admin;
+	               birth,email,admin,msg;
 	private int hno;
 	private String hintQ,hintA;
 	private Date signdate;
@@ -99,6 +99,11 @@ public class UserVO {
 	public void setSigndate(Date signdate) {
 		this.signdate = signdate;
 	}
+	public String getMsg() {
+		return msg;
+	}
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
 
-	
 }

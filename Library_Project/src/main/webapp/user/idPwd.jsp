@@ -15,9 +15,9 @@
   <div class="heading">아이디/비밀번호 찾기</div>
   <div class="left">
     <label for="email">이름</label>
-    <input type="email" name="email" id="email" required>
+    <input type="email" name="email" id="find_id" required>
     <label for="password">이메일</label>
-    <input type="password" name="password" id="pass" required>
+    <input type="password" id="find_pwd" required>
     <input type="button" value="아이디 찾기" id="fi">
    </div>
 
