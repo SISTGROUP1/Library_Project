@@ -24,6 +24,7 @@
 <!-- 메뉴바 include 부분 -->
 <!-- 각 메뉴에 대한 jsp include 부분 -->
 <div style="height: 50px;"></div>
+	<div class="col-md-1"></div>
 	<div class="col-md-2">
 		<div class="panel">
 			<div class="panel-heading">
@@ -42,7 +43,7 @@
     <div class="col-md-8">
 		<jsp:include page="${mypage_jsp }"></jsp:include>
 	</div>
-	<div class="col-md-2"></div>
+	<div class="col-md-1"></div>
 	<div style="clear: both;"></div>
 </body>
 </html>

@@ -222,10 +222,10 @@
 			</section>
 			<!-- slide include -->
 			<jsp:include page="../etc/slide/slide.jsp"></jsp:include>
-			<!-- Three --><section id="three" class="wrapper special"><div class="inner">
+			<!-- Three --><section id="three" class="wrapper special"><div class="inner" style="max-width: 90em">
 					<header class="align-center"><h2>행사달력 및 도서관 현황</h2>
 						<p>행사 정보를 이곳에서 확인하세요</p>
-					</header><div class="flex flex-3">
+					</header><div class="flex flex-5">
 						<!-- 달력 -->
 						<article><div class="calendar">
   							<span>TODAY</span>				<!-- 서버날짜 들어가게 변경 예정 -->

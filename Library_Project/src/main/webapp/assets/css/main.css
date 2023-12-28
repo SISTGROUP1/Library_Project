@@ -3089,3 +3089,6 @@
 		}
 
 	}
+	ul.pagination li{
+		padding-left: 0 !important;
+	}

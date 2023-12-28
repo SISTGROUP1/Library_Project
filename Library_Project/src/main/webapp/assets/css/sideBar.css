@@ -9,14 +9,15 @@
 		margin: 0;
 		padding: 1em 0;
 		font-size: 1.5em;
-		font-weight: 700;
+		/*font-weight: 700;*/
 		color: white;
 	}
 	ul.list-group li{
 		padding: 0;
 	}
 	ul.list-group li:hover ,ul.list-group li:hover a{
-		background-color: #4375DB;
+		/*background-color: #4375DB;*/
+		background: linear-gradient(110deg, #53a2e0 10%,#3f6fd1 80%);
 		color: white;
 	}
 	ul.list-group li a{
