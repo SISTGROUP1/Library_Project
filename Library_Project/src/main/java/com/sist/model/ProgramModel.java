@@ -91,4 +91,36 @@ public class ProgramModel {
 		response.addCookie(cookie);
 		return "redirect:../program/programDetail.do?pno="+pno;
 	}
+	// 쿠키 삭제후 list로 이동
+	@RequestMapping("program/programCookieDelete.do")
+	public void program_cookie_delete(HttpServletRequest request,HttpServletResponse response) {
+		String pno=request.getParameter("pno");
+		Cookie[] cookies=request.getCookies();
+		for(int i=cookies.length-1;i>=0;i--) {
+			if(cookies[i].getName().equals("program_"+pno)) {
+				cookies[i].setPath("/");
+				cookies[i].setMaxAge(0);
+				response.addCookie(cookies[i]);
+				break;
+			}
+		}
+//		cookies=request.getCookies();
+//		if(cookies.length!=0) {
+//			JSONArray arr=new JSONArray();
+//			for(int i=0;i<cookies.length;i++) {
+//				if(cookies[i].getName().startsWith("program_")) {
+//					JSONObject obj=new JSONObject();
+//					obj.put("pno", cookies[i].getName());
+//					arr.add(obj);
+//				}
+//			}
+//			System.out.println(arr.toJSONString());
+//			try {
+//				PrintWriter out=response.getWriter();
+//				out.write(arr.toJSONString());
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
+	}
 }

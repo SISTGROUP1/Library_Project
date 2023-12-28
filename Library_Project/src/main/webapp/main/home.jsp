@@ -15,13 +15,13 @@
 	}
 	section#one .inner {
 		float: left;
-		margin-left: 7.5%;
+		margin-left: 15%;
 		margin-bottom: 30px;
 	}
 	section#one .notice{
 		width: 35%;
 		float: left;
-		margin-right: 5%;
+		margin-right: 3%;
 	}
 	section#one .notice .tit p{
 		margin-bottom: 0;
@@ -93,7 +93,7 @@
 	/* ------------------ */
 	/* 요약정보출력 */
 	section#one #lib_summary_info{
-		width: 20%;
+		width: 24%;
 		height: 30%;
 		float: left;
 	}
@@ -106,6 +106,7 @@
 		background-color: white;
 		padding-top: 0.3em;
 		padding-bottom: 0.3em;
+		font-size: 14px;
 	}
 	section#one #lib_summary_info td[rowspan="2"]{
 		background: url("../images/banner_icon06_off.png") no-repeat top center;
@@ -119,12 +120,12 @@
 	/* ------------------ */
 	/*  */
 	section#one #small_slide{
-		width: 20%;
+		width: 24%;
 		height: 210px;
 		float: left;
 		background: url("../images/banner_sm1.png") no-repeat top left;
 		background-size: cover;
-		background-position: -15px 0;
+		/* background-position: -15px 0; */
 		margin-top: 10px;
 		border: 1px solid skyblue;
 		border-radius: 10px;
@@ -135,7 +136,7 @@
 		color: black;
 	}
 	 div.inner{
-		max-width: 90em;
+		/* max-width: 90em; */
 	}
 </style>
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>

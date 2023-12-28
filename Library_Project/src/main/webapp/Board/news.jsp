@@ -6,23 +6,21 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="../Board/libUse.css">
 </head>
 <body>
-	<div id="box" class="board">
-	<div class="row">
+	<div>
 		<div class="board_title">
 			<h2>보도자료</h2>
 			<hr>
 		</div>
-		<form method="post" action="#">
-		<div id="searchBar">
+		<form method="post" action="#"  id="searchForm">
+		<div>
 			<div style="padding: 15px;">
 				<div>
 					작성일&nbsp;:&nbsp;<input type="date">&nbsp;~&nbsp;<input type="date">
 				</div>
 				<div style="margin-top: 10px;">
-					<select id="searchOp" name="searchType" style="line-height: 0;" class="input-lg">
+					<select id="searchOp" name="searchType" class="input-lg">
 						<option value="">제목</option>
 						<option value="">내용</option>
 					</select>
@@ -52,6 +50,5 @@
 			</td>
 		</tr>
 	</table>
-	</div>
 </body>
 </html>

@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,9 +33,10 @@
 			</ul>
 		</div>
     </div>
-	<div class="col-md-10">
-		<jsp:include page="${program_jsp }"></jsp:include>
+    <div class="col-md-8">
+		<jsp:include page="${board_jsp }"></jsp:include>
 	</div>
+	<div class="col-md-2"></div>
 	<div style="clear: both;"></div>
 </body>
 </html>

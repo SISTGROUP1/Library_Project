@@ -9,9 +9,9 @@
 <body>
 <!-- 대출이력 -->
 <!-- 도서대출정보 메뉴 include -->
-	<div>
-		<form method="post" action="#" id="searchForm">
-		<div>
+	<div class="row">
+		<form method="post" action="#">
+		<div id="searchBar">
 			<div style="padding: 15px;">
 				<div>
 					<select name="searchDate" class="input-lg" style="line-height: 0;margin-right: 10px;">
@@ -20,7 +20,7 @@
 					</select><input type="date">&nbsp;~&nbsp;<input type="date">
 				</div>
 				<div style="margin-top: 10px;">
-					<select id="searchOp" name="searchType" class="input-lg">
+					<select id="searchOp" name="searchType" style="line-height: 0;" class="input-lg">
 						<option value="">서명</option>
 						<option value="">소장도서관</option>
 					</select>

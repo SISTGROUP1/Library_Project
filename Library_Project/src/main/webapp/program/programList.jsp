@@ -7,16 +7,23 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="../program/libUse.css">
 <style type="text/css">
-	.pro_thumbnail{
+	#pg_list{
+		width: 80%;
+		float: left;
+	}
+	#pg_list .pro_thumbnail{
 		position: relative;
 		margin-bottom: 25px;
+		padding: 2px;
 	}
-	.pro_thumbnail:hover {
+	#pg_list .pro_thumbnail:hover {
 		border: 1px solid gray;
 	}
-	.pro_thumbnail::before{
+	#pg_list .pro_thumbnail img{
+		border: 0.5px solid #e2e2e2;
+	}
+	/* .pro_thumbnail::before{
 		content: '손기정어린이';
 		position: absolute;
 		top: -20px;
@@ -28,24 +35,39 @@
 		border-radius: 20px;
 		text-align: center;
 		font-weight: bold;
-	}
-	.caption .title{
-		width: 230px;
+	} */
+	#pg_list .caption .title{
+		width: 100%;
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;
 	}
-	.caption p:last-child {
+	#pg_list .caption p:last-child {
 		margin-bottom: 0;
 	}
-	.caption p:nth-child(2),.caption p:nth-child(3) {
+	#pg_list .caption p:nth-child(2),.caption p:nth-child(3) {
 		margin-bottom: 5px;
+	}
+	#pg_cookie{
+		width: 20%;
+		height: 700px;
+		float: left;
+		padding-left: 30px;
+	}
+	#pg_cookie h3{
+		font-size: 1.5em;
+		margin-top: 0;
+	}
+	#pg_cookie_list{
+		width: 80%;
+		margin: 0 auto;
 	}
 	.least{
 		position: relative;
+		margin-bottom: 5px;
 	}
 	.least img{
-		border: 0.5px solid black;
+		border: 0.5px solid #e2e2e2;
 	}
 	.least a.cookieDeleteBtn{
 		position: absolute;
@@ -54,8 +76,8 @@
 		color: black;
 		background-color: white;
 		padding: 0 2px;
-		border-top: 0.5px solid black;
-		border-right: 0.5px solid black;
+		border-top: 0.5px solid #e2e2e2;
+		border-right: 0.5px solid #e2e2e2;
 		text-decoration: none;
 		cursor: pointer;
 	}
@@ -66,18 +88,22 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 <script type="text/javascript">
 	$(function() {
-		/* $(".least  a.cookieDeleteBtn").click(function(){
-			let url=$(this).attr("data-href")
-			console.log(url)
+		$('.least  a.cookieDeleteBtn').click(function(){
+			let pno=$(this).attr('data-pno')
 			$.ajax({
-				type: "GET",
-				url: url,
-				data: {},
-				success:function(){
-					console.log("삭제 완료")
+				type: 'POST',
+				url: '../program/programCookieDelete.do',
+				data: {"pno":pno},
+				success:function(json){
+					/* let res=JSON.parse(json)
+					for(let r of res){
+						
+					} */
+					/* $('.program_'+pno).remove() */
+					location.href='../program/programList.do'
 				}
 			})			
-		}) */
+		})
 		/* let target_hidden=$("#target_hidden").attr("value")
 		let targets=document.querySelectorAll("#target_hidden+select option")
 		for(let target of targets){
@@ -96,9 +122,9 @@
 </script>
 </head>
 <body>
-<div id="box">
-	<form method="post" action="../program/programList.do">
-	<div id="searchBar">
+	<div id="pg_list">
+	<form method="post" action="../program/programList.do" id="searchForm">
+	<div>
 		<div style="padding: 15px;">
 		<div>
 			<%-- <input type="hidden" id="target_hidden" value="${target }"> --%>
@@ -119,7 +145,7 @@
 		</div>
 		<div style="margin-top: 10px;">
 			<%-- <input type="hidden" id="searchType_hidden" value="${searchType }"> --%>
-			<select id="searchOp" name="searchType" style="line-height: 0;" class="input-lg">
+			<select id="searchOp" name="searchType" class="input-lg">
 				<option value="title">프로그램명</option>
 				<option value="place">장소</option>
 			</select>
@@ -129,7 +155,7 @@
 		</div>
 	</div>
 	</form>
-	<div style="width: 1100px;">
+	<div style="width: 100%;">
 		검색 항목 <font color="red">${find_cnt }</font>건
 		<hr style="margin-top: 10px;">
 	</div>
@@ -171,7 +197,8 @@
 			</ul> 
 		</div>
 	</div>
-	<div style="height: 20px;"></div>
+	</div>
+	<div id="pg_cookie">
 	<div>
 		<h3 class="text-left">최근 방문</h3>
 		<hr>
@@ -179,22 +206,23 @@
 		<c:if test="${cList_size eq 0 }">
 			<h3>방문 기록이 없습니다</h3>
 		</c:if>
+		<div id="pg_cookie_list">
 		<c:if test="${cList_size gt 0 }">
 			<c:set var="cnt" value="${cList_size-1 }"/>
 			<c:forEach var="vo" items="${cList }" begin="0" end="8">
-				<a href="../program/programDetail.do?pno=${vo.pno }">
-				<ul style="list-style: none">
+				<a href="../program/programDetail.do?pno=${vo.pno }" class="program_${vo.pno }">
+				<ul style="list-style: none" class="program_${vo.pno }">
 					<li style="float: left;" class="least">
-						<img src="${vo.poster }" title="${vo.title }" style="max-width: 106px;height: 150px;">
-						<a class="cookieDeleteBtn" data-href="../program/programCookieDelete.do?pno=${vo.pno }">X</a>
+						<img src="${vo.poster }" title="${vo.title }" style="width: 100%;height: 150px;">
+						<a class="cookieDeleteBtn" data-pno="${vo.pno }">X</a>
 					</li>
 				</ul>
 				</a>
-				<c:set var="cnt" value="${cnt-1 }"/>
 			</c:forEach>
 		</c:if>
 		</div>
+		</div>
 	</div>
-</div>
+	</div>
 </body>
 </html>

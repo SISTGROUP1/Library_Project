@@ -33,11 +33,11 @@ public class MypageModel {
 		request.setAttribute("main_jsp", "../mypage/myPage_main.jsp");
 		return "../main/main.jsp";
 	}
-	@RequestMapping("mypage/reserveHistory.do")
-	public String mypage_reserve_history(HttpServletRequest request,HttpServletResponse response) {
-		request.setAttribute("loaninfo_select_jsp", "../mypage/reserveHistory.jsp");
-		request.setAttribute("mypage_jsp", "../mypage/bookLoanInfo_main.jsp");
-		request.setAttribute("main_jsp", "../mypage/myPage_main.jsp");
-		return "../main/main.jsp";
-	}
+//	@RequestMapping("mypage/reserveHistory.do")
+//	public String mypage_reserve_history(HttpServletRequest request,HttpServletResponse response) {
+//		request.setAttribute("loaninfo_select_jsp", "../mypage/reserveHistory.jsp");
+//		request.setAttribute("mypage_jsp", "../mypage/bookLoanInfo_main.jsp");
+//		request.setAttribute("main_jsp", "../mypage/myPage_main.jsp");
+//		return "../main/main.jsp";
+//	}
 }

@@ -8,10 +8,10 @@
 <link rel="stylesheet" href="../mypage/libUse.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <style type="text/css">
-	.mypage .row{
+	/* .mypage .row{
 		margin: 0 auto;
 		width: 950px;
-	}
+	} */
 	#basicinfo_div th,td{
 		text-align: left;
 	}
@@ -62,9 +62,7 @@
 </head>
 <body>
 <!-- 기본정보 -->
-	<div id="box" class="mypage">
-		<div class="container">
-			<div class="row" id="basicinfo_div">
+			<div id="basicinfo_div">
 				<table class="table">
 					<tr class="info">
 						<td colspan="3">
@@ -121,7 +119,5 @@
 					</li>
 				</ul>
 			</div>
-		</div>
-	</div>
 </body>
 </html>

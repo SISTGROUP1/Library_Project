@@ -9,9 +9,9 @@
 <body>
 <!-- 대출현황 -->
 <!-- 도서대출정보 메뉴 include -->
-	<div class="row">
-		<form method="post" action="#">
-		<div id="searchBar">
+	<div>
+		<form method="post" action="#" id="searchForm">
+		<div>
 			<div style="padding: 15px;">
 				<div>
 					<select name="searchDate" class="input-lg" style="line-height: 0;margin-right: 10px;">
@@ -20,7 +20,7 @@
 					</select><input type="date">&nbsp;~&nbsp;<input type="date">
 				</div>
 				<div style="margin-top: 10px;">
-					<select id="searchOp" name="searchType" style="line-height: 0;" class="input-lg">
+					<select id="searchOp" name="searchType" class="input-lg">
 						<option value="">서명</option>
 						<option value="">소장도서관</option>
 					</select>
@@ -37,13 +37,13 @@
 	</div>
 	<table class="table">
 		<tr>
-			<th width="5%">번호</th>
-			<th width="10%">등록번호</th>
-			<th width="35%">서명</th>
-			<th width="15%">소장도서관</th>
-			<th width="15%">대출일</th>
-			<th width="15%">반납예정일</th>
-			<th width="5%">상태</th>
+			<th width="5%" class="text-center">번호</th>
+			<th width="10%" class="text-center">등록번호</th>
+			<th width="35%" class="text-center">서명</th>
+			<th width="15%" class="text-center">소장도서관</th>
+			<th width="15%" class="text-center">대출일</th>
+			<th width="15%" class="text-center">반납예정일</th>
+			<th width="5%" class="text-center">상태</th>
 		</tr>
 		<tr>
 			<td class="text-center" colspan="7">
