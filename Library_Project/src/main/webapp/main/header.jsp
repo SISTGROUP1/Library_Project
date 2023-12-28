@@ -15,10 +15,19 @@
 					<a href="../main/main.do" class="logo">
 						<img src="../images/lib_logo2.png" alt="로고 이미지">
 					</a>
-					<nav id="nav"><a href="../user/login.do">로그인</a>
-						<a href="../user/userjoin.jsp">회원가입</a>
-						<a href="../mypage/mypage_main.do">마이페이지</a>
-					</nav><a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
+					<nav id="nav">
+					<c:if test="${sessionScope.email==null }">
+						<a href="../user/login.do">로그인</a>
+						<a href="../user/userjoin.do">회원가입</a>	
+					</c:if>	
+						
+					<c:if test="${sessionScope.email!=null }">
+					  <a href="../user/logout.do">로그아웃</a>
+					</c:if>
+					</ul>
+    				  <a href="../user/mypage.jsp">마이페이지</a>
+					</nav>
+					><a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
 				</div>
 			</header>
 			<!-- Banner -->
