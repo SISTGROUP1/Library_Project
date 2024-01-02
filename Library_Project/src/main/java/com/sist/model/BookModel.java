@@ -128,6 +128,7 @@ public class BookModel {
 		
 		request.setAttribute("list", list);
 		request.setAttribute("total", total);
+		request.setAttribute("acq", acq);	
 		request.setAttribute("totalpage", totalpage);
 		request.setAttribute("startpage", startPage);
 		request.setAttribute("endpage", endPage);

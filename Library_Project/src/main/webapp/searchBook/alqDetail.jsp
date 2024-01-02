@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 <style type="text/css">
 
 	.separator-line{
@@ -26,6 +27,22 @@
 		background:white !important;
 	}
 </style>
+<script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$(".material-symbols-outlined").hover(function(){
+			$(".material-symbols-outlined").css("color","red").css("cursor","pointer");
+		},function(){
+			$(".material-symbols-outlined").css("color","black");
+		})
+		$(".material-symbols-outlined").click(function(){
+			if(${sessionScope.id==null}){
+				alert("로그인 후 이용해주세요.")
+				return;
+			}
+		})
+	})
+</script>
 </head>
 <body>
 	<section id="one" class="wrapper" style="padding:40px;"><div class="inner">
@@ -71,9 +88,8 @@
 
 			<div class="row text-center my-3" style="display:inline-block;">
                 <div class="col">
-                  <span class="like_star"><img src="https://cdn-icons-png.flaticon.com/128/1828/1828970.png" style="height:30px;">
-                  </span>
-                  <p>like count</p>
+                  <span class="material-symbols-outlined" style="font-size:30px">star</span>
+                  <p>0</p>
                 </div>
                 
                 <div class="col">

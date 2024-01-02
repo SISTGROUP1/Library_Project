@@ -14,6 +14,9 @@
 		background:white !important;
 		border-top:1px solid white !important;
 	}
+	ul.pagination>li {
+	    padding-left: 0;
+	}
 	
 	@media screen and (max-width:1190px){
 		#aside{

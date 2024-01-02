@@ -21,38 +21,14 @@
 	}
 </style>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 <script type="text/javascript">
-	let result = '30';
-	let selectedBoxChange = function(value){
-		result = value;
-		let select_acq = document.querySelectorAll("select option");
-		for(let acq of select_acq){
-			if(acq.value===result){
-				acq.selected = true;
-				console.log(acq);
-			}
-		}
-		return result;
-	}
-	function Change_data(direct){
-		let pageTag;
-		let page;
-		if(direct==="1"){
-			pageTag = document.querySelector("#start");
-		}
-		else if(direct==="2"){
-			pageTag = document.querySelectorAll("#cur");
-			for(let i = 0;i<pageTag.length;i++){
-				pageTag[i].href = "../searchBook/newarrival.do?page="+pageTag[i].getAttribute('data-value')+'&acq='+result;
-			}
-			return ;
-		}
-		else if(direct==="3"){
-			pageTag = document.querySelector("#end");
-		}
-		pageTag.href = "../searchBook/newarrival.do?page="+pageTag.getAttribute('data-value')+'&acq='+result;
-		
-	}
+	$(function(){
+		$('#acq_data').change(function(){
+			let dt = $(this).val();
+			location.href="../searchBook/newarrival.do?page=1&acq="+dt;
+		})
+	})
 </script>
 </head>
 <body>
@@ -70,11 +46,11 @@
 		<hr style="padding:2px;background: skyblue;">
 		<div class="flex flex-3">
 			<div class="text-right" style="width:100%;margin-bottom: 5px;">
-				<select name="acq" style="width:10%;display:unset !important;" onchange="selectedBoxChange(this.value)">
-					<option value="30">30일</option>
-					<option value="60">60일</option>
-					<option value="90">90일</option>
-					<option value="120">120일</option>
+				<select id="acq_data" style="width:10%;display:unset !important;">
+					<option value="30" <c:if test="${acq == '30'}">selected="selected"</c:if>>30일</option>
+					<option value="60" <c:if test="${acq == '60'}">selected="selected"</c:if>>60일</option>
+					<option value="90" <c:if test="${acq == '90'}">selected="selected"</c:if>>90일</option>
+					<option value="120" <c:if test="${acq == '120'}">selected="selected"</c:if>>120일</option>
 				</select>
 			</div>
 			<table class="table">
@@ -106,13 +82,13 @@
 	<div class="text-center" style="clear:both;">
 		<ul class="pagination">
 			<c:if test="${startpage>1 }">
-				<li><a id="start" data-value="${startpage-1 }" href="../searchBook/newarrival.do?page=${startpage-1}&acq=${acq}" onclick="Change_data('1')">&lt;</a></li>
+				<li><a href="../searchBook/newarrival.do?page=${startpage-1}&acq=${acq}">&lt;</a></li>
 			</c:if>
 			<c:forEach var="i" begin="${startpage }" end="${endpage }">
-				<li ${curpage==i?"class=active":"" }><a id="cur" data-value="${i }" href="../searchBook/newarrival.do?page=${i }&acq=${acq}" onclick="Change_data('2')">${i }</a></li>
+				<li ${curpage==i?"class=active":"" }><a href="../searchBook/newarrival.do?page=${i }&acq=${acq}">${i }</a></li>
 			</c:forEach>
 			<c:if test="${endpage<totalpage }">
-					<li><a id="end" data-value="${endpage+1 }" href="../searchBook/newarrival.do?page=${endpage+1}&acq=${acq}" onclick="Change_data('3')">&gt;</a></li>
+					<li><a href="../searchBook/newarrival.do?page=${endpage+1}&acq=${acq}">&gt;</a></li>
 			</c:if>
 		</ul>
 	</div>
