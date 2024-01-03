@@ -1,12 +1,11 @@
 .container {width: 100% !important;padding:0px !important;margin: auto;top: 0px;position: relative; text-align: center;}
-.flexnav,.flexnav ul{list-style:none;margin:0 /*auto*/}
+.flexnav,.flexnav ul{list-style:none;margin:0 auto}
 .flexnav,.menu-button{font-family:Lato,Helvetica,sans-serif;line-height:1;background:whitesmoke}
-.flexnav{padding:0;display:block;overflow:visible;width:100%;/*float: left;text-align: center;*/}
+.flexnav{padding:0;display:block;overflow:visible;width:100%;float: left;text-align: center;}
 .flexnav>li>a,.menu-button{padding:18px 22px;font-size:18px;text-transform:uppercase}
 .flexnav:after{content:"";display:table;clear:both}
 .menu-button{display:none;color:cornflowerblue;cursor:pointer}
-.flexnav>li{float:left;display:block;position:relative}
-/*.flexnav>li{display:inline-block;position:relative;text-align: center;}*/
+.flexnav>li{display:inline-block;position:relative;text-align: center;}
 .flexnav li a{color:black;-webkit-transition:color .2s ease-out;-moz-transition:color .2s ease-out;-ms-transition:color .2s ease-out;-o-transition:color .2s ease-out;transition:color .2s ease-out}
 .flexnav>li>a{display:block;font-weight:300;text-decoration:none}
 .flexnav li a:hover{color:#5385c1}
