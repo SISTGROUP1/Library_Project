@@ -1,6 +1,7 @@
 package com.sist.vo;
 
 import java.util.Date;
+import java.util.List;
 
 public class ProgramVO {
 	 // 고유번호,모집정원,조회수
@@ -10,7 +11,21 @@ public class ProgramVO {
 	// 운영시작,운영종료,접수시작,접수마감,등록일
 	private Date edu1,edu2,accept1,accept2,regdate;
 	private String edu1_str,edu2_str,accept1_str,accept2_str;
-	
+	private String week;
+//	private List<Date> curDate;
+//	
+//	public List<Date> getCurDate() {
+//		return curDate;
+//	}
+//	public void setCurDate(List<Date> curDate) {
+//		this.curDate = curDate;
+//	}
+	public String getWeek() {
+		return week;
+	}
+	public void setWeek(String week) {
+		this.week = week;
+	}
 	public String getEdu1_str() {
 		return edu1_str;
 	}

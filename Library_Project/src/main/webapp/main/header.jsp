@@ -9,6 +9,39 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Serif+KR&display=swap" rel="stylesheet">
+<style type="text/css">
+	header#header{
+		position: sticky;
+		top: 0;
+		background-color: black;
+		height: 50px;
+		line-height: 0;
+	}
+	header#header .logo img{
+		width: 70px;
+		height: 35px;
+		margin-top: 7px;
+	}
+	header#header form.search-form{
+		margin: 0;
+		height: 35px;
+		transform: translate(-50%, 20%);
+	}
+	header#header form.search-form input[type="search"]{
+		width: 240px; 
+	}
+	div#menubar{
+		position: sticky;
+		top: 50px;
+		z-index: 999;
+	}
+</style>
+<script type="text/javascript">
+	function plsLogin() {
+		alert('로그인 후 이용이 가능합니다')
+		location.href='../user/login.do'
+	}
+</script>
 </head>
 <body>
 			<header id="header">
@@ -16,6 +49,8 @@
 					<a href="../main/main.do" class="logo">
 						<img src="../images/lib_logo2.png" alt="로고 이미지">
 					</a>
+					<!-- searchBar include -->
+					<jsp:include page="../etc/searchBar/searchBar.jsp"></jsp:include>
 					<nav id="nav">
 					<c:if test="${sessionScope.email==null }">
 						<a href="../user/login.do">로그인</a>
@@ -26,19 +61,17 @@
 					  <a href="../user/logout.do">로그아웃</a>
 					</c:if>
 					</ul>
-    				  <a href="../user/mypage.jsp">마이페이지</a>
+    				  <a ${sessionScope.email==null?"onclick=plsLogin()":"href=../mypage/mypage_main.do" }>마이페이지</a>
 					</nav>
-					><a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
+					<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
 				</div>
 			</header>
-			<!-- Banner -->
-			<section id="banner">
-			<h1>서 울 도 서 관</h1>
-				<p>서울도서관에 오신 것을 환영합니다.</p>
-				<!-- searchBar include -->
-				<jsp:include page="../etc/searchBar/searchBar.jsp"></jsp:include>
-			</section>
 			<!-- menuBar include -->
 			<jsp:include page="../etc/menuBar/menuBar.jsp"></jsp:include>
+			<!-- Banner -->
+			<section id="banner" ${main_jsp!="../main/home.jsp"?"style=padding:1em 0 1em 0;":""}>
+			<h1>서 울 도 서 관</h1>
+				<p ${main_jsp!="../main/home.jsp"?"style=margin:0;":""}>서울도서관에 오신 것을 환영합니다.</p>
+			</section>
 </body>
 </html>

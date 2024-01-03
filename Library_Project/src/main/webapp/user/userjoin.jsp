@@ -65,9 +65,9 @@ $(function(){
       <div class="col-half1" style="width:380px">
         <h2 style="margin-top:9%;margin-left:13%;">성별</h2>
         <br>
-          <input id="gender-male" type="radio" name="gender" value="male">
+          <input id="gender-male" type="radio" name="gender" value="남자">
           <label for="gender-male" id="male" style="cursor:pointer;color:black">Male</label>
-          <input id="gender-female" type="radio" name="gender" value="female">
+          <input id="gender-female" type="radio" name="gender" value="여자">
           <label for="gender-female" id="female" style="cursor:pointer;color:black">Female</label>
        </div>
       </div>

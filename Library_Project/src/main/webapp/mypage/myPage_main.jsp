@@ -35,8 +35,8 @@
 			<ul class="list-group">
 				<li class="list-group-item"><a href="../mypage/mypage_main.do">기본정보</a></li>
 				<li class="list-group-item"><a href="../mypage/bookloaninfo_main.do">도서대출정보</a></li>
-				<li class="list-group-item"><a href="#">나의 신청</a></li>
-				<li class="list-group-item"><a href="../program/programList.do">회원정보수정</a></li>
+				<li class="list-group-item"><a href="../mypage/myApp_main.do">나의 신청</a></li>
+				<!-- <li class="list-group-item"><a href="../program/programList.do">회원정보수정</a></li> -->
 			</ul>
 		</div>
     </div>

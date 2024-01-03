@@ -18,6 +18,7 @@
 </head>
 <body>
 	<div style="height: 50px;"></div>
+	<div class="col-md-1"></div>
 	<div class="col-md-2">
 		<div class="panel">
 			<div class="panel-heading">
@@ -26,9 +27,9 @@
 				</h3>
 			</div>
 			<ul class="list-group">
-				<li class="list-group-item"><a href="../Board/announcement.do">공지사항</a></li>
-				<li class="list-group-item"><a href="../Board/news.do">보도자료</a></li>
-				<li class="list-group-item"><a href="#">일정 및 행사</a></li>
+				<li class="list-group-item"><a href="../Board/notice.do?typeno=1">공지사항</a></li>
+				<li class="list-group-item"><a href="../Board/notice.do?typeno=2">보도자료</a></li>
+				<li class="list-group-item"><a href="../Board/calendar.do">일정 및 행사</a></li>
 				<li class="list-group-item"><a href="../program/programList.do">프로그램 신청</a></li>
 			</ul>
 		</div>
@@ -36,7 +37,7 @@
     <div class="col-md-8">
 		<jsp:include page="${board_jsp }"></jsp:include>
 	</div>
-	<div class="col-md-2"></div>
+	<div class="col-md-1"></div>
 	<div style="clear: both;"></div>
 </body>
 </html>

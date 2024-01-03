@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="../assets/css/menubar.css">
 </head>
 <body>
-<div class="container">
-		<div style="position:relative;z-index:1;margin:0;">
-			<ul class="flexnav" style="padding-left: 25%">
+<div class="container" id="menubar" style="background: whitesmoke">
+		<div style="position:relative;z-index:1;margin:0 /* auto */;">
+			<ul class="flexnav" style="width: 60%;margin: 0 auto;">
 				<li>
 					<a href="../searchBook/alq.do">자료검색</a>
 					<ul>
@@ -29,11 +29,11 @@
 					</ul>
 				</li>
 				<li>
-					<a href="../Board/announcement.do">신청 및 소식</a>
+					<a href="../Board/notice.do?typeno=1">신청 및 소식</a>
 					<ul>
-						<li><a href="../Board/announcement.do">공지사항</a></li>
-						<li><a href="../Board/news.do">보도자료</a></li>
-						<li><a href="#">일정 및 행사</a></li>
+						<li><a href="../Board/notice.do?typeno=1">공지사항</a></li>
+						<li><a href="../Board/notice.do?typeno=2">보도자료</a></li>
+						<li><a href="../Board/calendar.do">일정 및 행사</a></li>
 						<li><a href="../program/programList.do">프로그램 신청</a></li>
 					</ul>
 				</li>

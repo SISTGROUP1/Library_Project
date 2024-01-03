@@ -40,4 +40,18 @@ public class MypageModel {
 //		request.setAttribute("main_jsp", "../mypage/myPage_main.jsp");
 //		return "../main/main.jsp";
 //	}
+	@RequestMapping("mypage/myApp_main.do")
+	public String mypage_myApp_main(HttpServletRequest request,HttpServletResponse response) {
+		request.setAttribute("app_select_jsp", "../mypage/proAppInq.jsp");
+		request.setAttribute("mypage_jsp", "../mypage/myApp_main.jsp");
+		request.setAttribute("main_jsp", "../mypage/myPage_main.jsp");
+		return "../main/main.jsp";
+	}
+	@RequestMapping("mypage/likeBookInq.do")
+	public String mypage_likeBook_Inq(HttpServletRequest request,HttpServletResponse response) {
+		request.setAttribute("app_select_jsp", "../mypage/likeBookInq.jsp");
+		request.setAttribute("mypage_jsp", "../mypage/myApp_main.jsp");
+		request.setAttribute("main_jsp", "../mypage/myPage_main.jsp");
+		return "../main/main.jsp";
+	}
 }

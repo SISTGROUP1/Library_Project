@@ -66,7 +66,7 @@
 				<table class="table">
 					<tr class="info">
 						<td colspan="3">
-							<span id="name">홍길동</span>님,반갑습니다.
+							<span id="name">${sessionScope.name }</span>님,반갑습니다.
 						</td>
 					</tr>
 					<tr>
@@ -74,7 +74,7 @@
 							이미지
 						</td>
 						<td width="10%">아이디</td>
-						<td width="75%">hong</td>
+						<td width="75%">${sessionScope.email }</td>
 					</tr>
 					<tr>
 						<td width="10%">회원가입일</td>

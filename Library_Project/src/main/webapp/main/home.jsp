@@ -14,8 +14,8 @@
 		background-color: white;
 	}
 	section#one .inner {
-		float: left;
-		margin-left: 15%;
+		/* float: left;
+		margin-left: 15%; */
 		margin-bottom: 30px;
 	}
 	section#one .notice{
