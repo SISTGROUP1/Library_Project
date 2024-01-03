@@ -30,6 +30,7 @@
 		})
 	})
 </script>
+<link rel="stylesheet" href="../assets/css/sideBar.css">
 </head>
 <body>
 	<div class="col-md-2" id="aside">
@@ -37,7 +38,18 @@
 			<div style="margin:0px auto;">
 				<h6>총 <format:formatNumber value="${total }" type="number"/>건 중 <format:formatNumber value="${total }" type="number"/>건 출력</h6>
 			</div>
-			<jsp:include page="../etc/aside/aside.jsp"></jsp:include>
+			<div class="panel">
+				<div class="panel-heading">
+					<h3 class="panel-title text-center">
+						<p>자료검색</p>
+					</h3>
+				</div>
+				<ul class="list-group">
+					<li class="list-group-item"><a href="../searchBook/alq.do">자료탐색</a></li>
+					<li class="list-group-item"><a href="../searchBook/newarrival.do">새로 들어온 책</a></li>
+					<li class="list-group-item"><a href="../searchBook/favorLoan.do">대출이 많은 책</a></li>
+				</ul>
+			</div>
 		</div>
 	</div>
 	<div class="col-md-8">

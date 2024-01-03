@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="../assets/css/menubar.css">
 </head>
 <body>
-<div class="container" id="menubar">
-		<div style="position:relative;z-index:1;margin:0 auto;">
-			<ul class="flexnav">
+<div class="container" id="menubar" style="background: whitesmoke">
+		<div style="position:relative;z-index:1;margin:0 /* auto */;">
+			<ul class="flexnav" style="width: 60%;margin: 0 auto;">
 				<li>
 					<a href="../searchBook/alq.do">자료검색</a>
 					<ul>
@@ -38,7 +38,7 @@
 					</ul>
 				</li>
 				<li>
-					<a href="main.jsp">우리동네 도서관</a>
+					<a href="../otherLib/obs.do">우리동네 도서관</a>
 					<ul>
 						<li><a href="../otherLib/obs.do">도서관 찾기</a></li>
 					</ul>

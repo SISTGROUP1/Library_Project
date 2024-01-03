@@ -24,6 +24,7 @@
 		}
 	}
 </style>
+<link rel="stylesheet" href="../assets/css/sideBar.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </head>
 <body>
@@ -35,11 +36,22 @@
 				</c:forEach>
 				<h6>총 <format:formatNumber value="${total }" type="number"/>건 중 <format:formatNumber value="${total }" type="number"/>건 출력</h6>
 			</div>
-			<jsp:include page="../etc/aside/aside.jsp"></jsp:include>
+			<div class="panel">
+				<div class="panel-heading">
+					<h3 class="panel-title text-center">
+						<p>자료검색</p>
+					</h3>
+				</div>
+				<ul class="list-group">
+					<li class="list-group-item"><a href="../searchBook/alq.do">자료탐색</a></li>
+					<li class="list-group-item"><a href="../searchBook/newarrival.do">새로 들어온 책</a></li>
+					<li class="list-group-item"><a href="../searchBook/favorLoan.do">대출이 많은 책</a></li>
+				</ul>
+			</div>
 		</div>
 	</div>
 	<div class="col-md-8">
-	<section id="one" class="wrapper"><div class="inner">
+	<section id="one" class="wrapper" style="padding:3em 0;"><div class="inner">
 	 	<h4 style="color:black">자료탐색</h4>
 		<hr style="padding:2px;background: skyblue;">
 		<div class="flex flex-3">

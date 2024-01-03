@@ -260,7 +260,7 @@
 </script>
 </head>
 <body>
-	<section id="one" class="wrapper" style="padding:40px;">
+	<section id="one" class="wrapper" style="padding:3em 0;">
 		<div class="inner">
 			<h4 style="color:black;font-weight: bold;">도서관 찾기</h4>
 			<hr style="padding:2px;background: skyblue;">
