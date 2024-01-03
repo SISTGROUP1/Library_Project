@@ -53,7 +53,7 @@
 		</div>
 	</div>
 	<div class="col-md-8">
-	<section id="one" class="wrapper"><div class="inner">
+	<section id="one" class="wrapper" style="padding:3em 0;"><div class="inner">
 	 	<h4 style="color:black">새로 들어온 책</h4>
 		<hr style="padding:2px;background: skyblue;">
 		<div class="flex flex-3">

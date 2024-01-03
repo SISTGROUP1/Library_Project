@@ -127,8 +127,8 @@
 </head>
 	<body>
 		<section id="one" class="wrapper" style="padding:40px;"><div class="inner">
-			<h3>자료 탐색</h3>
-			<hr>
+			<h4 style="color:black">자료 탐색</h4>
+			<hr style="padding:2px;background: skyblue;">
 			<div class="flex flex-3">
 				<div class="menu">
 					<ul class="menu-wrap">
