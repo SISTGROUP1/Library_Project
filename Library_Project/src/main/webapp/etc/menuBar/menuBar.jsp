@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="../assets/css/menubar.css">
 </head>
 <body>
-<div class="container" id="menubar" style="background: whitesmoke">
-		<div style="position:relative;z-index:1;margin:0 /* auto */;">
-			<ul class="flexnav" style="width: 60%;margin: 0 auto;">
+<div class="container" id="menubar">
+		<div style="position:relative;z-index:1;margin:0 auto;">
+			<ul class="flexnav">
 				<li>
 					<a href="../searchBook/alq.do">자료검색</a>
 					<ul>
