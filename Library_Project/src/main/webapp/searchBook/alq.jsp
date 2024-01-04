@@ -126,7 +126,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">	
 </head>
 	<body>
-		<section id="one" class="wrapper" style="padding:40px;"><div class="inner">
+		<section id="one" class="wrapper" style="padding:3em 0;"><div class="inner">
 			<h4 style="color:black">자료 탐색</h4>
 			<hr style="padding:2px;background: skyblue;">
 			<div class="flex flex-3">

@@ -13,12 +13,10 @@
 	.separator-line{
 		margin:16px;
 	}
-	.like_star {
-	filter:hue-rotate(90deg) !important;
-	}
-	.like_star:hover{
-		filter:hue-rotate(0deg) !important;
-		transition : filter 1s !important;
+	.material-symbols-outlined:hover{
+		-webkit-transition:color .4s ease-out;
+		color:red;
+		cursor: pointer;
 	}
 	.col{
 		width:130px;
@@ -30,22 +28,36 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 <script type="text/javascript">
 	$(function(){
-		$(".material-symbols-outlined").hover(function(){
-			$(".material-symbols-outlined").css("color","red").css("cursor","pointer");
-		},function(){
-			$(".material-symbols-outlined").css("color","black");
-		})
-		$(".material-symbols-outlined").click(function(){
-			if(${sessionScope.id==null}){
-				alert("로그인 후 이용해주세요.")
-				return;
-			}
-		})
+		$(document).ready(function(){
+			$(".material-symbols-outlined").click(function(){
+				if(${sessionScope.email==null}){
+					alert("로그인 후 이용해주세요.")
+					return;
+				}
+				let id = $(".material-symbols-outlined").attr('value');
+				let isbn = $(".isbn").text();
+				$.ajax({
+					type:"post",
+					url:"../searchBook/LikeCount.do",
+					data:{"id":id,"isbn":isbn},
+					success:function(result){
+						let json = JSON.parse(result);
+						$('#star_count').text(json[0].cnt);
+						if(json[0].status==1){
+							$(".material-symbols-outlined").css("color","red");
+						}
+						else{
+							$(".material-symbols-outlined").css("color","");
+						}
+					}
+				})
+			})
+		});
 	})
 </script>
 </head>
 <body>
-	<section id="one" class="wrapper" style="padding:40px;"><div class="inner">
+	<section id="one" class="wrapper" style="padding:3em 0;"><div class="inner">
 			<h3>상세정보</h3>
 			<hr>
 			<div class="container mt-4" style="color:#0C243C;">
@@ -88,13 +100,14 @@
 
 			<div class="row text-center my-3" style="display:inline-block;">
                 <div class="col">
-                  <span class="material-symbols-outlined" style="font-size:30px">star</span>
-                  <p>0</p>
+                
+                  <span class="material-symbols-outlined" style="font-size:30px;<c:if test="${status!=0}">color:red;</c:if>" value="${sessionScope.email }">star</span>
+                  <p id="star_count">${star_count }</p>
                 </div>
                 
                 <div class="col">
                   <img src="https://cdn-icons-png.flaticon.com/128/2/2273.png" style="height:30px;">
-                  <p>${vo.isbn }</p>
+                  <p class="isbn">${vo.isbn }</p>
                 </div>  
                 <div class="col">
                   <img src="https://cdn-icons-png.flaticon.com/128/747/747310.png" style="height:30px;">

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import com.sist.vo.*;
 import com.sist.dao.*;
 import com.sist.controller.*;
@@ -141,11 +143,23 @@ public class BookModel {
 	@RequestMapping("searchBook/alqDetail.do")
 	public String Search_Deatail(HttpServletRequest request, HttpServletResponse response) {
 		String isbn = request.getParameter("isbn");
+		HttpSession session = request.getSession();
+		String id = (String)session.getAttribute("email");
 		
 		LibraryDAO dao = LibraryDAO.newInstance();
 		bookInfoVO vo = dao.BookDetailSearch(isbn);
 		
+		AllLikeDAO adao = AllLikeDAO.newInstance();
+		int cnt = adao.bookLikeCount(isbn);
+		
+		int status = 0;
+		if(id!=null) {
+			status = adao.bookLikeCheck(isbn, id, 0);
+		}
+		
+		request.setAttribute("status", status);
 		request.setAttribute("vo", vo);
+		request.setAttribute("star_count", cnt);
 		
 		request.setAttribute("main_jsp", "/searchBook/alqDetail.jsp");
 		
