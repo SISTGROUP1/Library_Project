@@ -10,4 +10,5 @@
 	<bean id="mypage" class="com.sist.model.MypageModel"/>
 	<bean id="board" class="com.sist.model.BoardModel"/>
 	<bean id="bookcart" class="com.sist.model.BookCartModel"/>
+	<bean id="like" class="com.sist.model.BookLikeModel"/>
 </beans>

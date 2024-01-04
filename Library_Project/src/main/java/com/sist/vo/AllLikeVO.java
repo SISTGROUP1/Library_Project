@@ -1,12 +1,13 @@
 package com.sist.vo;
 
 public class AllLikeVO {
-	private int ino,typeno,no;
-	private String userid;
-	public int getIno() {
+	private int typeno,no;
+	private String ino,userid;
+	
+	public String getIno() {
 		return ino;
 	}
-	public void setIno(int ino) {
+	public void setIno(String ino) {
 		this.ino = ino;
 	}
 	public int getTypeno() {
