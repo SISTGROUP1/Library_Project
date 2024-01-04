@@ -1,8 +1,6 @@
 package com.sist.model;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -10,15 +8,16 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.sist.controller.RequestMapping;
 import com.sist.dao.BoardDAO;
 import com.sist.vo.NoticeVO;
-import com.sist.vo.ProgramVO;
+import com.sist.vo.QnaVO;
 
 public class BoardModel {
 	@RequestMapping("Board/notice.do")
-	public String board_announcement(HttpServletRequest request,HttpServletResponse response) {
+	public String board_notice(HttpServletRequest request,HttpServletResponse response) {
 		String typeno=request.getParameter("typeno");
 		String page=request.getParameter("page");
 		if(page==null) page="1";
@@ -26,8 +25,9 @@ public class BoardModel {
 		
 		BoardDAO dao=BoardDAO.newInstance();
 		List<NoticeVO> list=dao.noticeListData(curpage, Integer.parseInt(typeno));
-		int totalcnt=dao.noticeTotalCnt(Integer.parseInt(typeno));
-		int totalpage=(int) Math.ceil(totalcnt/(double)dao.getROW());
+		int count=dao.noticeTotalCnt(Integer.parseInt(typeno));
+		int totalpage=(int) Math.ceil(count/(double)dao.getROW());
+		count=count-((curpage*dao.getROW())-dao.getROW());
 		final int BLOCK=10;
 		int startPage=((curpage-1)/BLOCK*BLOCK)+1;
 		int endPage=((curpage-1)/BLOCK*BLOCK)+BLOCK;
@@ -36,7 +36,7 @@ public class BoardModel {
 		request.setAttribute("typeno", typeno);
 		request.setAttribute("curpage", curpage);
 		request.setAttribute("list", list);
-		request.setAttribute("totalcnt", totalcnt);
+		request.setAttribute("count", count);
 		request.setAttribute("totalpage", totalpage);
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);
@@ -56,6 +56,120 @@ public class BoardModel {
 		request.setAttribute("main_jsp", "../Board/board_main.jsp");
 		return "../main/main.jsp";
 	}
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	@RequestMapping("Board/qna.do")
+	public String board_qna(HttpServletRequest request,HttpServletResponse response) {
+		String page=request.getParameter("page");
+		if(page==null) page="1";
+		int curpage=Integer.parseInt(page);
+		
+		BoardDAO dao=BoardDAO.newInstance();
+		List<QnaVO> list=dao.qnaListData(curpage);
+		int count=dao.qnaTotalCnt();
+		int totalpage=(int) Math.ceil(count/(double)dao.getROW());
+		count=count-((curpage*dao.getROW())-dao.getROW());
+		final int BLOCK=10;
+		int startPage=((curpage-1)/BLOCK*BLOCK)+1;
+		int endPage=((curpage-1)/BLOCK*BLOCK)+BLOCK;
+		if(endPage>totalpage) endPage=totalpage;
+		
+		request.setAttribute("curpage", curpage);
+		request.setAttribute("list", list);
+		request.setAttribute("count", count);
+		request.setAttribute("totalpage", totalpage);
+		request.setAttribute("startPage", startPage);
+		request.setAttribute("endPage", endPage);
+		request.setAttribute("board_jsp", "../Board/qna.jsp");
+		request.setAttribute("main_jsp", "../Board/board_main.jsp");
+		return "../main/main.jsp";
+	}
+	@RequestMapping("Board/qna_detail.do")
+	public String board_qna_detail(HttpServletRequest request,HttpServletResponse response) {
+		String no=request.getParameter("no");
+		BoardDAO dao=BoardDAO.newInstance();
+		QnaVO vo=dao.qnaDetailData(Integer.parseInt(no));
+		
+		request.setAttribute("vo", vo);
+		request.setAttribute("board_jsp", "../Board/qna_detail.jsp");
+		request.setAttribute("main_jsp", "../Board/board_main.jsp");
+		return "../main/main.jsp";
+	}
+	@RequestMapping("Board/qna_insert.do")
+	public String board_qna_insert(HttpServletRequest request,HttpServletResponse response) {
+		request.setAttribute("board_jsp", "../Board/qna_insert.jsp");
+		request.setAttribute("main_jsp", "../Board/board_main.jsp");
+		return "../main/main.jsp";
+	}
+	@RequestMapping("Board/qna_insert_ok.do")
+	public String board_qna_insert_ok(HttpServletRequest request,HttpServletResponse response) {
+		try {
+			request.setCharacterEncoding("UTF-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		String title=request.getParameter("title");
+		String content=request.getParameter("content");
+		String locking=request.getParameter("locking");
+		
+		HttpSession session=request.getSession();
+		String userid=(String) session.getAttribute("email");
+		String name=(String) session.getAttribute("name");
+		
+		QnaVO vo=new QnaVO();
+		vo.setTitle(title);
+		vo.setContent(content);
+		vo.setLocking(locking);
+		vo.setUserid(userid);
+		vo.setName(name);
+		
+		BoardDAO dao=BoardDAO.newInstance();
+		dao.qnaInsertData(vo);
+		
+		return "redirect:../Board/qna.do";
+	}
+	@RequestMapping("Board/qna_update.do")
+	public String board_qna_update(HttpServletRequest request,HttpServletResponse response) {
+		String no=request.getParameter("no");
+		BoardDAO dao=BoardDAO.newInstance();
+		QnaVO vo=dao.qnaUpdateData(Integer.parseInt(no));
+		
+		request.setAttribute("vo", vo);
+		request.setAttribute("board_jsp", "../Board/qna_update.jsp");
+		request.setAttribute("main_jsp", "../Board/board_main.jsp");
+		return "../main/main.jsp";
+	}
+	@RequestMapping("Board/qna_update_ok.do")
+	public String board_qna_update_ok(HttpServletRequest request,HttpServletResponse response) {
+		try {
+			request.setCharacterEncoding("UTF-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		String no=request.getParameter("no");
+		String title=request.getParameter("title");
+		String content=request.getParameter("content");
+		String locking=request.getParameter("locking");
+		
+		QnaVO vo=new QnaVO();
+		vo.setNo(Integer.parseInt(no));
+		vo.setTitle(title);
+		vo.setContent(content);
+		vo.setLocking(locking);
+		
+		BoardDAO dao=BoardDAO.newInstance();
+		dao.qnaUpdate(vo);
+		
+		return "redirect:../Board/qna.do";
+	}
+	@RequestMapping("Board/qna_delete.do")
+	public String board_qna_delete(HttpServletRequest request,HttpServletResponse response) {
+		String no=request.getParameter("no");
+		BoardDAO dao=BoardDAO.newInstance();
+		dao.qnaDelete(Integer.parseInt(no));
+		
+		return "redirect:../Board/qna.do";
+	}
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	@RequestMapping("Board/calendar.do")
 	public String board_calendar(HttpServletRequest request,HttpServletResponse response) {
 		String today=new SimpleDateFormat("yyyy-MM-dd").format(new Date());

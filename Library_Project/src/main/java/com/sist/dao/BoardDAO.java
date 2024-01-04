@@ -6,10 +6,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sist.controller.RequestMapping;
 import com.sist.dbcp.CreateDBCPConnection;
 import com.sist.vo.BoardVO;
 import com.sist.vo.NoticeVO;
 import com.sist.vo.ProgramVO;
+import com.sist.vo.QnaVO;
 
 public class BoardDAO {
 	private Connection conn;
@@ -145,6 +147,164 @@ public class BoardDAO {
 		}
 		return vo;
 	}
+	
+	//////////////////////////////////////////////////////////////
+	
+	public List<QnaVO> qnaListData(int page){
+		List<QnaVO> list=new ArrayList<QnaVO>();
+		try {
+			conn=dbconn.getConnection();
+			String sql="SELECT no,userid,name,title,TO_CHAR(wrDate,'YYYY-MM-DD'),status,locking,num "
+					+ "FROM (SELECT no,userid,name,title,wrDate,status,locking,rownum as num "
+					+ "FROM (SELECT /*+ INDEX_DESC(seoul_qna sq_no_pk) */no,userid,name,title,wrDate,status,locking "
+					+ "FROM seoul_qna)) "
+					+ "WHERE num BETWEEN ? AND ?";
+			ps=conn.prepareStatement(sql);
+			int start=(page*ROW)-(ROW-1);
+			int end=page*ROW;
+			ps.setInt(1, start);
+			ps.setInt(2, end);
+			ResultSet rs=ps.executeQuery();
+			while(rs.next()){
+				QnaVO vo=new QnaVO();
+				vo.setNo(rs.getInt(1));
+				vo.setUserid(rs.getString(2));
+				vo.setName(rs.getString(3));
+				vo.setTitle(rs.getString(4));
+				vo.setDbday(rs.getString(5));
+				vo.setStatus(rs.getString(6));
+				vo.setLocking(rs.getString(7));
+				list.add(vo);
+			}
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return list;
+	}
+	
+	public int qnaTotalCnt() {
+		int total=0;
+		try {
+			conn=dbconn.getConnection();
+			String sql="SELECT COUNT(*) "
+					+ "FROM seoul_qna";
+			ps=conn.prepareStatement(sql);
+			ResultSet rs=ps.executeQuery();
+			rs.next();
+			total=rs.getInt(1);
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return total;
+	}
+	
+	public QnaVO qnaDetailData(int no) {
+		QnaVO vo=new QnaVO();
+		try {
+			conn=dbconn.getConnection();
+			String sql="SELECT no,userid,name,title,content,TO_CHAR(wrDate,'YYYY-MM-DD'),status "
+					+ "FROM seoul_qna "
+					+ "WHERE no="+no;
+			ps=conn.prepareStatement(sql);
+			ResultSet rs=ps.executeQuery();
+			rs.next();
+			vo.setNo(rs.getInt(1));
+			vo.setUserid(rs.getString(2));
+			vo.setName(rs.getString(3));
+			vo.setTitle(rs.getString(4));
+			vo.setContent(rs.getString(5));
+			vo.setDbday(rs.getString(6));
+			vo.setStatus(rs.getString(7));
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return vo;
+	}
+	
+	public void qnaInsertData(QnaVO vo) {
+		try {
+			conn=dbconn.getConnection();
+			String sql="INSERT INTO seoul_qna(no,userid,name,title,content,locking) "
+					+ "VALUES (sq_no_seq.nextval,?,?,?,?,?)";
+			ps=conn.prepareStatement(sql);
+			ps.setString(1, vo.getUserid());
+			ps.setString(2, vo.getName());
+			ps.setString(3, vo.getTitle());
+			ps.setString(4, vo.getContent());
+			ps.setString(5, vo.getLocking());
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
+	}
+	
+	public QnaVO qnaUpdateData(int no) {
+		QnaVO vo=new QnaVO();
+		try {
+			conn=dbconn.getConnection();
+			String sql="SELECT no,title,content,locking "
+					+ "FROM seoul_qna "
+					+ "WHERE no="+no;
+			ps=conn.prepareStatement(sql);
+			ResultSet rs=ps.executeQuery();
+			rs.next();
+			vo.setNo(rs.getInt(1));
+			vo.setTitle(rs.getString(2));
+			vo.setContent(rs.getString(3));
+			vo.setLocking(rs.getString(4));
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return vo;
+	}
+	
+	public void qnaUpdate(QnaVO vo) {
+		try {
+			conn=dbconn.getConnection();
+			String sql="UPDATE seoul_qna SET "
+					+ "title=?,content=?,locking=? "
+					+ "WHERE no="+vo.getNo();
+			ps=conn.prepareStatement(sql);
+			ps.setString(1, vo.getTitle());
+			ps.setString(2, vo.getContent());
+			ps.setString(3, vo.getLocking());
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
+	}
+	
+	public void qnaDelete(int no) {
+		try {
+			conn=dbconn.getConnection();
+			String sql="DELETE FROM seoul_qna "
+					+ "WHERE no="+no;
+			ps=conn.prepareStatement(sql);
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
+	}
+	
+	//////////////////////////////////////////////////////////////
 
 	public List<ProgramVO> calendarProgramData(int year,int month){
 		List<ProgramVO> list=new ArrayList<ProgramVO>();

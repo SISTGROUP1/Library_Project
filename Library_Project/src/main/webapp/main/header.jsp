@@ -38,7 +38,7 @@
 </style>
 <script type="text/javascript">
 	function plsLogin() {
-		alert('로그인 후 이용이 가능합니다')
+		alert('로그인이 필요한 서비스입니다')
 		location.href='../user/login.do'
 	}
 </script>
@@ -60,8 +60,12 @@
 					<c:if test="${sessionScope.email!=null }">
 					  <a href="../user/logout.do">로그아웃</a>
 					</c:if>
-					</ul>
-    				  <a ${sessionScope.email==null?"onclick=plsLogin()":"href=../mypage/mypage_main.do" }>마이페이지</a>
+					<c:if test="${sessionScope.admin eq 'n' || sessionScope.admin eq null }">
+						<a ${sessionScope.email==null?"onclick=plsLogin()":"href=../mypage/mypage_main.do" } style="cursor: pointer;">마이페이지</a>					
+					</c:if>
+					<c:if test="${sessionScope.admin eq 'y' }">
+						<a href="#">관리자페이지</a>
+					</c:if>
 					</nav>
 					<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
 				</div>

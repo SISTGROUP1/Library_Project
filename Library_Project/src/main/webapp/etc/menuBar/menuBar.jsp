@@ -33,6 +33,7 @@
 					<ul>
 						<li><a href="../Board/notice.do?typeno=1">공지사항</a></li>
 						<li><a href="../Board/notice.do?typeno=2">보도자료</a></li>
+						<li><a href="../Board/qna.do">묻고답하기</a></li>
 						<li><a href="../Board/calendar.do">일정 및 행사</a></li>
 						<li><a href="../program/programList.do">프로그램 신청</a></li>
 					</ul>
