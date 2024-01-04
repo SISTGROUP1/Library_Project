@@ -15,7 +15,13 @@ public class BookStoreModel {
 		BookStoreDAO dao=BookStoreDAO.newInstance();
 		BookStoreVO vo=dao.bookStoreAllDetailData(isbn);
 		
+		int prices=vo.getSaleprice();
+		String price=String.valueOf(prices);
+		// 30,000원 => 30000으로 바꿔줘야 한다.
+		price=price.replaceAll("[^0-9]", ""); // [^0-9] : 숫자를 제외(^)하고 다 공백으로 바꿔라.
+		vo.setPrice(price);
 		request.setAttribute("vo", vo);
+		
 		
 		/*BookStoreDAO dao=BookStoreDAO.newInstance();
 		BookStoreVO vo=dao.bookStoreAllDetailData(Integer.parseInt(isbn));
@@ -27,6 +33,13 @@ public class BookStoreModel {
 		
 		
 		request.setAttribute("main_jsp", "../bookStore/bookPurchase.jsp");
+		return "../main/main.jsp";
+	}
+	
+	@RequestMapping("bookStore/ShoppingBasket.do")
+	public String bookStore_ShoppingBasket(HttpServletRequest request, HttpServletResponse response)
+	{
+		request.setAttribute("main_jsp", "../bookStore/ShoppingBasket.jsp");
 		return "../main/main.jsp";
 	}
 	

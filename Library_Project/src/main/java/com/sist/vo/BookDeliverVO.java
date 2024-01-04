@@ -3,9 +3,40 @@ package com.sist.vo;
 import java.util.*;
 
 public class BookDeliverVO {
-	private int orderNum, stno, b_count, sumprice;
-	private String userid;
+	private int orderNum, stno, b_count, sumprice, price, buy_ok, check_ok;
+	private String userid, booktitle, image;
 	private Date orderDate;
+	public int getPrice() {
+		return price;
+	}
+	public void setPrice(int price) {
+		this.price = price;
+	}
+	public int getBuy_ok() {
+		return buy_ok;
+	}
+	public void setBuy_ok(int buy_ok) {
+		this.buy_ok = buy_ok;
+	}
+	public int getCheck_ok() {
+		return check_ok;
+	}
+	public void setCheck_ok(int check_ok) {
+		this.check_ok = check_ok;
+	}
+	public String getBooktitle() {
+		return booktitle;
+	}
+	public void setBooktitle(String booktitle) {
+		this.booktitle = booktitle;
+	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
+	
 	public int getOrderNum() {
 		return orderNum;
 	}

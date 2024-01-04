@@ -9,4 +9,5 @@
 	<bean id="bookStore" class="com.sist.model.BookStoreModel"/>
 	<bean id="mypage" class="com.sist.model.MypageModel"/>
 	<bean id="board" class="com.sist.model.BoardModel"/>
+	<bean id="bookcart" class="com.sist.model.BookCartModel"/>
 </beans>

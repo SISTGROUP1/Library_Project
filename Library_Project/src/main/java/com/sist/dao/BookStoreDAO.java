@@ -22,8 +22,16 @@ public class BookStoreDAO {
 	{
 		BookStoreVO vo=new BookStoreVO();
 		try {
+		
 			conn=dbconn.getConnection();
-			String sql="SELECT isbn, booktitle, bookauthor, bookpublisher, bookinfo, contents, authorinfo, fixedprice, saleprice, image "
+			String sql="UPDATE bookstore SET "
+					+"stno=stno+1"
+					+"WHERE isbn=?";
+			ps=conn.prepareStatement(sql);
+			ps.setString(1, isbn);
+			ps.close();
+			
+			sql="SELECT isbn, booktitle, bookauthor, bookpublisher, bookinfo, contents, authorinfo, fixedprice, saleprice, image, bookdtype, bookdate "
 					+"FROM bookinfo WHERE isbn=?";
 			ps=conn.prepareStatement(sql);
 			ps.setString(1, isbn);
@@ -40,6 +48,8 @@ public class BookStoreDAO {
 			vo.setFixedprice(rs.getInt(8));
 			vo.setSaleprice(rs.getInt(9));
 			vo.setImage(rs.getString(10));
+			vo.setBookdtype(rs.getString(11));
+			vo.setBookdate(rs.getString(12));
 			}
 			rs.close();
 		} catch (Exception e) {

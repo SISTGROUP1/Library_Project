@@ -2,8 +2,14 @@ package com.sist.vo;
 
 public class BookStoreVO {
 	private int stno, fixedprice, saleprice, b_count;
-	private String isbn, booktitle, bookauthor, image, bookinfo, contents, authorinfo, bookpublisher, price;
+	private String isbn, booktitle, bookauthor, image, bookinfo, contents, authorinfo, bookpublisher, price, bookdtype, bookdate;
 	
+	public String getBookdate() {
+		return bookdate;
+	}
+	public void setBookdate(String bookdate) {
+		this.bookdate = bookdate;
+	}
 	public String getBookpublisher() {
 		return bookpublisher;
 	}
@@ -30,6 +36,12 @@ public class BookStoreVO {
 	}
 	public String getBooktitle() {
 		return booktitle;
+	}
+	public String getBookdtype() {
+		return bookdtype;
+	}
+	public void setBookdtype(String bookdtype) {
+		this.bookdtype = bookdtype;
 	}
 	public void setBooktitle(String booktitle) {
 		this.booktitle = booktitle;
