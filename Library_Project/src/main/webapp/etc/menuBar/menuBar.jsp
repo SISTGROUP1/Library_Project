@@ -24,7 +24,7 @@
 					<ul>
 						<li><a href="../libUse/libTimeInfo.do">도서관 이용 시간</a></li>
 						<li><a href="../libUse/libReserveInfo.do">대출.반납.연장.예약</a></li>
-						<li><a href="../libUse/seatReservation.do">자리 예약</a></li>
+						<li><a href="../seatReserve/main.do">자리 예약</a></li>
 						<li><a href="../libUse/libWayInfo.do">찾아오시는 길</a></li>
 					</ul>
 				</li>

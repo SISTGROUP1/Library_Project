@@ -7,8 +7,14 @@ public class bookInfoVO {
 	private String bookinfo,contents,authorinfo,image;
 	private Date acquisition;
 	private int count;
+	private BookReserve brvo = new BookReserve();
 	
-	
+	public BookReserve getBrvo() {
+		return brvo;
+	}
+	public void setBrvo(BookReserve brvo) {
+		this.brvo = brvo;
+	}
 	public int getCount() {
 		return count;
 	}

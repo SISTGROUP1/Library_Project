@@ -11,4 +11,5 @@
 	<bean id="board" class="com.sist.model.BoardModel"/>
 	<bean id="bookcart" class="com.sist.model.BookCartModel"/>
 	<bean id="like" class="com.sist.model.BookLikeModel"/>
+	<bean id="reserve" class="com.sist.model.SeatReserveModel"/>
 </beans>

@@ -1,0 +1,59 @@
+
+.option-box {
+    width: 60%;
+    margin: auto;
+}
+.option-box select {
+  margin: 10px;
+}
+.seat-line {
+  list-style: none;
+}
+.seat {
+  width: 36.6px;
+  height: 36.6px;
+  display: block;
+  font-size: 15px;
+  float: left;
+  padding: 5px;
+  border: 1px solid #D0D0D0;
+  border-radius: 4px;
+  margin: 1px;
+  background-color: #fd6d8e;
+}
+.seat:hover {
+  background-color: #2dcff8;
+}
+.seat input {
+  opacity: 0;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+}
+
+.seat-arrangement {
+  padding: 5px;
+  margin: 10px;
+  /*top: 250px;*/
+  position: absolute;
+  min-width: 70%;
+  max-width: 100%;
+  /*padding-left: 13%;*/
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+}
+
+.seat:nth-child(4) {
+  margin-right: 20px
+}
+.seat:nth-child(12) {
+  margin-right: 20px
+}
+input[type="checkbox"] + label:before{
+		border:none !important;
+		
+	}
+input[type="checkbox"] + label{
+	color:white !important;
+}

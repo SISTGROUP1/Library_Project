@@ -45,9 +45,76 @@
 						$('#star_count').text(json[0].cnt);
 						if(json[0].status==1){
 							$(".material-symbols-outlined").css("color","red");
+							$(".material-symbols-outlined").text("heart_plus");
 						}
 						else{
 							$(".material-symbols-outlined").css("color","");
+							$(".material-symbols-outlined").text("favorite");
+							  
+						}
+					}
+				})
+			})
+			
+			$('#reserve').click(function(){
+				if(${sessionScope.email==null}){
+					alert("로그인 후 이용해주세요.");
+					return;
+				}
+				let id = $(".material-symbols-outlined").attr('value');
+				let isbn = $(".isbn").text();
+				let type = $('.reservecheck').text();
+				$.ajax({
+					type:"post",
+					url:"../searchBook/bookreserve_ok.do",
+					data:{"id":id,"isbn":isbn},
+					success:function(res){
+						if(res===""){
+							//예약이 등록 안되있는 상태 예약
+							if(confirm("도서를 예약하시겠습니까?")==true){
+								$.ajax({
+									type:"post",
+									url:"../searchBook/bookreserve.do",
+									data:{"id":id,"isbn":isbn},
+									success:function(res){
+										alert("예약이 완료되었습니다.");
+										location.href = "../searchBook/alqDetail_before.do?isbn="+isbn;
+									}
+								})
+							}
+							else{
+								return;
+							}
+						}
+						else if(res==='y'){
+							//반납이 필요한 상태
+							if(confirm("도서를 반납하시겠습니까?")==true){
+								$.ajax({
+									type:"post",
+									url:"../searchBook/bookreserve_return.do",
+									data:{"id":id,"isbn":isbn},
+									success:function(res){
+										alert("도서가 반납이 되었습니다.");
+									}
+								})
+							}
+						}
+						else{
+							//예약이 이미 되있는 상태 취소 등록
+							if(confirm("도서가 이미 예약되어있습니다.\n취소하시겠습니까?")==true){
+								$.ajax({
+									type:"post",
+									url:"../searchBook/bookreserve_cancel.do",
+									data:{"id":id,"isbn":isbn},
+									success:function(res){
+										alert("예약이 취소되었습니다.");
+										location.href = "../searchBook/alqDetail_before.do?isbn="+isbn;
+									}
+								})
+							}
+							else{
+								return false;
+							}
 						}
 					}
 				})
@@ -101,7 +168,7 @@
 			<div class="row text-center my-3" style="display:inline-block;">
                 <div class="col">
                 
-                  <span class="material-symbols-outlined" style="font-size:30px;<c:if test="${status!=0}">color:red;</c:if>" value="${sessionScope.email }">star</span>
+                  <span class="material-symbols-outlined" style="font-size:30px;<c:if test="${status!=0}">color:red;</c:if>" value="${sessionScope.email }"><c:if test="${status==0}">favorite</c:if><c:if test="${status!=0}">heart_plus</c:if></span>
                   <p id="star_count">${star_count }</p>
                 </div>
                 
@@ -140,9 +207,16 @@
 				<td>${vo.bookaccessionno }</td>
 				<td>${vo.bookcallnum }</td>
 				<td>${vo.booklocation }</td>
-				<td>테스트</td>
-				<td>테스트</td>
-				<td>테스트</td>
+				<td>
+					<c:if test="${vo.brvo.status==null }"><font class="reservecheck" style="color:skyblue;">대출가능</font></c:if>
+					<c:if test="${vo.brvo.status=='y' }"><font class="reservecheck" style="color:red;">대출불가</font></c:if>
+					<c:if test="${vo.brvo.status=='n' }"><font class="reservecheck" style="color:#74A16F;">예약진행중</font></c:if>
+				</td>
+				<td>
+					<c:if test="${vo.brvo.enddate==null }"></c:if>
+					<c:if test="${vo.brvo.enddate!=null }">${vo.brvo.enddate }</c:if>
+				</td>
+				<td><input id="reserve" data-value="${sessionScope.email }" type="button" class="btn btn-sm" value="예약신청" style="border-radius: 10px !important;line-height: 0px !important;"></td>
 			</tr>
 		</table>
 	</div>

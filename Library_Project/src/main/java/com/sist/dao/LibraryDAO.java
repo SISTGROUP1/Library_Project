@@ -117,8 +117,8 @@ public class LibraryDAO {
 		bookInfoVO vo = new bookInfoVO();
 		try {
 			conn = dbconn.getConnection();
-			String sql = "SELECT isbn,booktitle,bookauthor,bookpublisher,bookdtype,bookperson,booksign,bookdate,bookaccessionno,bookcallnum,booklocation,image,bookinfo "
-					+ "FROM bookinfo WHERE isbn=?";
+			String sql = "SELECT bookinfo.isbn,booktitle,bookauthor,bookpublisher,bookdtype,bookperson,booksign,bookdate,bookaccessionno,bookcallnum,booklocation,image,bookinfo,enddate,status "
+					+ "FROM bookinfo LEFT OUTER JOIN BOOKRESERVATION ON bookinfo.ISBN = bookreservation.ISBN WHERE bookinfo.isbn=?";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, isbn);
 			ResultSet rs = ps.executeQuery();
@@ -137,7 +137,13 @@ public class LibraryDAO {
 			vo.setBooklocation(rs.getString(11));
 			vo.setImage(rs.getString(12));
 			vo.setBookinfo(rs.getString(13));
-			
+			vo.getBrvo().setEnddate(rs.getDate(14));
+			if(rs.getString(15)==null) {
+				vo.getBrvo().setStatus("w");
+			}
+			else{
+				vo.getBrvo().setStatus(rs.getString(15));
+			}
 			rs.close();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -273,6 +279,142 @@ public class LibraryDAO {
 			dbconn.disConnection(conn, ps);
 		}
 		return total;
+	}
+	public void bookstatus(bookInfoVO vo) {
+		try {
+			conn = dbconn.getConnection();
+			String sql = "SELECT COUNT(*) FROM BOOKRESERVATION "
+					+ "WHERE status=? AND isbn=?";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, "n");
+			ps.setString(2, vo.getIsbn());
+			
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			int cnt = rs.getInt(1);
+			rs.close();
+			ps.close();
+			if(cnt!=0) {
+				sql = "SELECT COUNT(*) FROM BOOKRESERVATION "
+						+ "WHERE status=? AND isbn=?";
+				ps = conn.prepareStatement(sql);
+				ps.setString(1, "y");
+				ps.setString(2, vo.getIsbn());
+				
+				rs = ps.executeQuery();
+				rs.next();
+				cnt = rs.getInt(1);
+				rs.close();
+				if(cnt!=0) {
+					vo.getBrvo().setStatus("y");
+				}
+				else {
+					vo.getBrvo().setStatus("n");
+				}
+			}
+			else {
+				vo.getBrvo().setStatus(null);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			dbconn.disConnection(conn, ps);
+		}
+	}
+	
+	public void bookdatareserve(String id,String isbn) {
+		try {
+			conn = dbconn.getConnection();
+			String sql = "INSERT INTO BOOKRESERVATION(no,isbn,userid,status) VALUES(br_seq.nextval,?,?,?)";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, isbn);
+			ps.setString(2, id);
+			ps.setString(3, "n");
+			ps.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			dbconn.disConnection(conn, ps);
+		}
+	}
+	
+	public String bookdatareserveCancel(String isbn,String id,String type) {
+		String res = "0";
+		try {
+			conn= dbconn.getConnection();
+			String sql = "DELETE FROM BOOKRESERVATION WHERE isbn=? AND status=? AND userid=?";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, isbn);
+			ps.setString(2, type);
+			ps.setString(3, id);
+			ps.executeUpdate();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			dbconn.disConnection(conn, ps);
+		}
+		
+		return res;
+	}
+	
+	public String bookdatareserveok(String isbn,String id) {
+		String res = null;
+		try {
+			conn= dbconn.getConnection();
+			String sql = "SELECT COUNT(*) FROM BOOKRESERVATION WHERE isbn=? AND userid=?";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, isbn);
+			ps.setString(2, id);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			int cnt = rs.getInt(1);
+			rs.close();
+			ps.close();
+			if(cnt!=0) {
+				sql = "SELECT status FROM BOOKRESERVATION WHERE isbn=? AND userid=?";
+				ps = conn.prepareStatement(sql);
+				ps.setString(1, isbn);
+				ps.setString(2, id);
+				rs = ps.executeQuery();
+				rs.next();
+				res = rs.getString(1);
+				rs.close();
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			dbconn.disConnection(conn, ps);
+		}
+		
+		return res;
+	}
+	
+	public void bookdatareservereturn(String isbn,String id) {
+		try {
+			conn= dbconn.getConnection();
+			String sql = "DELETE FROM BOOKRESERVATION WHERE isbn=? AND userid=? AND status=?";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, isbn);
+			ps.setString(2, id);
+			ps.setString(3, "y");
+			ps.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			dbconn.disConnection(conn, ps);
+		}
 	}
 	
 }

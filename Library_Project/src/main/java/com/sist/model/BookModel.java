@@ -1,4 +1,5 @@
 package com.sist.model;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
@@ -40,6 +41,9 @@ public class BookModel {
 		
 		LibraryDAO dao = LibraryDAO.newInstance();
 		ArrayList<bookInfoVO> list = dao.BookInfoData(Integer.parseInt(cno),mno,curpage);
+		for(bookInfoVO vo:list) {
+			dao.bookstatus(vo);
+		}
 		ArrayList<MiddlectVO> CategoryData = dao.SearchSubmenuData(1, mno);
 		int total = dao.BookInfoTotal(Integer.parseInt(cno),mno);
 		int totalpage = (int)Math.ceil((total/12.0));
@@ -148,6 +152,7 @@ public class BookModel {
 		
 		LibraryDAO dao = LibraryDAO.newInstance();
 		bookInfoVO vo = dao.BookDetailSearch(isbn);
+		dao.bookstatus(vo);
 		
 		AllLikeDAO adao = AllLikeDAO.newInstance();
 		int cnt = adao.bookLikeCount(isbn);
@@ -205,5 +210,47 @@ public class BookModel {
 		
 		
 		return "redirect:../searchBook/alqResult.do?cno="+cno+"&mno="+mno+"&page="+page;
+	}
+	@RequestMapping("searchBook/bookreserve.do")
+	public void Search_bookreserve(HttpServletRequest request, HttpServletResponse response) {
+		String isbn = request.getParameter("isbn");
+		String id = request.getParameter("id");
+		
+		LibraryDAO dao = LibraryDAO.newInstance();
+		dao.bookdatareserve(id, isbn);
+	}
+	
+	@RequestMapping("searchBook/bookreserve_cancel.do")
+	public void Search_bookreserve_cancel(HttpServletRequest request, HttpServletResponse response) {
+		String isbn = request.getParameter("isbn");
+		String id = request.getParameter("id");
+		String type= request.getParameter("type");
+		
+		LibraryDAO dao = LibraryDAO.newInstance();
+		dao.bookdatareserveCancel(isbn, id, type);
+	}
+	@RequestMapping("searchBook/bookreserve_ok.do")
+	public void Search_bookreserve_ok(HttpServletRequest request, HttpServletResponse response) {
+		String isbn = request.getParameter("isbn");
+		String id = request.getParameter("id");
+		
+		LibraryDAO dao = LibraryDAO.newInstance();
+		String res = dao.bookdatareserveok(isbn, id);
+		try {
+			PrintWriter out = response.getWriter();
+			out.write(res.toString());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	@RequestMapping("searchBook/bookreserve_return.do")
+	public void Search_bookreserve_return(HttpServletRequest request, HttpServletResponse response) {
+		String isbn = request.getParameter("isbn");
+		String id = request.getParameter("id");
+		
+		LibraryDAO dao = LibraryDAO.newInstance();
+		dao.bookdatareservereturn(isbn,id);
+		
+		System.out.println("이메일 날려줘야 돼요.");
 	}
 }
