@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.sist.dbcp.CreateDBCPConnection;
 import com.sist.vo.AllLikeVO;
+import com.sist.vo.BookDeliverVO;
 import com.sist.vo.UserVO;
 
 public class MyPageDAO {
@@ -202,4 +203,70 @@ public class MyPageDAO {
 		}
 		return vo;
 	}
+	
+	// 결제 내역 출력
+		public List<BookDeliverVO> userPurchaseList(int page, String userid)
+		{
+			List<BookDeliverVO> list=new ArrayList<BookDeliverVO>();
+			try {
+				conn=dbconn.getConnection();
+				String sql="SELECT image, booktitle, fixedprice, sumprice, orderdate, orderNum, userid, num "
+						+"FROM (SELECT image, booktitle, fixedprice, sumprice, orderdate, orderNum, userid, rownum as num "
+						+"FROM (SELECT image, booktitle, fixedprice, sumprice, orderdate, orderNum, userid "
+						+"FROM BOOKINFO "
+						+"JOIN BOOKDELIVERY ON BOOKINFO.ISBN=BOOKDELIVERY.ISBN "
+						+"WHERE userid=?)) "
+						+"WHERE num BETWEEN ? AND ?";
+				ps=conn.prepareStatement(sql);
+				ps.setString(1, userid);
+				int startPage=(ROW*page)-(ROW-1);
+				int endPage=ROW*page;
+				ps.setInt(2, startPage);
+				ps.setInt(3, endPage);
+				ResultSet rs=ps.executeQuery();
+				while(rs.next())
+				{
+					BookDeliverVO vo=new BookDeliverVO();
+					vo.setImage(rs.getString(1));
+					vo.setBooktitle(rs.getString(2));
+					vo.setFixedprice(rs.getInt(3));
+					vo.setSumprice(rs.getInt(4));
+					vo.setOrderDate(rs.getDate(5));
+					vo.setOrderNum(rs.getInt(6));
+					vo.setUserid(rs.getString(7));
+					list.add(vo);
+				}
+				rs.close();
+				ps.close();
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			finally {
+				dbconn.disConnection(conn, ps);
+			}
+			return list;
+		}
+		
+		// 결제내역 totalpage
+		public int userPurchaseTotalpage()
+		{
+			int total=0;
+			try {
+				conn=dbconn.getConnection();
+				String sql="SELECT CEIL(COUNT(*)/12.0) FROM BOOKDELIVERY";
+				ps=conn.prepareStatement(sql);
+				ResultSet rs=ps.executeQuery();
+				rs.next();
+				total=rs.getInt(1);
+				rs.close();
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			finally {
+				dbconn.disConnection(conn, ps);
+			}
+			return total;
+		}
 }

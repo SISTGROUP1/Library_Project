@@ -57,7 +57,7 @@ $(function(){
 		console.log($('#totalpay').text());
 		
 		// 서버로 보낼 값 (id, name, admin), (booktitle, isbn, saleprice, (총액은 위에 있음))
-		let userid=$('#buy').attr('value');
+		let userid=$('#buy').attr("data-value");
 		let isbn=$('#bookisbn').text();
 		
 		// 총금액 서버로 전송
@@ -158,7 +158,7 @@ $(".pruchaseBtn").click(function(event){
 				  <td width="50%">
 					  <a href="../bookStore/shopCart.do"><input type="button" value="장바구니" id="cart"></a>
 
-					  <input type="button" value="바로구매" id="buy" value="${sessionScope.email }">
+					  <input type="button" value="바로구매" id="buy" data-value="${sessionScope.email }">
 					  <a href="javascript:history.back()"><input type="button" value="뒤로가기" id="backto"></a>
 				  </td>
 			  </tr>
