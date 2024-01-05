@@ -3,9 +3,15 @@ package com.sist.vo;
 import java.util.*;
 
 public class BookDeliverVO {
-	private int orderNum, stno, b_count, sumprice, price, buy_ok, check_ok;
+	private int orderNum, stno, b_count, sumprice, price, buy_ok, check_ok, fixedprice;
 	private String userid, booktitle, image, isbn;
 	private Date orderDate;
+	public int getFixedprice() {
+		return fixedprice;
+	}
+	public void setFixedprice(int fixedprice) {
+		this.fixedprice = fixedprice;
+	}
 	public String getIsbn() {
 		return isbn;
 	}

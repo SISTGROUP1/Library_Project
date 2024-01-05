@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import com.sist.controller.RequestMapping;
 import com.sist.dao.MyPageDAO;
 import com.sist.vo.AllLikeVO;
+import com.sist.vo.BookDeliverVO;
 import com.sist.vo.UserVO;
 
 public class MypageModel {
@@ -117,4 +118,28 @@ public class MypageModel {
 		dao.likeBookDelete(Integer.parseInt(ino));
 		return "redirect:../mypage/likeBookInq.do";
 	}
+	
+	// 도서결제내역
+		@RequestMapping("mypage/bookPurchaseList.do")
+		public String mypage_bookPurchaseList(HttpServletRequest request, HttpServletResponse response)
+		{
+			String page=request.getParameter("page");
+			if(page==null)
+				page="1";
+			int curpage=Integer.parseInt(page);
+			
+			MyPageDAO dao=MyPageDAO.newInstance();
+			HttpSession session=request.getSession();
+			String userid=(String)session.getAttribute("email"); // 무슨의미일까
+			List<BookDeliverVO> list=dao.userPurchaseList(curpage, userid);
+			int totalpage=dao.userPurchaseTotalpage();
+			
+			request.setAttribute("curpage", curpage);
+			request.setAttribute("totalpage", totalpage);
+			request.setAttribute("list", list);
+			
+			request.setAttribute("mypage_jsp", "../mypage/bookPurchaseList.jsp");
+			request.setAttribute("main_jsp", "../mypage/myPage_main.jsp");
+			return "../main/main.jsp";
+		}
 }
