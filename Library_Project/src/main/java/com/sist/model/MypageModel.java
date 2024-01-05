@@ -9,10 +9,18 @@ import javax.servlet.http.HttpSession;
 import com.sist.controller.RequestMapping;
 import com.sist.dao.MyPageDAO;
 import com.sist.vo.AllLikeVO;
+import com.sist.vo.UserVO;
 
 public class MypageModel {
 	@RequestMapping("mypage/mypage_main.do")
 	public String mypage_main(HttpServletRequest request,HttpServletResponse response) {
+		HttpSession session=request.getSession();
+		String id=(String) session.getAttribute("email");
+		MyPageDAO dao=MyPageDAO.newInstance();
+		UserVO vo=dao.userBasicInfo(id);
+		int likeBookCnt=dao.likeBookTotalCount(id);
+		request.setAttribute("vo", vo);
+		request.setAttribute("likeBookCnt", likeBookCnt);
 		request.setAttribute("mypage_jsp", "../mypage/basicinfo.jsp");
 		request.setAttribute("main_jsp", "../mypage/myPage_main.jsp");
 		return "../main/main.jsp";
@@ -54,14 +62,33 @@ public class MypageModel {
 	}
 	@RequestMapping("mypage/likeBookInq.do")
 	public String mypage_likeBook_Inq(HttpServletRequest request,HttpServletResponse response) {
+		try {
+			request.setCharacterEncoding("UTF-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		HttpSession session=request.getSession();
 		String id=(String) session.getAttribute("email");
 		String page=request.getParameter("page");
 		if(page==null) page="1";
 		int curpage=Integer.parseInt(page);
+		//------------------------------------- 검색
+		String search=request.getParameter("search");
+		System.out.println(search);
+		String searchType=request.getParameter("searchType");
+		if(searchType==null) searchType="0";
+		//-------------------------------------
 		MyPageDAO dao=MyPageDAO.newInstance();
-		List<AllLikeVO> list=dao.likeBookList(curpage,id);
-		int count=dao.likeBookTotalCount(id);
+		List<AllLikeVO> list=null;
+		int count=0;
+		if(search==null) {
+			list=dao.likeBookList(curpage,id);
+			count=dao.likeBookTotalCount(id);
+		}else {
+			list=dao.likeBookList(curpage,id,search,Integer.parseInt(searchType));
+			count=dao.likeBookTotalCount(id,search,Integer.parseInt(searchType));
+		}
+		int list_size=list.size();
 		int totalpage=(int)(Math.ceil(count/(double)dao.getROW()));
 		count=count-((curpage*dao.getROW())-dao.getROW());
 		final int BLOCK=10;
@@ -70,14 +97,24 @@ public class MypageModel {
 		if(endPage>totalpage) endPage=totalpage;
 		
 		request.setAttribute("list", list);
+		request.setAttribute("list_size", list_size);
 		request.setAttribute("curpage", curpage);
 		request.setAttribute("count", count);
 		request.setAttribute("totalpage", totalpage);
 		request.setAttribute("startPage", startPage);
-		request.setAttribute("startPage", endPage);
+		request.setAttribute("endPage", endPage);
+		request.setAttribute("search", search);
+		request.setAttribute("searchType", searchType);
 		request.setAttribute("app_select_jsp", "../mypage/likeBookInq.jsp");
 		request.setAttribute("mypage_jsp", "../mypage/myApp_main.jsp");
 		request.setAttribute("main_jsp", "../mypage/myPage_main.jsp");
 		return "../main/main.jsp";
+	}
+	@RequestMapping("mypage/likeBookDelete.do")
+	public String mypage_likeBook_delete(HttpServletRequest request,HttpServletResponse response) {
+		String ino=request.getParameter("ino");
+		MyPageDAO dao=MyPageDAO.newInstance();
+		dao.likeBookDelete(Integer.parseInt(ino));
+		return "redirect:../mypage/likeBookInq.do";
 	}
 }

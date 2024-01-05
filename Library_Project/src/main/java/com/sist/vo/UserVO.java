@@ -8,7 +8,14 @@ public class UserVO {
 	private int hno;
 	private String hintQ,hintA;
 	private Date signdate;
+	private String signdate_str;
 	
+	public String getSigndate_str() {
+		return signdate_str;
+	}
+	public void setSigndate_str(String signdate_str) {
+		this.signdate_str = signdate_str;
+	}
 	public String getUserID() {
 		return userID;
 	}

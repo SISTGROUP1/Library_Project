@@ -1,5 +1,6 @@
 package com.sist.model;
 
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -10,9 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import com.sist.controller.RequestMapping;
 import com.sist.dao.BoardDAO;
 import com.sist.vo.NoticeVO;
+import com.sist.vo.ProgramVO;
 import com.sist.vo.QnaVO;
 
 public class BoardModel {
@@ -181,9 +186,6 @@ public class BoardModel {
 		if(strYear!=null) year=Integer.parseInt(strYear);
 		String strMonth=request.getParameter("month");
 		if(strMonth!=null) month=Integer.parseInt(strMonth);
-//		String[] strWeek= {
-//			"일","월","화","수","목","금","토"	
-//		};
 		Calendar cal=Calendar.getInstance();
 		cal.set(Calendar.YEAR, year);
 		cal.set(Calendar.MONTH, month-1);
@@ -191,54 +193,57 @@ public class BoardModel {
 		int week=cal.get(Calendar.DAY_OF_WEEK);
 		week=week-1; 
 		int lastday=cal.getActualMaximum(Calendar.DATE);
-		
-//		BoardDAO dao=BoardDAO.newInstance();
-//		List<ProgramVO> list=dao.calendarProgramData(year,month);
-//		for(ProgramVO vo:list) {
-//			Date edu1=null;
-//			Date edu2=null;
-//			Calendar cal1=null;
-//			Calendar cal2=null;
-//			List<Date> curDate=new ArrayList<Date>();
-//			try {
-//				edu1=new SimpleDateFormat("yyyy-M-d").parse(vo.getEdu1_str());
-//				cal1=Calendar.getInstance();
-//				cal1.setTime(edu1);
-////				System.out.println("db저장값 : "+vo.getEdu1_str());
-////				System.out.println("cal저장값 : "+cal1.get(Calendar.YEAR)+"-"+(cal1.get(Calendar.MONTH)+1)+"-"+cal1.get(Calendar.DATE));
-//				edu2=new SimpleDateFormat("yyyy-M-d").parse(vo.getEdu2_str());
-//				cal2=Calendar.getInstance();
-//				cal2.setTime(edu2);
-//				
-//				int result=cal1.compareTo(cal2);
-//				if(result==0) {
-//					curDate.add(edu1);
-//				}else {
-//					curDate.add(edu1);
-//					while(true) {
-//						cal1.add(Calendar.DAY_OF_MONTH, 7);
-//						edu1=cal1.getTime();
-//						curDate.add(edu1);
-//						if(cal1.compareTo(cal2)==0) break;
-//					}
-//				}
-//				vo.setCurDate(curDate);
-//			} catch (ParseException e) {
-//				e.printStackTrace();
-//			}
-////			System.out.println(vo.getTitle()+"||"+vo.getEdu1_str()+"-"+vo.getEdu2_str());
-////			String cd=vo.getCurrentdate();
-////			System.out.println(cd);
-//		}
+		BoardDAO dao=BoardDAO.newInstance();
+		List<ProgramVO> calendarProgramList=dao.calendarProgramData(String.valueOf(year), String.valueOf(month));
 		
 		request.setAttribute("week", week);
 		request.setAttribute("lastday", lastday);
 		request.setAttribute("year", year);
 		request.setAttribute("month", month);
 		request.setAttribute("day", day);
-//		request.setAttribute("list", list);
+		request.setAttribute("cplist", calendarProgramList);
 		request.setAttribute("board_jsp", "../Board/calendar.jsp");
 		request.setAttribute("main_jsp", "../Board/board_main.jsp");
 		return "../main/main.jsp";
+	}
+	@RequestMapping("Board/calendar_ajax.do")
+	public void board_calendar_ajax(HttpServletRequest request,HttpServletResponse response) {
+		String year=request.getParameter("year");
+		String month=request.getParameter("month");
+		Calendar cal=Calendar.getInstance();
+		cal.set(Calendar.YEAR, Integer.parseInt(year));
+		cal.set(Calendar.MONTH, Integer.parseInt(month)-1);
+		cal.set(Calendar.DATE, 1);
+		int week=cal.get(Calendar.DAY_OF_WEEK);
+		week=week-1; 
+		int lastday=cal.getActualMaximum(Calendar.DATE);
+		BoardDAO dao=BoardDAO.newInstance();
+		List<ProgramVO> calendarProgramList=dao.calendarProgramData(String.valueOf(year), String.valueOf(month));
+		
+		JSONArray arr=new JSONArray();
+		for(ProgramVO vo:calendarProgramList) {
+			JSONObject obj=new JSONObject();
+			obj.put("pno", String.valueOf(vo.getPno()));
+			obj.put("title", vo.getTitle());
+			obj.put("edu1", vo.getEdu1_str());
+			obj.put("edu2", vo.getEdu2_str());
+			obj.put("week", vo.getWeek());
+			arr.add(obj);
+		}
+		JSONObject obj=new JSONObject();
+		obj.put("week", String.valueOf(week));
+		obj.put("lastday", String.valueOf(lastday));
+		obj.put("year", String.valueOf(year));
+		obj.put("month", String.valueOf(month));
+		obj.put("arr", arr);
+		/* obj.put("cplist", calendarProgramList); */
+		try {
+			response.setContentType("application/x-www-form-urlencoded; charset=UTF-8");
+			PrintWriter out=response.getWriter();
+			out.write(obj.toJSONString());
+			/* out.write(arr.toJSONString()); */
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

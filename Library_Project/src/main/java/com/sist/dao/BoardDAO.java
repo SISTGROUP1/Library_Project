@@ -306,15 +306,24 @@ public class BoardDAO {
 	
 	//////////////////////////////////////////////////////////////
 
-	public List<ProgramVO> calendarProgramData(int year,int month){
+	public List<ProgramVO> calendarProgramData(String year,String month){
 		List<ProgramVO> list=new ArrayList<ProgramVO>();
+		if(month.length()==1) month="0"+month;
+		String ym=year+"-"+month;
 		try {
 			conn=dbconn.getConnection();
 			String sql="SELECT pno,title,TO_CHAR(edu1,'YYYY-MM-DD'),TO_CHAR(edu2,'YYYY-MM-DD'),week "
 					+ "FROM program "
 					+ "WHERE week IN ('0','1','2','3','4','5','6') "
-					+ "ORDER BY edu1 DESC";
+					+ "AND (?>=TO_CHAR(edu1,'YYYY') AND ?<=TO_CHAR(edu2,'YYYY')) "
+					+ "AND ?<=TO_CHAR(edu2,'YYYY-MM') "
+					+ "AND ?>=TO_CHAR(edu1,'YYYY-MM') "
+					+ "ORDER BY edu1";
 			ps=conn.prepareStatement(sql);
+			ps.setString(1, year);
+			ps.setString(2, year);
+			ps.setString(3, ym);
+			ps.setString(4, ym);
 			ResultSet rs=ps.executeQuery();
 			while(rs.next()) {
 				ProgramVO vo=new ProgramVO();

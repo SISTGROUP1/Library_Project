@@ -66,7 +66,7 @@
 				<table class="table">
 					<tr class="info">
 						<td colspan="3">
-							<span id="name">${sessionScope.name }</span>님,반갑습니다.
+							<span id="name">${vo.name }</span>님,반갑습니다.
 						</td>
 					</tr>
 					<tr>
@@ -74,19 +74,19 @@
 							이미지
 						</td>
 						<td width="10%">아이디</td>
-						<td width="75%">${sessionScope.email }</td>
+						<td width="75%">${vo.userID }</td>
 					</tr>
 					<tr>
 						<td width="10%">회원가입일</td>
-						<td width="75%">2020-11-27</td>
+						<td width="75%">${vo.signdate_str }</td>
 					</tr>
 					<tr>
 						<td width="10%">휴대폰번호</td>
-						<td width="75%">010-1***-5678</td>
+						<td width="75%">${vo.phone }</td>
 					</tr>
 					<tr>
 						<td width="10%">이메일주소</td>
-						<td width="75%">www.naver.com</td>
+						<td width="75%">${vo.email }</td>
 					</tr>
 				</table>
 			</div>
@@ -106,9 +106,9 @@
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="../mypage/likeBookInq.do">
 							<strong class="tit">좋아요<br>도서수</strong>
-							<span class="cnt">0</span>
+							<span class="cnt">${likeBookCnt }</span>
 						</a>
 					</li>
 					<li>

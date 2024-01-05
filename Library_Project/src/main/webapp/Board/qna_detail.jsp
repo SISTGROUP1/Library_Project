@@ -15,7 +15,18 @@
 		border-top: none;
 	}
 </style>
+<script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 <script type="text/javascript">
+	$(function() {
+		$('#qnaCommentBtn').click(function() {
+			$('#qnaCommentBtn').hide()
+			$('#qnaComment').show()
+		})
+		$('#commentCancleBtn').click(function() {
+			$('#qnaCommentBtn').show()
+			$('#qnaComment').hide()
+		})
+	})
 	function deleteBtn(no) {
 		if(confirm('글을 삭제하시겠습니까?')){
 			location.href='../Board/qna_delete.do?no='+no
@@ -56,5 +67,28 @@
 			</tr>
 		</c:if>
 	</table>
+	<c:if test="${sessionScope.admin eq 'y' }">
+		<div style="height: 20px;"></div>
+		<div class="text-center">
+			<input type="button" class="btn btn-lg" value="답글작성" id="qnaCommentBtn">
+		</div>
+		<div id="qnaComment" style="display: none;">
+			<form method="post" action="../Board/qna_insert_ok.do">
+			<table class="table">
+				<tr>
+					<td colspan="2">
+						<textarea rows="10" cols="" name="content" required></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" class="text-center">
+						<input type="submit" value="저장" class="btn btn-sm btn-info">
+						<input type="button" value="취소" class="btn btn-sm btn-info" id="commentCancleBtn">
+					</td>
+				</tr>
+			</table>
+			</form>
+		</div>
+	</c:if>
 </body>
 </html>

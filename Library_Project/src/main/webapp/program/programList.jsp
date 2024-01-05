@@ -213,7 +213,7 @@
 				<a href="../program/programDetail.do?pno=${vo.pno }" class="program_${vo.pno }">
 				<ul style="list-style: none" class="program_${vo.pno }">
 					<li style="float: left;" class="least">
-						<img src="${vo.poster }" title="${vo.title }" style="width: 100%;height: 150px;">
+						<img src="${vo.poster }" title="${vo.title }" style="width: 106px;height: 150px;">
 						<a class="cookieDeleteBtn" data-pno="${vo.pno }">X</a>
 					</li>
 				</ul>
