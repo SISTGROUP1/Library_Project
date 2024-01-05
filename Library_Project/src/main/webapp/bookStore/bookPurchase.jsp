@@ -7,11 +7,11 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="../assets/css/storestyle.css">
-<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <script type="text/javascript">
 var IMP = window.IMP; // 생략 가능
-IMP.init("imp76004233"); // 예: imp00000000 (내 식별코드 쓰기)
+IMP.init("imp76004233");  // 예: imp00000000 (내 식별코드 쓰기)
 function requestPay() {
 	console.log('clicked');
   // IMP.request_pay(param, callback) 결제창 호출
@@ -26,8 +26,8 @@ function requestPay() {
 	        */
 	    pay_method : 'card', // 'card' : 신용카드 | 'trans' : 실시간계좌이체 | 'vbank' : 가상계좌 | 'phone' : 휴대폰소액결제
 	    merchant_uid : 'merchant_' + new Date().getTime(),
-	    name : $('#title').text(),
-	    amount : $('#saleprice').attr("data-price"),
+	    name : $('#gd_name').text(),
+	    amount :  parseInt($('#totalpay').text().replace(/[^0-9]/g, ''), 10), //$('#totalpay').text(), //.attr("data-price"), // 여기
 	    buyer_email : 'iamport@siot.do',
 	    buyer_name : '구매자이름',
 	    buyer_tel : '010-1234-5678',
@@ -47,13 +47,43 @@ function requestPay() {
 	    }
 	});
 }
+// 총금액 계산
 $(function(){
 	$('#sel').change(function(){
 		let count=$(this).val();
-		let price=$('#price').attr("data-price")
-		let total=count*price
-		$('#totalpay').text(total+" 원")
+		let price=$('#saleprice').attr("data-price")
+		let total=Number(count) * Number(price);
+		$('#totalpay').text(total)
+		console.log($('#totalpay').text());
+		
+		// 서버로 보낼 값 (id, name, admin), (booktitle, isbn, saleprice, (총액은 위에 있음))
+		let userid=$('#buy').attr('value');
+		let isbn=$('#bookisbn').text();
+		
+		// 총금액 서버로 전송
+        $.ajax({
+            type: "POST",
+            url: "../bookStore/bookPurchase_ok.do",  // 보내지는 위치
+            data: {"userid":userid, "isbn":isbn, sumprice:total}, //sumprice에 total값 저장
+            success: function(response) {
+                console.log("서버 전송 완료");
+            },
+            error: function(error) {
+                console.error("서버 전송 오류");
+            }
+        });
 	})
+	
+	// 총금액 결제
+	$('#buy').click(function(){
+		if(${sessionScope.email==null})
+		{
+			alert("로그인 후 이용해주세요.")
+			return;
+		}
+		requestPay()
+	})
+	
 })
 
 // 스크롤
@@ -62,7 +92,6 @@ $(".pruchaseBtn").click(function(event){
 	x=$(this).attr("href");
 	$("html, body").stop().animate({scrollTop : $(x).offset().top-130}, 1000, "easeInOutExpo");
 })
-
 </script>
 </head>
 <body>
@@ -99,7 +128,7 @@ $(".pruchaseBtn").click(function(event){
       <ul id="priceUl">
     	 정가<del id="fixedprice">${vo.fixedprice }원</del>
     	 <br>
-    	 판매가&nbsp;&nbsp;<span id="saleprice" data-price="${vo.price }">${vo.saleprice }원</span>
+    	 판매가&nbsp;&nbsp;<span id="saleprice" data-price="${vo.saleprice }">${vo.saleprice }원</span>
 		 <span id="percent">(${100-(vo.saleprice/vo.fixedprice*100)}&nbsp;% 할인)</span>
 	  </ul>
     </div>
@@ -120,15 +149,16 @@ $(".pruchaseBtn").click(function(event){
 						  <option>4</option>
 						  <option>5</option>
 					  </select>
-					  <span data-price="${vo.price }" id="price"></span>
-					  전체금액<span id="totalpay"></span>
+					 <!-- <span data-price="${vo.saleprice }" id="price"></span> -->
+					  전체금액<span id="totalpay"></span>&nbsp;&nbsp;원
+				
 				  </td>
 			  </tr>
 			  <tr>
 				  <td width="50%">
 					  <a href="../bookStore/shopCart.do"><input type="button" value="장바구니" id="cart"></a>
 
-					  <input type="button" value="바로구매" id="buy" onclick="requestPay()">
+					  <input type="button" value="바로구매" id="buy" value="${sessionScope.email }">
 					  <a href="javascript:history.back()"><input type="button" value="뒤로가기" id="backto"></a>
 				  </td>
 			  </tr>

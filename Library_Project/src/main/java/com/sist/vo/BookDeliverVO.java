@@ -4,8 +4,14 @@ import java.util.*;
 
 public class BookDeliverVO {
 	private int orderNum, stno, b_count, sumprice, price, buy_ok, check_ok;
-	private String userid, booktitle, image;
+	private String userid, booktitle, image, isbn;
 	private Date orderDate;
+	public String getIsbn() {
+		return isbn;
+	}
+	public void setIsbn(String isbn) {
+		this.isbn = isbn;
+	}
 	public int getPrice() {
 		return price;
 	}

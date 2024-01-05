@@ -3,6 +3,8 @@ package com.sist.model;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONObject;
+
 import com.sist.controller.RequestMapping;
 import com.sist.dao.BookStoreDAO;
 import com.sist.vo.BookStoreVO;
@@ -14,34 +16,46 @@ public class BookStoreModel {
 		String isbn=request.getParameter("isbn");
 		BookStoreDAO dao=BookStoreDAO.newInstance();
 		BookStoreVO vo=dao.bookStoreAllDetailData(isbn);
-		
-		int prices=vo.getSaleprice();
-		String price=String.valueOf(prices);
-		// 30,000원 => 30000으로 바꿔줘야 한다.
-		price=price.replaceAll("[^0-9]", ""); // [^0-9] : 숫자를 제외(^)하고 다 공백으로 바꿔라.
-		vo.setPrice(price);
 		request.setAttribute("vo", vo);
-		
-		
-		/*BookStoreDAO dao=BookStoreDAO.newInstance();
-		BookStoreVO vo=dao.bookStoreAllDetailData(Integer.parseInt(isbn));
-		String price=vo.getSaleprice();
-		// 30,000원 => 30000으로 바꿔줘야 한다.
-		price=price.replaceAll("[^0-9]", ""); // [^0-9] : 숫자를 제외(^)하고 다 공백으로 바꿔라.
-		vo.setPrice(price);
-		request.setAttribute("vo", vo);*/
-		
 		
 		request.setAttribute("main_jsp", "../bookStore/bookPurchase.jsp");
 		return "../main/main.jsp";
 	}
 	
-	@RequestMapping("bookStore/ShoppingBasket.do")
-	public String bookStore_ShoppingBasket(HttpServletRequest request, HttpServletResponse response)
+	// 도서 결제
+	@RequestMapping("bookStore/bookPurchase_ok.do")
+	public void bookPurchase_ok(HttpServletRequest request, HttpServletResponse response)
 	{
-		request.setAttribute("main_jsp", "../bookStore/ShoppingBasket.jsp");
-		return "../main/main.jsp";
+		// data: {"userid":userid, "isbn":isbn, sumprice:total}
+		String userid=request.getParameter("userid");
+		String isbn=request.getParameter("isbn");
+		String sumpriceStr=request.getParameter("sumprice");
+		
+		// sumprice를 정수로 변환
+		int sumprice=0;
+		try {
+		    sumprice=Integer.parseInt(sumpriceStr);
+		} catch (NumberFormatException e) {
+		    e.printStackTrace();
+		}
+		
+		BookStoreDAO dao=BookStoreDAO.newInstance();
+		dao.bookPurchase_ok(userid, isbn, sumprice);
+		
 	}
-	
-	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
