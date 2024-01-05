@@ -342,14 +342,14 @@ public class LibraryDAO {
 		}
 	}
 	
-	public String bookdatareserveCancel(String isbn,String id,String type) {
+	public String bookdatareserveCancel(String isbn,String id) {
 		String res = "0";
 		try {
 			conn= dbconn.getConnection();
 			String sql = "DELETE FROM BOOKRESERVATION WHERE isbn=? AND status=? AND userid=?";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, isbn);
-			ps.setString(2, type);
+			ps.setString(2, "n");
 			ps.setString(3, id);
 			ps.executeUpdate();
 			

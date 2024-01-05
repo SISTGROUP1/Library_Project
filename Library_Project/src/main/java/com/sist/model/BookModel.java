@@ -224,10 +224,9 @@ public class BookModel {
 	public void Search_bookreserve_cancel(HttpServletRequest request, HttpServletResponse response) {
 		String isbn = request.getParameter("isbn");
 		String id = request.getParameter("id");
-		String type= request.getParameter("type");
 		
 		LibraryDAO dao = LibraryDAO.newInstance();
-		dao.bookdatareserveCancel(isbn, id, type);
+		dao.bookdatareserveCancel(isbn, id);
 	}
 	@RequestMapping("searchBook/bookreserve_ok.do")
 	public void Search_bookreserve_ok(HttpServletRequest request, HttpServletResponse response) {
