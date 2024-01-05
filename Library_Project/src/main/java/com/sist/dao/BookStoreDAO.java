@@ -61,4 +61,28 @@ public class BookStoreDAO {
 		}
 		return vo;
 	}
+	
+	// 도서 구매
+	public void bookPurchase_ok(String userid, String isbn, int sumprice)
+	{
+		try
+		{	
+			conn=dbconn.getConnection();
+			String sql="INSERT INTO BOOKDELIVERY(orderNum, isbn, sumprice) "
+					+"VALUES(bd_odnum_seq.nextval, ?, ?)";
+			ps=conn.prepareStatement(sql);
+			//ps.setString(1, userid);
+			ps.setString(1, isbn);
+			ps.setInt(2, sumprice);
+			ps.executeUpdate();
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally {
+			dbconn.disConnection(conn, ps);
+		}
+	}
+	
 }
