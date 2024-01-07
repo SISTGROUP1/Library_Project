@@ -69,6 +69,13 @@
 				return ;
 			}
 			let id = $(this).attr('data-source');
+			if(id!=null){
+				let compare = $('.seat_reserve_btn').attr("data-seat");
+				console.log(compare);
+				if(compare!=''){
+					seat_number = $('.seat_reserve_btn').attr("data-seat");	
+				}
+			}
 			if(seat_number===''){
 				alert("좌석을 선택해주세요");
 				return;
@@ -184,7 +191,7 @@
 					<h6 style="color:red;margin-top:0px;">해당 좌석은 현재 사용중입니다.</h6>
 				</div>
 				<div class="text-right">
-					<input class="seat_reserve_btn" data-source="${sessionScope.email }" type="button" value="<c:if test="${userbtn_change==0 }">자리 예약</c:if><c:if test="${userbtn_change!=0 }">퇴 실</c:if>" style="background-color: #008CBA;border-radius: 10px;">
+					<input class="seat_reserve_btn" data-source="${sessionScope.email }" data-seat="<c:if test="${userbtn_change!=0 }">${main_res_data }</c:if>" type="button" value="<c:if test="${userbtn_change==0 }">자리 예약</c:if><c:if test="${userbtn_change!=0 }">퇴 실</c:if>" style="background-color: #008CBA;border-radius: 10px;">
 				</div>
 			</div>
 		</section>

@@ -20,10 +20,12 @@ public class SeatReserveModel {
 		SeatReserveDAO dao = SeatReserveDAO.newInstance();
 		ArrayList<SeatVO> list = dao.seatAllData();
 		int userbtn_change = dao.userbtn_Change(id);
+		int res = dao.userSeatRes(id);
 		int totalSeatY = dao.SeatTotalCount();
 		
 		request.setAttribute("totalY", totalSeatY);
 		request.setAttribute("list", list);
+		request.setAttribute("main_res_data", res);
 		request.setAttribute("userbtn_change", userbtn_change);
 		request.setAttribute("main_jsp", "/seatReserve/seatMain.jsp");
 		return "/main/main.jsp";
