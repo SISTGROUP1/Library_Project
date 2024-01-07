@@ -20,6 +20,7 @@
 		line-height:40px;
 		font-size: 1.1em;
     	font-weight: 700;
+    	padding:0px;
 	}
 </style>
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
@@ -61,9 +62,6 @@
 		})
 	}
 	$(function(){
-		/* for(let i =1;i<97;i++){
-			console.log(document.querySelector("#seat"+i));
-		} */
 		$.ajax({
 			type:"post",
 			url:"../seatReserve/SeatChange.do",
@@ -185,15 +183,13 @@
 				</div>
 				<div style="height:350px;">
 					<div class="seat-arrangement" style="width:70%;">
-						<c:forEach var="j" begin="1" end="6" step="1">
-							<ol class="seat-line" style="">
-								<c:forEach var="i" begin="${(j*16)-15 }" end="${(j*16) }" step="1">
-								    <li id="seat${i}" class="seat" data-source="${i }" onclick="seat_find(this)">
-								       	<label for="${i }" style="padding-left:0px !important;">${i }</label>
-								    </li>
-							    </c:forEach>
-							</ol>
-						</c:forEach>
+						<ul class="seat-line" style="">
+							<c:forEach var="i" begin="1" end="96" step="1">
+							    <li id="seat${i}" class="seat" data-source="${i }" onclick="seat_find(this)">
+							       	<label for="${i }" style="padding-left:0px !important;">${i }</label>
+							    </li>
+							</c:forEach>
+						</ul>
 					 </div>
 				</div>
 				<div id="use_other_seat" class="text-right" style="display: none;">
