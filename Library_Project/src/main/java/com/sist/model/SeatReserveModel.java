@@ -7,9 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
 import com.sist.controller.RequestMapping;
 import com.sist.dao.SeatReserveDAO;
 import com.sist.vo.SeatVO;
@@ -21,10 +18,12 @@ public class SeatReserveModel {
 		String id = (String)session.getAttribute("email");
 		
 		SeatReserveDAO dao = SeatReserveDAO.newInstance();
+		ArrayList<SeatVO> list = dao.seatAllData();
 		int userbtn_change = dao.userbtn_Change(id);
 		int totalSeatY = dao.SeatTotalCount();
 		
 		request.setAttribute("totalY", totalSeatY);
+		request.setAttribute("list", list);
 		request.setAttribute("userbtn_change", userbtn_change);
 		request.setAttribute("main_jsp", "/seatReserve/seatMain.jsp");
 		return "/main/main.jsp";
@@ -81,25 +80,5 @@ public class SeatReserveModel {
 		SeatReserveDAO dao = SeatReserveDAO.newInstance();
 		dao.userSeatCancel(id, Integer.parseInt(snum));
 	}
-	@RequestMapping("seatReserve/SeatChange.do")
-	public void seatColorChange(HttpServletRequest request, HttpServletResponse response) {
-		SeatReserveDAO dao = SeatReserveDAO.newInstance();
-		ArrayList<SeatVO> list = dao.seatAllYData();
-		
-		JSONArray arr = new JSONArray();
-		for(int i = 0;i<list.size();i++) {
-			JSONObject obj = new JSONObject();
-			obj.put("sno", list.get(i).getSno());
-			obj.put("reserve", list.get(i).getReserve());
-			
-			arr.add(obj);
-		}
-		
-		try {
-			PrintWriter out = response.getWriter();
-			out.write(arr.toJSONString());
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-	}
+	
 }

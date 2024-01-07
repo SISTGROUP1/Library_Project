@@ -61,13 +61,12 @@ public class SeatReserveDAO {
 		}
 		return res;
 	}
-	public ArrayList<SeatVO> seatAllYData(){
+	public ArrayList<SeatVO> seatAllData(){
 		ArrayList<SeatVO> list = new ArrayList<SeatVO>();
 		try {
 			conn = dbconn.getConnection();
-			String sql = "SELECT sno,reserve FROM seat WHERE reserve=?";
+			String sql = "SELECT sno,reserve FROM seat";
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, "Y");
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				SeatVO vo = new SeatVO();

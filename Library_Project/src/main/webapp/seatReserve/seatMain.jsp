@@ -62,18 +62,6 @@
 		})
 	}
 	$(function(){
-		$.ajax({
-			type:"post",
-			url:"../seatReserve/SeatChange.do",
-			success:function(res){
-				let json = JSON.parse(res);
-				for(let i =0;i<json.length;i++){
-					if(json[i].reserve==='Y'){
-						$('#seat'+json[i].sno).css("background-color",'#2dcff8');
-					}
-				}
-			}
-		})
 		
 		$('.seat_reserve_btn').click(function(){
 			if($(this).attr('data-source')===''){
@@ -184,9 +172,9 @@
 				<div style="height:350px;">
 					<div class="seat-arrangement" style="width:70%;">
 						<ul class="seat-line" style="">
-							<c:forEach var="i" begin="1" end="96" step="1">
-							    <li id="seat${i}" class="seat" data-source="${i }" onclick="seat_find(this)">
-							       	<label for="${i }" style="padding-left:0px !important;">${i }</label>
+							<c:forEach var="vo" items="${list }">
+							    <li id="seat${vo.sno}" class="seat" data-source="${vo.sno }" style="<c:if test="${vo.reserve=='Y'}">background-color:#2dcff8</c:if>" onclick="seat_find(this)">
+							       	<label for="${vo.sno }" style="padding-left:0px !important;">${vo.sno }</label>
 							    </li>
 							</c:forEach>
 						</ul>
