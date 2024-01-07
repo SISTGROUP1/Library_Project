@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -231,9 +232,10 @@
   							<span>TODAY</span>				<!-- 서버날짜 들어가게 변경 예정 -->
 
   							<div class="calendarbox">
-    							<span>수요일</span>
-    							<span>12월 20일</span>
-    							<span>2023</span>
+    							<c:set var="now" value="<%=new java.util.Date()%>"/>
+    							<span><fmt:formatDate value="${now}" pattern="E요일" /></span>
+    							<span><fmt:formatDate value="${now}" pattern="MM월 dd일" /></span>
+    							<span><fmt:formatDate value="${now}" pattern="yyyy" /></span>
   							</div>
  								</div>
 							<!-- partial -->
