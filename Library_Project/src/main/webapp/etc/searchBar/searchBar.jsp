@@ -12,10 +12,31 @@
 		background-color: white;
 	}
 </style>
+<script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$('.type-posts').click(function(){
+			$('.type-posts>svg').css('fill','#ba3a7a');
+			$('.type-posts>svg').css('opacity',1.0);
+			$('.type-users>svg').css('fill','#5a6674');
+			$('.type-users>svg').css('opacity',0.6);
+			document.getElementById("search-type").value = "post";
+			
+		})
+		$('.type-users').click(function(){
+			$('.type-users>svg').css('fill','#ba3a7a');
+			$('.type-users>svg').css('opacity',1.0);
+			$('.type-posts>svg').css('fill','#5a6674');
+			$('.type-posts>svg').css('opacity',0.6);
+			document.getElementById("search-type").value = "user";
+		})
+	})
+</script>
 </head>
 <body>
-<form class="search-form">
-  <input type="search" value="" placeholder="Search" class="search-input">
+<form class="search-form" method="post" action="../search/searchDetail.do">
+  <input type="search" value="" placeholder="Search" class="search-input" name="search">
+  <input type="hidden" value="" name="type-data" id="search-type">
   <button type="submit" class="search-button">
     <svg class="submit-button">
       <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#search"></use>
@@ -24,7 +45,7 @@
   <div class="search-option">
     <div>
       <!--<input name="type" type="radio" value="type-users" id="type-users">-->
-      <label for="type-users">
+      <label class="type-users" for="type-users">
         <svg class="edit-pen-title">
           <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user"></use>
         </svg>
@@ -34,7 +55,7 @@
     
     <div>
       <!--<input name="type" type="radio" value="type-posts" id="type-posts">-->
-      <label for="type-posts">
+      <label class="type-posts" for="type-posts">
         <svg class="edit-pen-title">
           <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#post"></use>
         </svg>
