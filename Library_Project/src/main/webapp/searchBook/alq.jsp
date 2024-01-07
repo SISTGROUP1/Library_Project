@@ -109,9 +109,7 @@
 					
 				})
 				let detail_more = document.querySelectorAll(".menu-wrap #major #sub1-"+(i+1)+" li a")
-				for(let detail in detail_more){
-					console.log(detail);
-				}
+				
 				if((i+1)%6!=0){
 					menu2.style = "position: absolute;top: 0;right: -162px;width: 155px;border: 1px solid #8ed1de;z-index: 5;background: #fff;padding: 15px 0;box-sizing: border-box;min-height: 363px;";
 				}

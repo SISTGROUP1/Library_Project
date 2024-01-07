@@ -22,6 +22,135 @@
     	font-weight: 700;
 	}
 </style>
+<script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
+<script type="text/javascript">
+	let number = '';
+	seat_number = '';
+	function seat_find(e){
+		seat_number = $(e).attr('data-source');
+		$.ajax({
+			type:"post",
+			url:"../seatReserve/seatCheck.do",
+			data:{"snum":seat_number},
+			success:function(res){
+				$('#use_other_seat').hide();
+				if(res!='Y'){
+					if(number===''){
+						//번호가 처음 들어왔을 경우
+						number = e;
+						$(number).css('background-color','#2dcff8');
+					}
+					else if(number===e){
+						//번호가 같을 경우 현재 색상 유지
+						number = e;
+						$(number).css('background-color','#2dcff8');
+					}
+					else{
+						//번호가 다를 경우 이전 li 색상 변경 후 현재 li 색상 변경
+						$(e).css('background-color','#2dcff8');
+						$(number).css('background-color','#fd6d8e');
+						number = e;
+					}
+				}
+				else{
+					$(number).css('background-color','#fd6d8e');
+					number = '';
+					$('#use_other_seat').show();
+				}
+			}
+		})
+	}
+	$(function(){
+		/* for(let i =1;i<97;i++){
+			console.log(document.querySelector("#seat"+i));
+		} */
+		$.ajax({
+			type:"post",
+			url:"../seatReserve/SeatChange.do",
+			success:function(res){
+				let json = JSON.parse(res);
+				for(let i =0;i<json.length;i++){
+					if(json[i].reserve==='Y'){
+						$('#seat'+json[i].sno).css("background-color",'#2dcff8');
+					}
+				}
+			}
+		})
+		
+		$('.seat_reserve_btn').click(function(){
+			if($(this).attr('data-source')===''){
+				alert("로그인 후 이용해주세요");
+				return ;
+			}
+			let id = $(this).attr('data-source');
+			if(seat_number===''){
+				alert("좌석을 선택해주세요");
+				return;
+			}
+			$.ajax({
+				type:"post",
+				url:"../seatReserve/userResCheck.do",
+				data:{"id":id},
+				success:function(nowSeat){
+					if(nowSeat==='0'){
+						$.ajax({
+							type:"post",
+							url:"../seatReserve/seatCheck.do",
+							data:{"snum":seat_number},
+							success:function(res){
+								if(res==='Y'){
+									$('#use_other_seat').show();
+								}
+								else{
+									if(confirm(seat_number+"번 자리를 예약하시겠습니까?")===true){
+										$.ajax({
+											type:"post",
+											url:"../seatReserve/seatOK.do",
+											data:{"id":id,"snum":seat_number},
+											success:function(result){
+												if(result==='OK'){
+													alert("좌석 예약이 완료되었습니다.");
+													number='';
+													$('#seat'+seat_number).css("background-color",'#2dcff8');
+													$('#seat'+seat_number).attr('disabled',true);
+													let aval = $('#seat_available').attr('data-source')-1;
+													$('#seat_available').text("이용 가능 좌석 "+aval);
+													$('#seat_disavailable').text("사용 중인 좌석 "+(96-aval));
+													let btn = document.querySelector(".seat_reserve_btn");
+													btn.value = '퇴 실';
+												}
+											}
+										})
+									}
+									else{
+										return false;
+									}
+								}
+							}
+						})//ajax
+					}
+					else{
+						if(confirm(nowSeat+"번 자리를 이용중입니다. 퇴실하시겠습니까?")===true){
+							$.ajax({
+								type:"post",
+								url:"../seatReserve/seatCancel.do",
+								data:{"id":id,"snum":nowSeat},
+								success:function(cancel){
+									alert("퇴실이 완료됐습니다.");
+									location.href="../seatReserve/main.do";
+								}
+							})	
+						}
+						else{
+							return false;
+						}
+					}
+				}
+			})
+		})
+			
+	})
+</script>
 </head>
 <body>
 	<div class="col-sm-2">
@@ -48,28 +177,30 @@
 				<hr style="padding:2px;background: skyblue;">
 				<div style="height:40px;">
 					<ul class="seat_show">
-						<li>이용 가능 좌석 0</li>
-						<li>사용 중인 좌석 0</li>
+						<li id="seat_available" data-source="${96-totalY }">
+							이용 가능 좌석 ${96-totalY }
+						</li>
+						<li id="seat_disavailable" data-source="${totalY }">사용 중인 좌석 ${totalY }</li>
 					</ul>
 				</div>
-				
-				<div style="height:20px"></div>
-				<div style="height:500px;">
-					<div class="seat-arrangement">
+				<div style="height:350px;">
+					<div class="seat-arrangement" style="width:70%;">
 						<c:forEach var="j" begin="1" end="6" step="1">
-							<ol class="seat-line">
+							<ol class="seat-line" style="">
 								<c:forEach var="i" begin="${(j*16)-15 }" end="${(j*16) }" step="1">
-								    <li class="seat">
-								       <input type="checkbox" id="${i }"/>
-								       <label for="${i }" style="padding-left:0px !important;">${i }</label>
+								    <li id="seat${i}" class="seat" data-source="${i }" onclick="seat_find(this)">
+								       	<label for="${i }" style="padding-left:0px !important;">${i }</label>
 								    </li>
 							    </c:forEach>
 							</ol>
 						</c:forEach>
 					 </div>
 				</div>
-				<div>
-					<h1>도서관 좌석 예약</h1>
+				<div id="use_other_seat" class="text-right" style="display: none;">
+					<h6 style="color:red;margin-top:0px;">해당 좌석은 현재 사용중입니다.</h6>
+				</div>
+				<div class="text-right">
+					<input class="seat_reserve_btn" data-source="${sessionScope.email }" type="button" value="<c:if test="${userbtn_change==0 }">자리 예약</c:if><c:if test="${userbtn_change!=0 }">퇴 실</c:if>" style="background-color: #008CBA;border-radius: 10px;">
 				</div>
 			</div>
 		</section>

@@ -4,8 +4,22 @@ import java.util.*;
 
 public class SeatReserveVO {
 	private int no, sno;
-	private Date intime, outtime, regdate;
-	private String userid;
+	private Date  regdate;
+	private String intime, outtime,userid;
+	
+	
+	public String getIntime() {
+		return intime;
+	}
+	public void setIntime(String intime) {
+		this.intime = intime;
+	}
+	public String getOuttime() {
+		return outtime;
+	}
+	public void setOuttime(String outtime) {
+		this.outtime = outtime;
+	}
 	public int getNo() {
 		return no;
 	}
@@ -17,18 +31,6 @@ public class SeatReserveVO {
 	}
 	public void setSno(int sno) {
 		this.sno = sno;
-	}
-	public Date getIntime() {
-		return intime;
-	}
-	public void setIntime(Date intime) {
-		this.intime = intime;
-	}
-	public Date getOuttime() {
-		return outtime;
-	}
-	public void setOuttime(Date outtime) {
-		this.outtime = outtime;
 	}
 	public Date getRegdate() {
 		return regdate;

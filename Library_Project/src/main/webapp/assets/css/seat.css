@@ -1,43 +1,32 @@
-
-.option-box {
-    width: 60%;
-    margin: auto;
-}
-.option-box select {
-  margin: 10px;
-}
 .seat-line {
   list-style: none;
 }
 .seat {
-  width: 36.6px;
+  width: calc((100%)/18);
   height: 36.6px;
-  display: block;
+  display: list-item;
+  box-sizing: border-box;
   font-size: 15px;
   float: left;
   padding: 5px;
   border: 1px solid #D0D0D0;
   border-radius: 4px;
+  position: relative;
   margin: 1px;
   background-color: #fd6d8e;
 }
 .seat:hover {
   background-color: #2dcff8;
-}
-.seat input {
-  opacity: 0;
-  width: 30px;
-  height: 30px;
-  position: absolute;
+  cursor: pointer;
 }
 
 .seat-arrangement {
   padding: 5px;
   margin: 10px;
-  /*top: 250px;*/
   position: absolute;
-  min-width: 70%;
-  max-width: 100%;
+  /*min-width: 850px;*/
+/*  min-width: 725px;*/
+  /*max-width: 780px;*/
   /*padding-left: 13%;*/
   top:50%;
   left:50%;
@@ -50,10 +39,7 @@
 .seat:nth-child(12) {
   margin-right: 20px
 }
-input[type="checkbox"] + label:before{
-		border:none !important;
-		
-	}
-input[type="checkbox"] + label{
+
+label{
 	color:white !important;
 }
