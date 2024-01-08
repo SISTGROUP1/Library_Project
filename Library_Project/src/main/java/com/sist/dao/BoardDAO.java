@@ -11,6 +11,7 @@ import com.sist.dbcp.CreateDBCPConnection;
 import com.sist.vo.BoardVO;
 import com.sist.vo.NoticeVO;
 import com.sist.vo.ProgramVO;
+import com.sist.vo.QnaCommentVO;
 import com.sist.vo.QnaVO;
 
 public class BoardDAO {
@@ -149,7 +150,7 @@ public class BoardDAO {
 	}
 	
 	//////////////////////////////////////////////////////////////
-	
+	///////////////// 사용자 QNA
 	public List<QnaVO> qnaListData(int page){
 		List<QnaVO> list=new ArrayList<QnaVO>();
 		try {
@@ -294,6 +295,69 @@ public class BoardDAO {
 		try {
 			conn=dbconn.getConnection();
 			String sql="DELETE FROM seoul_qna "
+					+ "WHERE no="+no;
+			ps=conn.prepareStatement(sql);
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
+	}
+	
+	///////////////// 관리자 QNA
+	public void qnaInsertComment(QnaCommentVO vo) {
+		try {
+			conn=dbconn.getConnection();
+			String sql="UPDATE seoul_qna SET "
+					+ "status='y' "
+					+ "WHERE no="+vo.getSqno();
+			ps=conn.prepareStatement(sql);
+			ps.executeUpdate();
+			ps.close();
+			
+			sql="INSERT INTO seoul_qna_comment(no,sqno,title,content) "
+					+ "VALUES (sqc_no_seq.nextval,?,?,?)";
+			ps=conn.prepareStatement(sql);
+			ps.setInt(1, vo.getSqno());
+			ps.setString(2, vo.getTitle());
+			ps.setString(3, vo.getContent());
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
+	}
+	
+	public QnaCommentVO qnaSelectComment(int no) {
+		QnaCommentVO vo=new QnaCommentVO();
+		try {
+			conn=dbconn.getConnection();
+			String sql="SELECT no,title,content,TO_CHAR(wrDate,'YYYY-MM-DD HH24:MI') "
+					+ "FROM seoul_qna_comment "
+					+ "WHERE sqno="+no;
+			ps=conn.prepareStatement(sql);
+			ResultSet rs=ps.executeQuery();
+			rs.next();
+			vo.setNo(rs.getInt(1));
+			vo.setTitle(rs.getString(2));
+			vo.setContent(rs.getString(3));
+			vo.setDbday(rs.getString(4));
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return vo;
+	}
+	
+	public void qnaDeleteComment(int no) {
+		try {
+			conn=dbconn.getConnection();
+			String sql="UPDATE seoul_qna_comment SET "
+					+ "title='관리자가 삭제한 답글입니다.',content='관리자가 삭제한 답글입니다.' "
 					+ "WHERE no="+no;
 			ps=conn.prepareStatement(sql);
 			ps.executeUpdate();

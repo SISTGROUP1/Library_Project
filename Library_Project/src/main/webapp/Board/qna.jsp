@@ -68,10 +68,10 @@
 				<td width="65%">
 					<c:if test="${vo.locking eq 'y' }">
 						<c:if test="${sessionScope.admin eq 'n' || sessionScope.admin eq null }">
-							<a ${vo.userid ne sessionScope.email ? 'onclick="denyAccess()"' : 'href="../Board/qna_detail.do?no=' += vo.no += '"' }  style="text-decoration: none;color: #333;cursor: pointer;">${vo.title }</a>						
+							<a ${vo.userid ne sessionScope.email ? 'onclick="denyAccess()"' : 'href="../Board/qna_detail.do?no=' += vo.no += '&status='+=vo.status+='"' }  style="text-decoration: none;color: #333;cursor: pointer;">${vo.title }</a>						
 						</c:if>
 						<c:if test="${sessionScope.admin eq 'y' }">
-							<a href="../Board/qna_detail.do?no=${vo.no }"  style="text-decoration: none;color: #333;cursor: pointer;">${vo.title }</a>						
+							<a href="../Board/qna_detail.do?no=${vo.no }&status=${vo.status }"  style="text-decoration: none;color: #333;cursor: pointer;">${vo.title }</a>						
 						</c:if>
 						&nbsp;
 						<img src="../images/ico_lock.png" width="12px" height="16px">

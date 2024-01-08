@@ -5,21 +5,65 @@ import java.util.List;
 
 public class ProgramVO {
 	 // 고유번호,모집정원,조회수
-	private int pno,capacity,hit;
+	private int pno,capacity;
 	// 포스터,제목,대상,장소
 	private String poster,title,target1,target2,place;
 	// 운영시작,운영종료,접수시작,접수마감,등록일
 	private Date edu1,edu2,accept1,accept2,regdate;
-	private String edu1_str,edu2_str,accept1_str,accept2_str;
-	private String week;
-//	private List<Date> curDate;
-//	
-//	public List<Date> getCurDate() {
-//		return curDate;
-//	}
-//	public void setCurDate(List<Date> curDate) {
-//		this.curDate = curDate;
-//	}
+	private String edu1_str,edu2_str,accept1_str,accept2_str,regdate_str;
+	private String week,time;
+	private int applicant,waiting,waitingCap,status;
+	private int poster_size;
+	private String content;
+	
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+	public int getPoster_size() {
+		return poster_size;
+	}
+	public void setPoster_size(int poster_size) {
+		this.poster_size = poster_size;
+	}
+	public String getTime() {
+		return time;
+	}
+	public void setTime(String time) {
+		this.time = time;
+	}
+	public String getRegdate_str() {
+		return regdate_str;
+	}
+	public void setRegdate_str(String regdate_str) {
+		this.regdate_str = regdate_str;
+	}
+	public int getApplicant() {
+		return applicant;
+	}
+	public void setApplicant(int applicant) {
+		this.applicant = applicant;
+	}
+	public int getWaiting() {
+		return waiting;
+	}
+	public void setWaiting(int waiting) {
+		this.waiting = waiting;
+	}
+	public int getWaitingCap() {
+		return waitingCap;
+	}
+	public void setWaitingCap(int waitingCap) {
+		this.waitingCap = waitingCap;
+	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
 	public String getWeek() {
 		return week;
 	}
@@ -61,12 +105,6 @@ public class ProgramVO {
 	}
 	public void setCapacity(int capacity) {
 		this.capacity = capacity;
-	}
-	public int getHit() {
-		return hit;
-	}
-	public void setHit(int hit) {
-		this.hit = hit;
 	}
 	public String getPoster() {
 		return poster;

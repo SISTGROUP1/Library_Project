@@ -26,13 +26,43 @@
 			$('#qnaCommentBtn').show()
 			$('#qnaComment').hide()
 		})
+		
+		/* $('#commentBtn').click(function(){
+			let sqno=$(this).attr('data-sqno')
+			let title=$('#comment_title').val()
+			if(title.trim()===''){
+				$('#comment_title').focus()
+				return
+			}
+			let content=$('#comment_content').val()
+			if(content.trim()===''){
+				$('#comment_content').focus()
+				return
+			}
+			$.ajax({
+				type: 'POST',
+				url: '../Board/qna_comment_ok.do',
+				data: {"sqno":sqno,"title":title,"content":content},
+				success:function(result){
+					let res=JSON.parse(result)
+					console.log(res)
+				}
+			})
+		} */
 	})
 	function deleteBtn(no) {
 		if(confirm('글을 삭제하시겠습니까?')){
 			location.href='../Board/qna_delete.do?no='+no
 		}else{
 			return false
-		}
+		}			
+	}
+	function deleteCommentBtn(qcvono,no) {
+		if(confirm('글을 삭제하시겠습니까?')){
+			location.href='../Board/qna_comment_delete.do?commentno='+qcvono+'&no='+no
+		}else{
+			return false
+		}			
 	}
 </script>
 </head>
@@ -67,14 +97,22 @@
 			</tr>
 		</c:if>
 	</table>
-	<c:if test="${sessionScope.admin eq 'y' }">
-		<div style="height: 20px;"></div>
+	<div style="height: 20px;"></div>
+	<c:if test="${vo.status eq 'n' }">
+		<c:if test="${sessionScope.admin eq 'y' }">
 		<div class="text-center">
 			<input type="button" class="btn btn-lg" value="답글작성" id="qnaCommentBtn">
 		</div>
 		<div id="qnaComment" style="display: none;">
-			<form method="post" action="../Board/qna_insert_ok.do">
+			<form method="post" action="../Board/qna_comment_ok.do">
+			<input type="hidden" name="sqno" value="${vo.no }">
 			<table class="table">
+				<tr>
+					<th width="10%">제목</th>
+					<td width="90%">
+						<input type="text" name="title" class="input-sm" required>
+					</td>
+				</tr>
 				<tr>
 					<td colspan="2">
 						<textarea rows="10" cols="" name="content" required></textarea>
@@ -82,13 +120,40 @@
 				</tr>
 				<tr>
 					<td colspan="2" class="text-center">
-						<input type="submit" value="저장" class="btn btn-sm btn-info">
+						<input type="submit" value="저장" class="btn btn-sm btn-info" <%-- data-sqno="${vo.no }" id="commentBtn" --%>>
 						<input type="button" value="취소" class="btn btn-sm btn-info" id="commentCancleBtn">
 					</td>
 				</tr>
 			</table>
 			</form>
 		</div>
+		</c:if>
+	</c:if>
+	<c:if test="${vo.status eq 'y' }">
+		<table class="table" style="border-collapse: unset;">
+			<tr style="background-color: rgba(144, 144, 144, 0.075);">
+				<th width="80%" rowspan="2" style="font-size: 18px;">${qcvo.title }</th>
+				<td width="20%" class="text-right">${qcvo.dbday }</td>
+			</tr>
+			<tr style="border-bottom: 1px solid #dbdbdb;background-color: rgba(144, 144, 144, 0.075);">
+				<td class="text-right">관리자</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<%-- <textarea rows="10" cols="" readonly style="background-color: white;resize: none;border: none;outline: none;">${vo.content }</textarea> --%>
+					<pre style="background-color: white;border: none;white-space: pre-wrap;">${qcvo.content }</pre>
+				</td>
+			</tr>
+			<c:if test="${sessionScope.admin eq 'y' }">
+				<tr>
+					<td colspan="2" class="text-right">
+						<a href="#" class="btn btn-xs btn-info">수정</a>
+						<span onclick="deleteCommentBtn(${qcvo.no },${vo.no })" class="btn btn-xs btn-warning">삭제</span>
+						<input type="button" value="목록" class="btn btn-xs btn-success" onclick="javascript:history.back()">
+					</td>
+				</tr>
+			</c:if>
+		</table>
 	</c:if>
 </body>
 </html>

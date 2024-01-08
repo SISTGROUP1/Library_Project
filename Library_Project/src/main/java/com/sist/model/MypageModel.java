@@ -1,5 +1,8 @@
 package com.sist.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +13,7 @@ import com.sist.controller.RequestMapping;
 import com.sist.dao.MyPageDAO;
 import com.sist.vo.AllLikeVO;
 import com.sist.vo.BookDeliverVO;
+import com.sist.vo.ProgramApplicationVO;
 import com.sist.vo.UserVO;
 
 public class MypageModel {
@@ -54,8 +58,60 @@ public class MypageModel {
 //		request.setAttribute("main_jsp", "../mypage/myPage_main.jsp");
 //		return "../main/main.jsp";
 //	}
-	@RequestMapping("mypage/myApp_main.do")
+	@RequestMapping("mypage/proAppInq.do")
 	public String mypage_myApp_main(HttpServletRequest request,HttpServletResponse response) {
+		try {
+			request.setCharacterEncoding("UTF-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		HttpSession session=request.getSession();
+		String id=(String) session.getAttribute("email");
+		String page=request.getParameter("page");
+		if(page==null) page="1";
+		int curpage=Integer.parseInt(page);
+		//------------------------------------- 검색
+		String search=request.getParameter("search");
+		String searchType=request.getParameter("searchType");
+		SimpleDateFormat eduFormat=new SimpleDateFormat("yyyy-MM-dd");
+		Date edu1=null;
+		Date edu2=null;
+		MyPageDAO dao=MyPageDAO.newInstance();
+		List<ProgramApplicationVO> list=null;
+		int totalcount=0;
+		if(request.getParameter("edu1")!=null && request.getParameter("edu2")!=null) {
+			try {
+				edu1=eduFormat.parse(request.getParameter("edu1"));
+				edu2=eduFormat.parse(request.getParameter("edu2"));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			list=dao.myProgramApplList(curpage, id,search,Integer.parseInt(searchType),eduFormat.format(edu1),eduFormat.format(edu2));
+			totalcount=dao.myProgramApplTotalCount(id,search,Integer.parseInt(searchType),eduFormat.format(edu1),eduFormat.format(edu2));
+		}else {
+			list=dao.myProgramApplList(curpage, id);
+			totalcount=dao.myProgramApplTotalCount(id);
+		}
+		
+		int count=0;
+		int list_size=list.size();
+		int totalpage=(int)(Math.ceil(totalcount/(double)dao.getROW()));
+		count=totalcount-((curpage*dao.getROW())-dao.getROW());
+		final int BLOCK=10;
+		int startPage=((curpage-1)/BLOCK*BLOCK)+1;
+		int endPage=((curpage-1)/BLOCK*BLOCK)+BLOCK;
+		if(endPage>totalpage) endPage=totalpage;
+		
+		request.setAttribute("list", list);
+		request.setAttribute("list_size", list_size);
+		request.setAttribute("curpage", curpage);
+		request.setAttribute("count", count);
+		request.setAttribute("totalcount", totalcount);
+		request.setAttribute("totalpage", totalpage);
+		request.setAttribute("startPage", startPage);
+		request.setAttribute("endPage", endPage);
+		request.setAttribute("search", search);
+		request.setAttribute("searchType", searchType);
 		request.setAttribute("app_select_jsp", "../mypage/proAppInq.jsp");
 		request.setAttribute("mypage_jsp", "../mypage/myApp_main.jsp");
 		request.setAttribute("main_jsp", "../mypage/myPage_main.jsp");

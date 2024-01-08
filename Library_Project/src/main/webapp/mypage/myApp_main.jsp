@@ -53,7 +53,7 @@
 		<div id="loaninfomenu_div">
 			<ul>
 				<li>
-					<a href="../mypage/myApp_main.do" class="active">
+					<a href="../mypage/proAppInq.do" class="active">
 						프로그램 신청조회
 					</a>
 				</li>

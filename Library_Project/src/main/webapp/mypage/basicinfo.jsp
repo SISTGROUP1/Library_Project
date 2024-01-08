@@ -112,7 +112,7 @@
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="../mypage/proAppInq.do">
 							<strong class="tit">신청중인<br>문화행사수</strong>
 							<span class="cnt">0</span>
 						</a>

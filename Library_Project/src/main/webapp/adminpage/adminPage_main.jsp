@@ -14,31 +14,34 @@
 		height: 2px;
 		background-color: skyblue;
 	}
+	ul li{
+		list-style: none;
+	}
 </style>
 </head>
 <body>
-	<div style="height: 50px;"></div>
+<!-- 마이페이지 메인 -->
+<!-- 메뉴바 include 부분 -->
+<!-- 각 메뉴에 대한 jsp include 부분 -->
+<div style="height: 50px;"></div>
 	<div class="col-md-1"></div>
 	<div class="col-md-2">
 		<div class="panel">
 			<div class="panel-heading">
 				<h3 class="panel-title text-center">
-					<p>신청 및 소식</p>
+					<p>관리자페이지</p>
 				</h3>
 			</div>
 			<ul class="list-group">
-				<li class="list-group-item"><a href="../Board/notice.do?typeno=1">공지사항</a></li>
-				<li class="list-group-item"><a href="../Board/notice.do?typeno=2">보도자료</a></li>
-				<li class="list-group-item"><a href="../Board/qna.do">묻고답하기</a></li>
-				<li class="list-group-item"><a href="../Board/calendar.do">일정 및 행사</a></li>
-				<li class="list-group-item"><a href="../program/programList.do">프로그램 신청</a></li>
+				<li class="list-group-item"><a href="../admin/main.do">서비스</a></li>
+				<li class="list-group-item"><a href="../admin/programList.do">프로그램 관리</a></li>
 			</ul>
 		</div>
     </div>
-    <div class="col-md-8">
-		<jsp:include page="${board_jsp }"></jsp:include>
+    <div class="col-md-9">
+		<jsp:include page="${admin_jsp }"></jsp:include>
 	</div>
-	<div class="col-md-1"></div>
+	<!-- <div class="col-md-1"></div> -->
 	<div style="clear: both;"></div>
 </body>
 </html>

@@ -166,15 +166,22 @@
 	      			<a href="../program/programDetail_before.do?pno=${vo.pno }" style="text-decoration: none;">
 	        			<img src="${vo.poster }" style="width:100%;height: 300px;">
 	        			<div class="caption">
-	          				<p style="font-size: 20px;font-weight: bold;" class="title">${vo.title }</p>
-	          				<p class="text-center">${vo.target1 }</p>
+	          				<p style="font-size: 20px;font-weight: bold;" class="title ${fn:length(vo.title)<9?'text-center':'' }">${vo.title }</p>
+	          				<p class="text-center">
+	          					<c:if test="${vo.status==0 }">접수예정</c:if>
+	          					<c:if test="${vo.status==1 }">접수중</c:if>
+	          					<c:if test="${vo.status==2 }">대기접수</c:if>
+	          					<c:if test="${vo.status==3 }">접수마감</c:if>
+	          					<c:if test="${vo.status==4 }">종료</c:if>
+	          					&nbsp;|&nbsp;${vo.target1 }
+	          				</p>
 	          				<c:if test="${vo.edu1_str eq vo.edu2_str }">
 	          					<p class="text-center" style="font-size: 16px;">${vo.edu1_str }</p>
 	          				</c:if>
 	          				<c:if test="${vo.edu1_str ne vo.edu2_str }">
 	          					<p class="text-center" style="font-size: 16px;">${vo.edu1_str } ~ ${vo.edu2_str }</p>
 	          				</c:if>
-	          				<p class="text-center" style="font-size: 16px;">모집정원 : ${vo.capacity }</p>
+	          				<p class="text-center" style="font-size: 14px;">정원 : ${vo.applicant }/${vo.capacity }&nbsp;대기 : ${vo.waiting }/${vo.waitingCap }</p>
 	        			</div>
 	      			</a>
     			</div>
@@ -213,7 +220,14 @@
 				<a href="../program/programDetail.do?pno=${vo.pno }" class="program_${vo.pno }">
 				<ul style="list-style: none" class="program_${vo.pno }">
 					<li style="float: left;" class="least">
-						<img src="${vo.poster }" title="${vo.title }" style="width: 106px;height: 150px;">
+						<c:choose>
+							<c:when test="${fn:startsWith(vo.poster,'https') }">
+								<img src="${vo.poster }" title="${vo.title }" style="width: 106px;height: 150px;">
+							</c:when>
+							<c:otherwise>
+								<img src="${vo.poster }" title="${vo.title }" style="width: 106px;height: 150px;">	
+							</c:otherwise>
+						</c:choose>
 						<a class="cookieDeleteBtn" data-pno="${vo.pno }">X</a>
 					</li>
 				</ul>

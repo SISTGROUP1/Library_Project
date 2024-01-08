@@ -18,6 +18,7 @@ import com.sist.controller.RequestMapping;
 import com.sist.dao.BoardDAO;
 import com.sist.vo.NoticeVO;
 import com.sist.vo.ProgramVO;
+import com.sist.vo.QnaCommentVO;
 import com.sist.vo.QnaVO;
 
 public class BoardModel {
@@ -94,7 +95,14 @@ public class BoardModel {
 		BoardDAO dao=BoardDAO.newInstance();
 		QnaVO vo=dao.qnaDetailData(Integer.parseInt(no));
 		
+		QnaCommentVO qcvo=null;
+		if(vo.getStatus().equals("y")) {
+			qcvo=new QnaCommentVO();
+			qcvo=dao.qnaSelectComment(Integer.parseInt(no));
+		}
+		
 		request.setAttribute("vo", vo);
+		request.setAttribute("qcvo", qcvo);
 		request.setAttribute("board_jsp", "../Board/qna_detail.jsp");
 		request.setAttribute("main_jsp", "../Board/board_main.jsp");
 		return "../main/main.jsp";
@@ -173,6 +181,37 @@ public class BoardModel {
 		dao.qnaDelete(Integer.parseInt(no));
 		
 		return "redirect:../Board/qna.do";
+	}
+	// 관리자 QNA
+	@RequestMapping("Board/qna_comment_ok.do")
+	public String qna_comment_ok(HttpServletRequest request,HttpServletResponse response) {
+		try {
+			request.setCharacterEncoding("UTF-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		String no=request.getParameter("sqno");
+		String title=request.getParameter("title");
+		String content=request.getParameter("content");
+		
+		QnaCommentVO vo=new QnaCommentVO();
+		vo.setSqno(Integer.parseInt(no));
+		vo.setTitle(title);
+		vo.setContent(content);
+		
+		BoardDAO dao=BoardDAO.newInstance();
+		dao.qnaInsertComment(vo);
+		
+		return "redirect:../Board/qna_detail.do?no="+no;
+	}
+	@RequestMapping("Board/qna_comment_delete.do")
+	public String qna_comment_delete(HttpServletRequest request,HttpServletResponse response) {
+		String commentno=request.getParameter("commentno");
+		String no=request.getParameter("no");
+		
+		BoardDAO dao=BoardDAO.newInstance();
+		dao.qnaDeleteComment(Integer.parseInt(commentno));
+		return "redirect:../Board/qna_detail.do?no="+no;
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	@RequestMapping("Board/calendar.do")

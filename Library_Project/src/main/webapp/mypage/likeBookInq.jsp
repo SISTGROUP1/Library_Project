@@ -42,7 +42,7 @@
 		</form>
 	</div>
 	<div style="width: 100%;padding: 0;">
-		좋아요 <font color="red">${count }</font>건
+		좋아요 <font color="red">${totalcount }</font>건
 		<hr style="margin-top: 10px;">
 	</div>
 	<table class="table">

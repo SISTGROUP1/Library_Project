@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sist.dbcp.CreateDBCPConnection;
+import com.sist.vo.ProgramApplicationVO;
 import com.sist.vo.ProgramVO;
 
 public class ProgramDAO {
@@ -62,9 +63,10 @@ public class ProgramDAO {
 		try {
 			conn=dbconn.getConnection();
 			String t=targets[target];
-			String sql="SELECT pno,poster,title,target1,TO_CHAR(edu1,'YYYY-MM-DD'),TO_CHAR(edu2,'YYYY-MM-DD'),capacity,num "
-					+ "FROM (SELECT pno,poster,title,target1,edu1,edu2,capacity,rownum as num "
-					+ "FROM (SELECT /*+ INDEX_DESC(program pg_pno_pk)*/pno,poster,title,target1,edu1,edu2,capacity "
+			String sql="SELECT pno,poster,title,target1,TO_CHAR(edu1,'YYYY-MM-DD'),TO_CHAR(edu2,'YYYY-MM-DD'),capacity,applicant,waiting,waitingCap,status,num "
+					+ "FROM (SELECT pno,poster,title,target1,edu1,edu2,capacity,applicant,waiting,waitingCap,status,rownum as num "
+					+ "FROM (SELECT /*+ INDEX_DESC(program pg_pno_pk)*/pno,poster,title,target1,edu1,edu2,"
+					+ "capacity,applicant,waiting,waitingCap,status "
 					+ "FROM program "
 					+ "WHERE "+searchType+" LIKE '%'||?||'%' "
 					+ "AND target1 LIKE '%'||?||'%')) "
@@ -86,6 +88,10 @@ public class ProgramDAO {
 				vo.setEdu1_str(rs.getString(5));
 				vo.setEdu2_str(rs.getString(6));
 				vo.setCapacity(rs.getInt(7));
+				vo.setApplicant(rs.getInt(8));
+				vo.setWaiting(rs.getInt(9));
+				vo.setWaitingCap(rs.getInt(10));
+				vo.setStatus(rs.getInt(11));
 				list.add(vo);
 			}
 			rs.close();
@@ -149,8 +155,9 @@ public class ProgramDAO {
 		ProgramVO vo=new ProgramVO();
 		try {
 			conn=dbconn.getConnection();
-			String sql="SELECT pno,poster,title,target1,target2,place,TO_CHAR(edu1,'YYYY-MM-DD HH24:MI'),TO_CHAR(edu2,'YYYY-MM-DD HH24:MI'),"
-					+ "TO_CHAR(accept1,'YYYY-MM-DD HH24:MI'),TO_CHAR(accept2,'YYYY-MM-DD HH24:MI'),capacity,hit "
+			String sql="SELECT pno,poster,title,target1,target2,place,TO_CHAR(edu1,'YYYY-MM-DD'),TO_CHAR(edu2,'YYYY-MM-DD'),"
+					+ "TO_CHAR(accept1,'YYYY-MM-DD HH24:MI'),TO_CHAR(accept2,'YYYY-MM-DD HH24:MI'),capacity,"
+					+ "applicant,waiting,waitingCap,status,content "
 					+ "FROM program "
 					+ "WHERE pno="+pno;
 			ps=conn.prepareStatement(sql);
@@ -167,7 +174,11 @@ public class ProgramDAO {
 			vo.setAccept1_str(rs.getString(9));
 			vo.setAccept2_str(rs.getString(10));
 			vo.setCapacity(rs.getInt(11));
-			vo.setHit(rs.getInt(12));
+			vo.setApplicant(rs.getInt(12));
+			vo.setWaiting(rs.getInt(13));
+			vo.setWaitingCap(rs.getInt(14));
+			vo.setStatus(rs.getInt(15));
+			vo.setContent(rs.getString(16));
 			rs.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -186,11 +197,135 @@ public class ProgramDAO {
 					+ "WHERE pno="+pno;
 			ps=conn.prepareStatement(sql);
 			ResultSet rs=ps.executeQuery();
-			rs.next();
-			vo.setPno(rs.getInt(1));
-			vo.setPoster(rs.getString(2));
-			vo.setTitle(rs.getString(3));
+			if(rs.next()==false) {
+				vo=null;
+			}else {
+				vo.setPno(rs.getInt(1));
+				vo.setPoster(rs.getString(2));
+				vo.setTitle(rs.getString(3));
+			}
 			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return vo;
+	}
+	
+	// 프로그램 초기화(접수날짜를 현재시간과 비교,접수예정->접수중 접수중->접수마감)
+	// 프로그램 리스트,프로그램 상세보기,프로그램 관리,프로그램 신청
+	// pno==0 접수기간 판별, !=0 사용자의 프로그램 신청 후 상태 조정
+	public void programStatusUpdate(int pno) {
+		try {
+			conn=dbconn.getConnection();
+			String sql="";
+			if(pno==0) {
+				sql="UPDATE program SET "
+						+ "status=1 "
+						+ "WHERE TO_CHAR(accept1,'YYYY-MM-DD HH24:MI')<=TO_CHAR(SYSDATE,'YYYY-MM-DD HH24:MI') "
+						+ "AND status=0";
+				ps=conn.prepareStatement(sql);
+				ps.executeUpdate();
+				ps.close();
+				sql="UPDATE program SET "
+						+ "status=3 "
+						+ "WHERE TO_CHAR(accept2,'YYYY-MM-DD HH24:MI')<=TO_CHAR(SYSDATE,'YYYY-MM-DD HH24:MI') "
+						+ "AND status=1";
+				ps=conn.prepareStatement(sql);
+				ps.executeUpdate();
+				ps.close();
+			}
+			if(pno!=0) {
+				sql="UPDATE program SET "
+						+ "status= "
+						+ "CASE "
+						+ "WHEN applicant<capacity THEN 1 "
+						+ "WHEN applicant=capacity AND waiting<waitingCap THEN 2 "
+						+ "WHEN waiting=waitingCap THEN 3 "
+						+ "ELSE status "
+						+ "END";
+				ps=conn.prepareStatement(sql);
+				ps.executeUpdate();
+				ps.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
+	}
+	// 프로그램 신청 여부 판별
+	public int programIsAppl(int pno,String userid) {
+		int isAppl=0;
+		try {
+			conn=dbconn.getConnection();
+			String sql="SELECT COUNT(*) "
+					+ "FROM program_application "
+					+ "WHERE pno=? AND userid=? AND status=1";
+			ps=conn.prepareStatement(sql);
+			ps.setInt(1, pno);
+			ps.setString(2, userid);
+			ResultSet rs=ps.executeQuery();
+			rs.next();
+			isAppl=rs.getInt(1);
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return isAppl;
+	}
+	// 프로그램 신청
+	public ProgramApplicationVO programApplication(int pno,String userid) {
+		ProgramApplicationVO vo=new ProgramApplicationVO();
+		try {
+			conn=dbconn.getConnection();
+			String sql="SELECT status,waiting "
+					+ "FROM program "
+					+ "WHERE pno="+pno;
+			ps=conn.prepareStatement(sql);
+			ResultSet rs=ps.executeQuery();
+			rs.next();
+			int status=rs.getInt(1);
+			int waiting=rs.getInt(2);
+			rs.close();
+			ps.close();
+			if(status==1) {
+				sql="UPDATE program SET "
+						+ "applicant=applicant+1 "
+						+ "WHERE pno="+pno;
+				ps=conn.prepareStatement(sql);
+				ps.executeUpdate();
+				ps.close();
+				sql="INSERT INTO program_application(no,userid,pno) "
+						+ "VALUES (pa_no_seq.nextval,?,?)";
+				ps=conn.prepareStatement(sql);
+				ps.setString(1, userid);
+				ps.setInt(2, pno);
+				ps.executeUpdate();
+				ps.close();
+				programStatusUpdate(pno);
+			}else if(status==2) {
+				sql="UPDATE program SET "
+						+ "waiting=waiting+1 "
+						+ "WHERE pno="+pno;
+				ps=conn.prepareStatement(sql);
+				ps.executeUpdate();
+				ps.close();
+				sql="INSERT INTO program_application(no,userid,pno,waitingNo) "
+						+ "VALUES (pa_no_seq.nextval,?,?,?)";
+				ps=conn.prepareStatement(sql);
+				ps.setString(1, userid);
+				ps.setInt(2, pno);
+				ps.setInt(3, waiting+1);
+				ps.executeUpdate();
+				ps.close();
+				programStatusUpdate(pno);
+			}else if(status==3) {
+				vo.setMsg("NO");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

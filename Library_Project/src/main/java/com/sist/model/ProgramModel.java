@@ -6,9 +6,11 @@ import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.sist.controller.RequestMapping;
 import com.sist.dao.ProgramDAO;
+import com.sist.vo.ProgramApplicationVO;
 import com.sist.vo.ProgramVO;
 
 public class ProgramModel {
@@ -33,6 +35,8 @@ public class ProgramModel {
 		//-------------------------------
 		//------------- 목록 -------------
 		ProgramDAO dao=ProgramDAO.newInstance();
+		// 리스트를 뽑기전 status 업데이트
+		dao.programStatusUpdate(0);
 		List<ProgramVO> list=dao.programListData(curpage,Integer.parseInt(target),searchType,search);
 		int totalpage=dao.programListTotalPage(Integer.parseInt(target),searchType,search);
 		final int BLOCK=10;
@@ -49,7 +53,7 @@ public class ProgramModel {
 				if(cookies[i].getName().startsWith("program_")) {
 					String pno=cookies[i].getValue();
 					ProgramVO vo=dao.programCookieData(Integer.parseInt(pno));
-					cList.add(vo);
+					if(vo!=null) cList.add(vo);
 				}
 			}
 		}
@@ -75,8 +79,17 @@ public class ProgramModel {
 	public String program_detail(HttpServletRequest request,HttpServletResponse response) {
 		String pno=request.getParameter("pno");
 		ProgramDAO dao=ProgramDAO.newInstance();
+		dao.programStatusUpdate(0);
 		ProgramVO vo=dao.programDetailData(Integer.parseInt(pno));
+		// 프로그램 신청 여부 파악
+		int isAppl=0;
+		HttpSession session=request.getSession();
+		String userid=(String) session.getAttribute("email");
+		if(userid!=null) {
+			isAppl=dao.programIsAppl(Integer.parseInt(pno), userid);
+		}
 		request.setAttribute("vo", vo);
+		request.setAttribute("isAppl", isAppl);
 		request.setAttribute("program_jsp", "../program/programDetail.jsp");
 		request.setAttribute("main_jsp", "../program/program_main.jsp");
 		return "../main/main.jsp";
@@ -122,5 +135,16 @@ public class ProgramModel {
 //				e.printStackTrace();
 //			}
 //		}
+	}
+	// 프로그램 신청
+	@RequestMapping("program/programApplication.do")
+	public String program_application(HttpServletRequest request,HttpServletResponse response) {
+		String pno=request.getParameter("pno");
+		HttpSession session=request.getSession();
+		String userid=(String) session.getAttribute("email");
+		ProgramDAO dao=ProgramDAO.newInstance();
+		ProgramApplicationVO vo=dao.programApplication(Integer.parseInt(pno), userid);
+		
+		return "redirect:../program/programDetail.do?pno="+pno;
 	}
 }
