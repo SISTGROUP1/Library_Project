@@ -206,13 +206,12 @@ public class MypageModel {
 			MyPageDAO dao=MyPageDAO.newInstance();
 			HttpSession session=request.getSession();
 			String userid=(String)session.getAttribute("email");
-			String orderNum=request.getParameter("orderNum");
+			//String orderNum=request.getParameter("orderNum");
 			
-			BookDeliverVO vo=dao.bookBuyDetail(Integer.parseInt(orderNum), userid);
+			BookDeliverVO vo=dao.bookBuyDetail(userid);
 			request.setAttribute("vo", vo);
 		
-			request.setAttribute("mypage_bookPurchaseList_jsp", "../mypage/bookPurchaseDetail.jsp");
-			request.setAttribute("mypage_jsp", "../mypage/bookPurchaseList.jsp");
+			request.setAttribute("mypage_jsp", "../mypage/bookPurchaseDetail.jsp");
 			request.setAttribute("main_jsp", "../mypage/myPage_main.jsp");
 			return "../main/main.jsp";
 		}

@@ -274,18 +274,19 @@ public class MyPageDAO {
 	}
 	
 	// 결제 내역 상세페이지
-    public BookDeliverVO bookBuyDetail(int orderNum, String userid)
+    public BookDeliverVO bookBuyDetail(String userid)
     {
        BookDeliverVO vo=new BookDeliverVO();
        try {
           conn=dbconn.getConnection();
-          String sql="SELECT image, booktitle, saleprice, sumprice, orderdate, userid "
+          String sql="SELECT image, booktitle, saleprice, sumprice, orderdate, orderNum "
                 +"FROM BOOKINFO "
                 +"JOIN BOOKDELIVERY ON BOOKINFO.ISBN=BOOKDELIVERY.ISBN "
-                +"WHERE userid=?)) "
-                +"WHERE orderNum="+orderNum;
+                +"WHERE userid=?";
+                
           ps=conn.prepareStatement(sql);
           ps.setString(1, userid);
+          //ps.setInt(2, orderNum);
           ResultSet rs=ps.executeQuery();
           rs.next();
           vo.setImage(rs.getString(1));
@@ -293,7 +294,9 @@ public class MyPageDAO {
           vo.setSaleprice(rs.getInt(3));
           vo.setSumprice(rs.getInt(4));
           vo.setOrderDate(rs.getDate(5));
+          vo.setOrderNum(rs.getInt(6));
           rs.close();
+          ps.close();
        } catch (Exception e) {
           // TODO: handle exception
           e.printStackTrace();

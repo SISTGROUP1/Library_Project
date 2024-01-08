@@ -170,10 +170,10 @@ $(".pruchaseBtn").click(function(event){
      <hr>
      <h2 id="bookinfo_scr">책소개</h2>
      <hr>
-     <p>${vo.bookinfo}</p>
+     <p style="margin-top:2%;width: 65%">${vo.bookinfo}</p>
      <h2 id="bookauthor_scr">저자소개</h2>
      <hr>
-     <p>${vo.authorinfo}</p>
+     <p style="margin-top:2%;width: 65%">${vo.authorinfo}</p>
    <div class="bookpurchase_review">
    <h2 id="bookreview_scr">도서리뷰</h2>
      <hr>

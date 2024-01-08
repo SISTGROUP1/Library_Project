@@ -9,7 +9,7 @@
 </head>
 <body>
    <div style="width: 100%;padding: 0; margin-top: 20px">
-      도서구매내역 <font color="red">1</font>건
+      도서구매내역 <font color="red">${list.size() }</font>건
       <hr style="margin-top: 10px;">
    </div>
    <div class="row">
@@ -26,8 +26,8 @@
              <tr>
                 <!-- 도서명 또는 이미지 클릭 시 전체 내역 출력 -->
                 <td class="text-center">${vo.orderNum }</td>
-                <td class="text-center"><a href="../mypage/bookPurchaseDetail.do"><img src="${vo.image }" style="width: 30px;height: 45px"></a></td>
-                <td><a href="../mypage/bookPurchaseDetail.do">${vo.booktitle }</a>&nbsp;&nbsp;<font color="red"></font></td>
+                <td class="text-center"><a href="../mypage/bookPurchaseDetail.do?orderNum=${vo.orderNum }"><img src="${vo.image }" style="width: 30px;height: 45px"></a></td>
+                <td><a href="../mypage/bookPurchaseDetail.do?orderNum=${vo.orderNum }">${vo.booktitle }</a>&nbsp;&nbsp;<font color="red"></font></td>
                 <td class="text-center">${vo.saleprice }&nbsp;원</td>
                 <td class="text-center"><font color="red">${vo.sumprice }</font>&nbsp;원</td>
                 <td class="text-center">${vo.orderDate }</td>
@@ -35,5 +35,10 @@
           </c:forEach>
       </table>
    </div>
+    <div class="text-center">
+			<a href="../mypage/bookPurchaseList.do?page=${curpage>1?curpage-1:curpage }" class="btn btn-sm btn-primary">이전</a>
+			${curpage } page / ${ totalpage} pages
+			<a href="../mypage/bookPurchaseList.do?page=${curpage<totalpage?curpage+1:curpage }" class="btn btn-sm btn-primary">다음</a>
+		</div>
 </body>
 </html>
