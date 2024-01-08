@@ -3,9 +3,16 @@ package com.sist.vo;
 import java.util.*;
 
 public class BookDeliverVO {
-	private int orderNum, stno, b_count, sumprice, price, buy_ok, check_ok, fixedprice;
+	private int orderNum, stno, b_count, sumprice, price, buy_ok, check_ok, fixedprice, saleprice;
 	private String userid, booktitle, image, isbn;
 	private Date orderDate;
+	
+	public int getSaleprice() {
+		return saleprice;
+	}
+	public void setSaleprice(int saleprice) {
+		this.saleprice = saleprice;
+	}
 	public int getFixedprice() {
 		return fixedprice;
 	}

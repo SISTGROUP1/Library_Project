@@ -9,9 +9,9 @@
 </head>
 <body>
 	<div id="box">
-		<h2>● 대출.반납.연장.예약</h2>
+		<h2><span class="glyphicon glyphicon-tasks"></span>&nbsp; 대출.반납.연장.예약</h2>
 		<hr>
-		<h3>▶ 도서 대출</h3>
+		<h3><span class="glyphicon glyphicon-ok-sign"></span>&nbsp; 도서 대출</h3>
 		<p>● 대출자격 : 서울도서관 대출증 발급 회원</p>
 		<p>	&nbsp;&nbsp; 자료대출은 본인만 할 수 있다. </p>
 		<p> &nbsp;&nbsp; 단, 만14세 미만 회원의 경우 사전에 지정된 보호자(법정대리인)가 대리로 할 수 있다. </p>
@@ -22,7 +22,7 @@
 		<p> &nbsp;&nbsp; - 비도서: 다큐나 통계 등 보전가치가 높은 자료 </p>
 		<br>
 		
-		<h3>▶ 도서 반납</h3>
+		<h3><span class="glyphicon glyphicon-ok-sign"></span>&nbsp; 도서 반납</h3>
 		<p> ● 반납 장소 </p>
 		<p> &nbsp;&nbsp; 도서 : 자료실 대출반납 데스크(일반열람실 1,2, 세계자료실), 무인반납기 </p>
 		<p> &nbsp;&nbsp; 비도서(DVD등 영상자료) : 디지털자료실로 반납 </p>
@@ -32,13 +32,13 @@
 		<p> &nbsp;&nbsp; 주의사항 : 무인반납기는 부록을 대출하지 않은 도서만 반납가능합니다.(DVD와 부록이 있는 도서는 해당 자료실 데스크에 반납 가능) </p>
 		<br>
 		
-		<h3>▶ 대출 연장</h3>
+		<h3><span class="glyphicon glyphicon-ok-sign"></span>&nbsp; 대출 연장</h3>
 		<p> ● 도서 대출 기간은 기본 15일(대출일 포함)이나, 예약이 없는 책은 1회(7일)에 한해 대출일 당일부터 연장 신청이 가능합니다. </p>
 		<p> ● 연체도서가 있거나 타인이 예약한 도서는 연장 불가합니다. </p>
 		<p> ● 장애인 회원의 대출 기간은 기본 30일로, 연장 신청은 불가합니다. </p>
 		<br>
 		
-		<h3>▶ 도서 예약</h3>
+		<h3><span class="glyphicon glyphicon-ok-sign"></span>&nbsp; 도서 예약</h3>
 		<p> ● 예약 가능권수: 1인당 3권 </p>
 		<p> &nbsp;&nbsp; ※ 같은 도서가 여러권인 경우 1권당 3명씩(최대 10명) 예약 가능합니다. </p>
 

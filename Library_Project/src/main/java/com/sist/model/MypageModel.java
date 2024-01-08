@@ -142,4 +142,22 @@ public class MypageModel {
 			request.setAttribute("main_jsp", "../mypage/myPage_main.jsp");
 			return "../main/main.jsp";
 		}
+	
+		// 도서결제내역 디테일
+		@RequestMapping("mypage/bookPurchaseDetail.do")
+		public String mypage_bookPurchaseDetail(HttpServletRequest request, HttpServletResponse response)
+		{
+			MyPageDAO dao=MyPageDAO.newInstance();
+			HttpSession session=request.getSession();
+			String userid=(String)session.getAttribute("email");
+			String orderNum=request.getParameter("orderNum");
+			
+			BookDeliverVO vo=dao.bookBuyDetail(Integer.parseInt(orderNum), userid);
+			request.setAttribute("vo", vo);
+		
+			request.setAttribute("mypage_bookPurchaseList_jsp", "../mypage/bookPurchaseDetail.jsp");
+			request.setAttribute("mypage_jsp", "../mypage/bookPurchaseList.jsp");
+			request.setAttribute("main_jsp", "../mypage/myPage_main.jsp");
+			return "../main/main.jsp";
+		}
 }

@@ -269,4 +269,35 @@ public class MyPageDAO {
 			}
 			return total;
 		}
+		
+		// 결제 내역 상세페이지
+	    public BookDeliverVO bookBuyDetail(int orderNum, String userid)
+	    {
+	       BookDeliverVO vo=new BookDeliverVO();
+	       try {
+	          conn=dbconn.getConnection();
+	          String sql="SELECT image, booktitle, saleprice, sumprice, orderdate, userid "
+	                +"FROM BOOKINFO "
+	                +"JOIN BOOKDELIVERY ON BOOKINFO.ISBN=BOOKDELIVERY.ISBN "
+	                +"WHERE userid=?)) "
+	                +"WHERE orderNum="+orderNum;
+	          ps=conn.prepareStatement(sql);
+	          ps.setString(1, userid);
+	          ResultSet rs=ps.executeQuery();
+	          rs.next();
+	          vo.setImage(rs.getString(1));
+	          vo.setBooktitle(rs.getString(2));
+	          vo.setSaleprice(rs.getInt(3));
+	          vo.setSumprice(rs.getInt(4));
+	          vo.setOrderDate(rs.getDate(5));
+	          rs.close();
+	       } catch (Exception e) {
+	          // TODO: handle exception
+	          e.printStackTrace();
+	       }
+	       finally {
+	          dbconn.disConnection(conn, ps);
+	       }
+	       return vo;
+	    }
 }
