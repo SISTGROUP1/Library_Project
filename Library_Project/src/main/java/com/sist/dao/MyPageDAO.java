@@ -213,9 +213,9 @@ public class MyPageDAO {
 		List<BookDeliverVO> list=new ArrayList<BookDeliverVO>();
 		try {
 			conn=dbconn.getConnection();
-			String sql="SELECT image, booktitle, fixedprice, sumprice, orderdate, orderNum, userid, num "
-					+"FROM (SELECT image, booktitle, fixedprice, sumprice, orderdate, orderNum, userid, rownum as num "
-					+"FROM (SELECT image, booktitle, fixedprice, sumprice, orderdate, orderNum, userid "
+			String sql="SELECT image, booktitle, saleprice, sumprice, orderdate, orderNum, userid, num "
+					+"FROM (SELECT image, booktitle, saleprice, sumprice, orderdate, orderNum, userid, rownum as num "
+					+"FROM (SELECT image, booktitle, saleprice, sumprice, orderdate, orderNum, userid "
 					+"FROM BOOKINFO "
 					+"JOIN BOOKDELIVERY ON BOOKINFO.ISBN=BOOKDELIVERY.ISBN "
 					+"WHERE userid=?)) "
@@ -232,7 +232,7 @@ public class MyPageDAO {
 				BookDeliverVO vo=new BookDeliverVO();
 				vo.setImage(rs.getString(1));
 				vo.setBooktitle(rs.getString(2));
-				vo.setFixedprice(rs.getInt(3));
+				vo.setSaleprice(rs.getInt(3));
 				vo.setSumprice(rs.getInt(4));
 				vo.setOrderDate(rs.getDate(5));
 				vo.setOrderNum(rs.getInt(6));
