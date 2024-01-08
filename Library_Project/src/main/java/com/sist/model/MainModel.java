@@ -11,6 +11,7 @@ import com.sist.dao.BoardDAO;
 import com.sist.dao.LibraryDAO;
 import com.sist.dao.ProgramDAO;
 import com.sist.vo.BoardVO;
+import com.sist.vo.FavorLoanVO;
 import com.sist.vo.ProgramVO;
 import com.sist.vo.bookInfoVO;
 
@@ -23,6 +24,10 @@ public class MainModel {
 		// 슬라이드바 새로 들어온 책 목록 리스트
 		LibraryDAO ldao = LibraryDAO.newInstance();
 		ArrayList<bookInfoVO> newArrivalList = ldao.newArrivalBookData(1, 30);
+		int newArrivalcnt = ldao.newArrivalTotal(30);
+		
+		ArrayList<FavorLoanVO> favorLoanList = ldao.favorLoanBookData(1, 30);
+		int favorLoancnt = ldao.favorLoanTotal(30);
 		
 		// 메인화면 Board 요약 출력 리스트
 		BoardDAO bdao=BoardDAO.newInstance();
@@ -30,7 +35,10 @@ public class MainModel {
 		
 		request.setAttribute("programList", programList);
 		request.setAttribute("boardList", boardList);
+		request.setAttribute("newArrivalCnt", newArrivalcnt);
 		request.setAttribute("newArrival", newArrivalList);
+		request.setAttribute("favorLoancnt", favorLoancnt);
+		request.setAttribute("favorLoan", favorLoanList);
 		request.setAttribute("main_jsp", "../main/home.jsp");
 		return "../main/main.jsp";
 	}

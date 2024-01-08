@@ -112,37 +112,53 @@
 					<header><h2>새로 들어온 책</h2>
 						<span id="link"><a href="../searchBook/newarrival.do">+</a></span>
 						<hr>
-					</header><div class="flex flex-4">
-						<c:forEach var="vo" begin="0" end="3" items="${newArrival }">
-							<div class="box person">
-							<a href="../searchBook/alqDetail.do?isbn=${vo.isbn }">
-							<div class="image">
-								<img src="${vo.image }" alt="Person 1" width="168">
-								<span class="img_dark"></span></div>
-							<h3 style="color: black;font-size: 16px;">${fn:length(vo.booktitle) gt 13 ? fn:substring(vo.booktitle,0,13)+='...' : vo.booktitle }</h3>
-							</a>
-						</div>
-						</c:forEach>
-					</div>
+					</header>
+						<c:if test="${newArrivalCnt!=0}">
+							<div class="flex flex-4">
+							<c:forEach var="vo" begin="0" end="3" items="${newArrival }">
+								<div class="box person">
+								<a href="../searchBook/alqDetail.do?isbn=${vo.isbn }">
+								<div class="image">
+									<img src="${vo.image }" alt="Person 1" width="168">
+									<span class="img_dark"></span></div>
+								<h3 style="color: black;font-size: 16px;">${fn:length(vo.booktitle) gt 13 ? fn:substring(vo.booktitle,0,13)+='...' : vo.booktitle }</h3>
+								</a>
+							</div>
+							</c:forEach>
+							</div>
+						</c:if>
+						<c:if test="${newArrivalCnt==0 }">
+							<div class="flex flex-4">
+								<h3 class="text-center" style="color:black;">이번달 등록된 도서가 없습니다.</h3>
+							</div>
+						</c:if>
 				</div>
                 </div>
                 <div class="slide slide-3">
                 	<div class="inner">
-					<header><h2>독서 문화 프로그램</h2>
+					<header><h2>대출이 많은 책</h2>
 						<span id="link">+</span>
 						<hr>
-					</header><div class="flex flex-4">
-						<c:forEach var="vo" items="${programList }">
-							<div class="box person">
-							<a href="#">
-							<div class="image">
-								<img src="${vo.poster }" alt="Person 1" width="168">
-								<span class="img_dark"></span></div>
-							<h3 style="color: black;font-size: 16px;">${fn:length(vo.title) gt 13 ? fn:substring(vo.title,0,13)+='...' : vo.title }</h3>
-							</a>
-						</div>
-						</c:forEach>
-					</div>
+					</header>
+						<c:if test="${favorLoancnt!=0}">
+							<div class="flex flex-4">
+							<c:forEach var="vo" begin="0" end="3" items="${favorLoan }">
+								<div class="box person">
+								<a href="../searchBook/alqDetail.do?isbn=${vo.isbn }">
+								<div class="image">
+									<img src="${vo.image }" alt="Person 1" width="168">
+									<span class="img_dark"></span></div>
+								<h3 style="color: black;font-size: 16px;">${fn:length(vo.booktitle) gt 13 ? fn:substring(vo.booktitle,0,13)+='...' : vo.booktitle }</h3>
+								</a>
+							</div>
+							</c:forEach>
+							</div>
+						</c:if>
+						<c:if test="${favorLoancnt==0 }">
+							<div class="flex flex-4">
+								<h3 class="text-center" style="color:black;">대출된 내역이 존재하지 않습니다.</h3>
+							</div>
+						</c:if>
 				</div>
                 </div>
             </div>

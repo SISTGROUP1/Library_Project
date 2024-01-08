@@ -98,6 +98,38 @@ public class BookModel {
 	
 	@RequestMapping("searchBook/favorLoan.do")
 	public String Search_favorLoan(HttpServletRequest request,HttpServletResponse response) {
+		String page = request.getParameter("page");
+		String acq = request.getParameter("acq");
+
+		if(page==null) {
+			page = "1";
+		}
+		if(acq==null) {
+			acq = "30";
+		}
+		int curpage = Integer.parseInt(page);
+		int acqdate = Integer.parseInt(acq);
+		
+		LibraryDAO dao = LibraryDAO.newInstance();
+		ArrayList<FavorLoanVO> list = dao.favorLoanBookData(curpage, acqdate);
+		int total = dao.favorLoanTotal(acqdate);
+		int totalpage = (int)Math.ceil((total)/100.0);
+		
+		final int BLOCK=10;
+		int startPage=((curpage-1)/BLOCK*BLOCK)+1;
+		int endPage=((curpage-1)/BLOCK*BLOCK)+BLOCK;
+		
+		if(endPage>totalpage)
+			endPage=totalpage;
+		
+		request.setAttribute("list", list);
+		request.setAttribute("total", total);
+		request.setAttribute("acq", acq);	
+		request.setAttribute("totalpage", totalpage);
+		request.setAttribute("startpage", startPage);
+		request.setAttribute("endpage", endPage);
+		request.setAttribute("curpage", curpage);
+		
 		
 		request.setAttribute("main_jsp", "/searchBook/favorLoan.jsp");
 		
