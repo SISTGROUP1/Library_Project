@@ -209,7 +209,7 @@
 				<td>${vo.booklocation }</td>
 				<td>
 					<c:if test="${vo.brvo.status==null }"><font class="reservecheck" style="color:skyblue;">대출가능</font></c:if>
-					<c:if test="${vo.brvo.status=='y' }"><font class="reservecheck" style="color:red;">대출불가</font></c:if>
+					<c:if test="${vo.brvo.status=='y' }"><font class="reservecheck" style="color:red;">대출중</font></c:if>
 					<c:if test="${vo.brvo.status=='n' }"><font class="reservecheck" style="color:#74A16F;">예약진행중</font></c:if>
 				</td>
 				<td>

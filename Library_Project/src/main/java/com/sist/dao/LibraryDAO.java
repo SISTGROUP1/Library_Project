@@ -49,10 +49,10 @@ public class LibraryDAO {
 		try {
 			conn = dbconn.getConnection();
 
-			String sql = "SELECT booktitle,image,bookauthor,bookpublisher,bookcallnum,bookdate,bookaccessionno,booklocation,isbn,num "
-					+ "FROM (SELECT booktitle,image,bookauthor,bookpublisher,bookcallnum,bookdate,bookaccessionno,booklocation,isbn,rownum as num "
-					+ "FROM (SELECT booktitle,image,bookauthor,bookpublisher,bookcallnum,bookdate,bookaccessionno,booklocation,isbn "
-					+ "FROM bookinfo WHERE isbn in(SELECT isbn FROM BOOKMAIN WHERE MNO in(SELECT mno FROM MIDDLECT JOIN MAJORCT ON MIDDLECT.cno = MAJORCT.cno WHERE MAJORCT.cno=? AND MIDDLECT.mno=?)) "
+			String sql = "SELECT booktitle,image,bookauthor,bookpublisher,bookcallnum,bookdate,bookaccessionno,booklocation,isbn,status,num "
+					+ "FROM (SELECT booktitle,image,bookauthor,bookpublisher,bookcallnum,bookdate,bookaccessionno,booklocation,isbn,status,rownum as num "
+					+ "FROM (SELECT booktitle,image,bookauthor,bookpublisher,bookcallnum,bookdate,bookaccessionno,booklocation,bookinfo.isbn,status "
+					+ "FROM bookinfo LEFT OUTER JOIN (SELECT * FROM (SELECT NO,isbn,regdate,userid,status,enddate,ROW_NUMBER() OVER(PARTITION BY isbn ORDER BY NO ASC) AS rankno FROM BOOKRESERVATION b ) WHERE rankno=1) dat ON bookinfo.ISBN = dat.ISBN WHERE bookinfo.isbn in(SELECT isbn FROM BOOKMAIN WHERE MNO in(SELECT mno FROM MIDDLECT JOIN MAJORCT ON MIDDLECT.cno = MAJORCT.cno WHERE MAJORCT.cno=? AND MIDDLECT.mno=?)) "
 					+ ")) WHERE num BETWEEN ? AND ?";
 			
 			int row_size = 12;
@@ -75,6 +75,7 @@ public class LibraryDAO {
 				vo.setBookaccessionno(rs.getString(7));
 				vo.setBooklocation(rs.getString(8));
 				vo.setIsbn(rs.getString(9));
+				vo.getBrvo().setStatus(rs.getString(10));
 				
 				list.add(vo);
 			}
@@ -118,7 +119,7 @@ public class LibraryDAO {
 		try {
 			conn = dbconn.getConnection();
 			String sql = "SELECT bookinfo.isbn,booktitle,bookauthor,bookpublisher,bookdtype,bookperson,booksign,bookdate,bookaccessionno,bookcallnum,booklocation,image,bookinfo,enddate,status "
-					+ "FROM bookinfo LEFT OUTER JOIN BOOKRESERVATION ON bookinfo.ISBN = bookreservation.ISBN WHERE bookinfo.isbn=?";
+					+ "FROM bookinfo LEFT OUTER JOIN (SELECT * FROM (SELECT NO,isbn,regdate,userid,status,enddate,ROW_NUMBER() OVER(PARTITION BY isbn ORDER BY NO ASC) AS rankno FROM BOOKRESERVATION b ) WHERE rankno=1) dat ON bookinfo.ISBN = dat.ISBN WHERE bookinfo.isbn=?";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, isbn);
 			ResultSet rs = ps.executeQuery();
@@ -138,12 +139,8 @@ public class LibraryDAO {
 			vo.setImage(rs.getString(12));
 			vo.setBookinfo(rs.getString(13));
 			vo.getBrvo().setEnddate(rs.getDate(14));
-			if(rs.getString(15)==null) {
-				vo.getBrvo().setStatus("w");
-			}
-			else{
-				vo.getBrvo().setStatus(rs.getString(15));
-			}
+			vo.getBrvo().setStatus(rs.getString(15));
+			
 			rs.close();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -280,49 +277,6 @@ public class LibraryDAO {
 		}
 		return total;
 	}
-	public void bookstatus(bookInfoVO vo) {
-		try {
-			conn = dbconn.getConnection();
-			String sql = "SELECT COUNT(*) FROM BOOKRESERVATION "
-					+ "WHERE status=? AND isbn=?";
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, "n");
-			ps.setString(2, vo.getIsbn());
-			
-			ResultSet rs = ps.executeQuery();
-			rs.next();
-			int cnt = rs.getInt(1);
-			rs.close();
-			ps.close();
-			if(cnt!=0) {
-				sql = "SELECT COUNT(*) FROM BOOKRESERVATION "
-						+ "WHERE status=? AND isbn=?";
-				ps = conn.prepareStatement(sql);
-				ps.setString(1, "y");
-				ps.setString(2, vo.getIsbn());
-				
-				rs = ps.executeQuery();
-				rs.next();
-				cnt = rs.getInt(1);
-				rs.close();
-				if(cnt!=0) {
-					vo.getBrvo().setStatus("y");
-				}
-				else {
-					vo.getBrvo().setStatus("n");
-				}
-			}
-			else {
-				vo.getBrvo().setStatus(null);
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		finally {
-			dbconn.disConnection(conn, ps);
-		}
-	}
 	
 	public void bookdatareserve(String id,String isbn) {
 		try {
@@ -417,4 +371,132 @@ public class LibraryDAO {
 		}
 	}
 	
+	public ArrayList<bookInfoVO> favorLoanBookData(int page,int acq){
+		ArrayList<bookInfoVO> list = new ArrayList<bookInfoVO>();
+		try {
+			conn = dbconn.getConnection();
+			String sql = "SELECT image,isbn,booktitle,bookauthor,bookpublisher,bookdate,ACQUISITION,num "
+					+ "FROM (SELECT image,isbn,booktitle,bookauthor,bookpublisher,bookdate,ACQUISITION,rownum as num "
+					+ "FROM (SELECT image,isbn,booktitle,bookauthor,bookpublisher,bookdate,ACQUISITION "
+					+ "FROM bookinfo WHERE acquisition>(SYSDATE-?) "
+					+ "ORDER BY acquisition DESC)) WHERE num BETWEEN ? AND ?";
+			ps = conn.prepareStatement(sql);
+			int rowpage = 100;
+			int start = (page*rowpage)-(rowpage-1);
+			int end = (page*rowpage);
+			ps.setInt(1, acq);
+			ps.setInt(2, start);
+			ps.setInt(3, end);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				bookInfoVO vo = new bookInfoVO();
+				vo.setImage(rs.getString(1));
+				vo.setIsbn(rs.getString(2));
+				vo.setBooktitle(rs.getString(3));
+				vo.setBookauthor(rs.getString(4));
+				vo.setBookpublisher(rs.getString(5));
+				vo.setBookdate(rs.getString(6));
+				vo.setAcquisition(rs.getDate(7));
+				vo.setCount(rs.getInt(8));
+				
+				list.add(vo);
+			}
+			rs.close();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return list;
+	}
+	
+	public int favorLoanTotal(int acq) {
+		int total = 0;
+		try {
+			conn = dbconn.getConnection();
+			String sql = "SELECT COUNT(*) "
+					+ "FROM bookinfo WHERE acquisition>(SYSDATE-?)";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, acq);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			total = rs.getInt(1);
+			rs.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return total;
+	}
+	
+	public ArrayList<bookInfoVO> SearchBookData(String name,int page){
+		ArrayList<bookInfoVO> list = new ArrayList<bookInfoVO>();
+		try {
+			conn = dbconn.getConnection();
+			String sql = "SELECT booktitle,image,bookauthor,bookpublisher,bookcallnum,bookdate,bookaccessionno,booklocation,isbn,status,num "
+					+ "FROM (SELECT booktitle,image,bookauthor,bookpublisher,bookcallnum,bookdate,bookaccessionno,booklocation,isbn,status,rownum as num "
+					+ "FROM (SELECT booktitle,image,bookauthor,bookpublisher,bookcallnum,bookdate,bookaccessionno,booklocation,bookinfo.isbn,status "
+					+ "FROM bookinfo LEFT OUTER JOIN (SELECT * FROM (SELECT NO,isbn,regdate,userid,status,enddate,ROW_NUMBER() OVER(PARTITION BY isbn ORDER BY NO ASC) AS rankno FROM BOOKRESERVATION b ) WHERE rankno=1) dat ON bookinfo.ISBN = dat.ISBN WHERE REGEXP_LIKE(booktitle,?))) WHERE num BETWEEN ? AND ?";
+			
+			int row_size = 12;
+			int start = (row_size*page)-(row_size-1);
+			int end = (row_size*page);
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, name);
+			ps.setInt(2, start);
+			ps.setInt(3, end);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				bookInfoVO vo = new bookInfoVO();
+				vo.setBooktitle(rs.getString(1));
+				vo.setImage(rs.getString(2));
+				vo.setBookauthor(rs.getString(3));
+				vo.setBookpublisher(rs.getString(4));
+				vo.setBookcallnum(rs.getString(5));
+				vo.setBookdate(rs.getString(6));
+				vo.setBookaccessionno(rs.getString(7));
+				vo.setBooklocation(rs.getString(8));
+				vo.setIsbn(rs.getString(9));
+				vo.getBrvo().setStatus(rs.getString(10));
+				
+				list.add(vo);
+			}
+			rs.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return list;
+	}
+	public int SearchBookTotal(String name) {
+		int total = 0;
+		try {
+			conn = dbconn.getConnection();
+			String sql = "SELECT COUNT(*) "
+					+ "FROM bookinfo WHERE REGEXP_LIKE(booktitle,?)";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, name);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			total = rs.getInt(1);
+			rs.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return total;
+	}
 }

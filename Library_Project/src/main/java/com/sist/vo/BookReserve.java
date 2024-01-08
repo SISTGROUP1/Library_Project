@@ -2,7 +2,7 @@ package com.sist.vo;
 import java.util.*;
 public class BookReserve {
 	private int no;
-	private String isbn,userid,status,regdate_str,enddate_str;;
+	private String isbn,userid,status,regdate_str,enddate_str;
 	private Date regdate,enddate;
 	// admin 도서 대출 예약 내역 조회시
 	private bookInfoVO bvo=new bookInfoVO();

@@ -41,9 +41,7 @@ public class BookModel {
 		
 		LibraryDAO dao = LibraryDAO.newInstance();
 		ArrayList<bookInfoVO> list = dao.BookInfoData(Integer.parseInt(cno),mno,curpage);
-		for(bookInfoVO vo:list) {
-			dao.bookstatus(vo);
-		}
+		
 		ArrayList<MiddlectVO> CategoryData = dao.SearchSubmenuData(1, mno);
 		int total = dao.BookInfoTotal(Integer.parseInt(cno),mno);
 		int totalpage = (int)Math.ceil((total/12.0));
@@ -152,7 +150,6 @@ public class BookModel {
 		
 		LibraryDAO dao = LibraryDAO.newInstance();
 		bookInfoVO vo = dao.BookDetailSearch(isbn);
-		dao.bookstatus(vo);
 		
 		AllLikeDAO adao = AllLikeDAO.newInstance();
 		int cnt = adao.bookLikeCount(isbn);
@@ -162,7 +159,7 @@ public class BookModel {
 			status = adao.bookLikeCheck(isbn, id, 0);
 		}
 		
-		request.setAttribute("status", status);
+		request.setAttribute("status", status);//좋아요 상태
 		request.setAttribute("vo", vo);
 		request.setAttribute("star_count", cnt);
 		

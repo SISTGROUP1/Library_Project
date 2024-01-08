@@ -114,7 +114,7 @@
 										<td style="text-align:center !important;">${vo.bookaccessionno }</td>
 										<td style="text-align:center !important;">
 											<c:if test="${vo.brvo.status==null }"><font style="color:skyblue;">대출가능</font></c:if>
-											<c:if test="${vo.brvo.status=='y' }"><font style="color:red;">대출불가</font></c:if>
+											<c:if test="${vo.brvo.status=='y' }"><font style="color:red;">대출중</font></c:if>
 											<c:if test="${vo.brvo.status=='n' }"><font style="color:#74A16F;">예약진행중</font></c:if>
 										</td>
 									</tr>
