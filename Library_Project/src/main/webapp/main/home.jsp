@@ -241,8 +241,8 @@
 							<!-- partial -->
   							<script  src="./script.js"></script>
   							<header>
-  							<p class="calendar_id"><a href="#">+ 이달의 행사 정보 더보기</a></p>  <!-- # : 행사..? -->
-  							<p class="calendar_id2"><a href="#">+ 이달의 휴관일 확인하기</a></p>	<!-- # : 달력 상세로 넘어가도록 -->
+  							<p class="calendar_id"><a href="../program/programList.do">+ 이달의 행사 정보 더보기</a></p>  <!-- # : 행사..? -->
+  							<p class="calendar_id2"><a href="../Board/calendar.do">+ 이달의 휴관일 확인하기</a></p>	<!-- # : 달력 상세로 넘어가도록 -->
 							</header>
 						</article>
 							
