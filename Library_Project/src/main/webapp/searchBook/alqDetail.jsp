@@ -95,6 +95,7 @@
 									data:{"id":id,"isbn":isbn},
 									success:function(res){
 										alert("도서가 반납이 되었습니다.");
+										location.href = "../searchBook/alqDetail_before.do?isbn="+isbn;
 									}
 								})
 							}
@@ -216,7 +217,7 @@
 					<c:if test="${vo.brvo.enddate==null }"></c:if>
 					<c:if test="${vo.brvo.enddate!=null }">${vo.brvo.enddate }</c:if>
 				</td>
-				<td><input id="reserve" data-value="${sessionScope.email }" type="button" class="btn btn-sm" value="예약신청" style="border-radius: 10px !important;line-height: 0px !important;"></td>
+				<td><input id="reserve" data-value="${sessionScope.email }" type="button" class="btn btn-sm" value="<c:if test="${reserveBtn=='y' }">반 납</c:if><c:if test="${reserveBtn=='' }">예약 신청</c:if><c:if test="${reserveBtn=='n' }">예약 취소</c:if>" style="border-radius: 10px !important;line-height: 0px !important;"></td>
 			</tr>
 		</table>
 	</div>

@@ -499,4 +499,40 @@ public class LibraryDAO {
 		}
 		return total;
 	}
+	
+	public String bookDetailbtnCheck(String id,String isbn) {
+		String answer = "";
+		try {
+			conn = dbconn.getConnection();
+			String sql = "SELECT COUNT(*) FROM bookreservation "
+					+ "WHERE userid=? AND isbn=?";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, id);
+			ps.setString(2, isbn);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			int cnt = rs.getInt(1);
+			rs.close();
+			if(cnt!=0) {
+				sql = "SELECT status FROM bookreservation "
+						+ "WHERE userid=? AND isbn=?";
+				ps = conn.prepareStatement(sql);
+				ps.setString(1, id);
+				ps.setString(2, isbn);
+				rs = ps.executeQuery();
+				rs.next();
+				answer = rs.getString(1);
+				rs.close();
+			}
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return answer;
+	}
 }

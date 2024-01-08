@@ -151,6 +151,8 @@ public class BookModel {
 		LibraryDAO dao = LibraryDAO.newInstance();
 		bookInfoVO vo = dao.BookDetailSearch(isbn);
 		
+		String reserveBtn = dao.bookDetailbtnCheck(id, isbn);
+		
 		AllLikeDAO adao = AllLikeDAO.newInstance();
 		int cnt = adao.bookLikeCount(isbn);
 		
@@ -162,6 +164,7 @@ public class BookModel {
 		request.setAttribute("status", status);//좋아요 상태
 		request.setAttribute("vo", vo);
 		request.setAttribute("star_count", cnt);
+		request.setAttribute("reserveBtn", reserveBtn);
 		
 		request.setAttribute("main_jsp", "/searchBook/alqDetail.jsp");
 		
