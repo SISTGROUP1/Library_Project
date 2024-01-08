@@ -4,12 +4,20 @@ public class BookReserve {
 	private int no;
 	private String isbn,userid,status,regdate_str,enddate_str;
 	private Date regdate,enddate;
+	private String booktitle;
+	
 	// admin 도서 대출 예약 내역 조회시
-	private bookInfoVO bvo=new bookInfoVO();
-	
-	
-	public bookInfoVO getBvo() {
-		return bvo;
+//	private bookInfoVO bvo=new bookInfoVO();
+//	
+//	
+//	public bookInfoVO getBvo() {
+//		return bvo;
+//	}
+	public String getBooktitle() {
+		return booktitle;
+	}
+	public void setBooktitle(String booktitle) {
+		this.booktitle = booktitle;
 	}
 	public String getRegdate_str() {
 		return regdate_str;

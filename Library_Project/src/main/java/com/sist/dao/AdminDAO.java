@@ -254,7 +254,7 @@ public class AdminDAO {
 				BookReserve vo=new BookReserve();
 				vo.setNo(rs.getInt(1));
 				vo.setIsbn(rs.getString(2));
-				vo.getBvo().setBooktitle(rs.getString(3));
+				vo.setBooktitle(rs.getString(3));
 				vo.setRegdate_str(rs.getString(4));
 				vo.setUserid(rs.getString(5));
 				vo.setStatus(rs.getString(6));

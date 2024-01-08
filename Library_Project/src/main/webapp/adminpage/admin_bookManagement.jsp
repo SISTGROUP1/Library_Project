@@ -78,7 +78,7 @@
 		<c:forEach var="vo" items="${list }">
 			<tr>
 				<th width="5%" class="text-center">${count }</th>
-				<th width="30%">${vo.bvo.booktitle }</th>
+				<th width="30%">${vo.booktitle }</th>
 				<th width="20%" class="text-center">${vo.regdate_str }</th>
 				<th width="20%" class="text-center">${vo.enddate_str }</th>
 				<th width="15%" class="text-center">${vo.userid }</th>
