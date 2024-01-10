@@ -116,7 +116,7 @@
                 <div class="slide slide-2">
                 	<div class="inner">
 					<header><h2>새로 들어온 책</h2>
-						<span id="link2"><a href="../searchBook/newarrival.do">+</a></span>
+						<span id="link2">+</span>
 						<hr>
 					</header>
 						<c:if test="${newArrivalCnt!=0}">
