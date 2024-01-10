@@ -4,19 +4,13 @@ package com.sist.vo;
  * */
 public class FavorLoanVO {
 	private int cnt,num;
-	private String isbn,booktitle,bookauthor,bookpublisher,regdate,bookdate,image;
+	private String isbn,booktitle,bookauthor,bookpublisher,bookdate,image;
 	
 	public String getImage() {
 		return image;
 	}
 	public void setImage(String image) {
 		this.image = image;
-	}
-	public String getRegdate() {
-		return regdate;
-	}
-	public void setRegdate(String regdate) {
-		this.regdate = regdate;
 	}
 	public String getBookdate() {
 		return bookdate;

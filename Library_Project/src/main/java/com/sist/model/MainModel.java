@@ -23,22 +23,27 @@ public class MainModel {
 		List<ProgramVO> programList=dao.programSlideData();
 		// 슬라이드바 새로 들어온 책 목록 리스트
 		LibraryDAO ldao = LibraryDAO.newInstance();
-		ArrayList<bookInfoVO> newArrivalList = ldao.newArrivalBookData(1, 30);
-		int newArrivalcnt = ldao.newArrivalTotal(30);
+		int newArrivalCnt = ldao.newArrivalTotal(30);
+		ArrayList<bookInfoVO> newArrivalList = null;
+		if(newArrivalCnt!=0) {
+			newArrivalList = ldao.newArrivalBookData(1, 30);
+			request.setAttribute("newArrival", newArrivalList);
+		}
 		
-		ArrayList<FavorLoanVO> favorLoanList = ldao.favorLoanBookData(1, 30);
 		int favorLoancnt = ldao.favorLoanTotal(30);
-		
+		ArrayList<FavorLoanVO> favorLoanList = null;
+		if(favorLoancnt!=0) {
+			favorLoanList = ldao.favorLoanBookData(1, 30);
+			request.setAttribute("favorLoan", favorLoanList);
+		}
 		// 메인화면 Board 요약 출력 리스트
 		BoardDAO bdao=BoardDAO.newInstance();
 		List<BoardVO> boardList=bdao.boardMainData();
 		
 		request.setAttribute("programList", programList);
 		request.setAttribute("boardList", boardList);
-		request.setAttribute("newArrivalCnt", newArrivalcnt);
-		request.setAttribute("newArrival", newArrivalList);
+		request.setAttribute("newArrivalCnt", newArrivalCnt);
 		request.setAttribute("favorLoancnt", favorLoancnt);
-		request.setAttribute("favorLoan", favorLoanList);
 		request.setAttribute("main_jsp", "../main/home.jsp");
 		return "../main/main.jsp";
 	}

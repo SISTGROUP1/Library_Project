@@ -203,7 +203,10 @@
 			<table class="table">
 				<tr>
 					<td rowspan="2"></td>
-					<td class="summary_date">2023년 12월 22일</td>
+					<td class="summary_date">
+					<c:set var="now" value="<%=new java.util.Date()%>"/>
+    					<fmt:formatDate value="${now}" pattern="yyyy년 MM월 DD일" />
+					</td>
 				</tr>
 				<tr>
 					<td>09:00&nbsp;~&nbsp;21:00</td>
@@ -214,7 +217,7 @@
 				</tr>
 				<tr>
 					<td>예약&nbsp;:&nbsp;116권</td>
-					<td>새로들어온책&nbsp;:&nbsp;53권</td>
+					<td>새로들어온책&nbsp;:&nbsp;${newArrivalCnt}권</td>
 				</tr>
 			</table>
 		</div>

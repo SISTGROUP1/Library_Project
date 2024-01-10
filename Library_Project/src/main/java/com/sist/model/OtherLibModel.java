@@ -37,6 +37,7 @@ public class OtherLibModel {
 		//default 선언
 		ArrayList<OtherLibVO> list = dao.OtherLibSearch(curpage);
 		int total = dao.OtherLibTotal(0,"","");
+		String apikey = dao.apiFind("kakao");
 		//name , book 별 list 선언
 		
 		if(name!="" && book == "") {
@@ -63,6 +64,7 @@ public class OtherLibModel {
 		request.setAttribute("list", list);
 		request.setAttribute("total", total);
 		request.setAttribute("name", name);
+		request.setAttribute("api", apikey);
 		request.setAttribute("book", book);
 		request.setAttribute("curpage", curpage);
 		request.setAttribute("totalpage", totalpage);

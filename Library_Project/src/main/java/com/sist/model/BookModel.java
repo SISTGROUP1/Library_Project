@@ -281,7 +281,5 @@ public class BookModel {
 		
 		LibraryDAO dao = LibraryDAO.newInstance();
 		dao.bookdatareservereturn(isbn,id);
-		
-		System.out.println("이메일 날려줘야 돼요.");
 	}
 }

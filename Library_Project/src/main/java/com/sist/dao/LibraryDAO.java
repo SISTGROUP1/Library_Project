@@ -375,30 +375,28 @@ public class LibraryDAO {
 		ArrayList<FavorLoanVO> list = new ArrayList<FavorLoanVO>();
 		try {
 			conn = dbconn.getConnection();
-			String sql = "SELECT cnt,image,isbn,booktitle,bookauthor,BOOKPUBLISHER,bookdate,regdate,rownum "
-					+ "FROM (SELECT COUNT(*) AS cnt,image,bookinfo.isbn,booktitle,bookauthor,BOOKPUBLISHER,bookdate,TO_CHAR(regdate,'yyyy-mm-dd') AS regdate,ROW_NUMBER() OVER(ORDER BY count(*) DESC) AS rank "
-					+ "FROM BOOKRESERVATION_COUNT JOIN BOOKINFO ON BOOKRESERVATION_COUNT.isbn = BOOKINFO.isbn GROUP BY bookinfo.isbn,image,booktitle,bookauthor,BOOKPUBLISHER ,bookdate,TO_CHAR(regdate,'yyyy-mm-dd')) "
-					+ "WHERE (rownum BETWEEN ? AND ?) AND (regdate>SYSDATE-?)";
+			String sql = "SELECT isbn,cnt,image,booktitle,BOOKAUTHOR,BOOKPUBLISHER,BOOKDATE,num FROM (SELECT isbn,cnt,image,booktitle,BOOKAUTHOR,BOOKPUBLISHER,BOOKDATE,rownum as num FROM (SELECT DISTINCT dat.isbn,cnt,image,booktitle,bookauthor,BOOKPUBLISHER,bookdate "
+					+ "FROM (SELECT COUNT(*) AS cnt,image,bookinfo.isbn,booktitle,bookauthor,BOOKPUBLISHER,bookdate,ROW_NUMBER() OVER(ORDER BY count(*) DESC) AS rank "
+					+ "FROM BOOKRESERVATION_COUNT JOIN BOOKINFO ON BOOKRESERVATION_COUNT.isbn = BOOKINFO.isbn WHERE BOOKRESERVATION_COUNT.REGDATE >SYSDATE-? GROUP BY bookinfo.isbn,image,booktitle,bookauthor,BOOKPUBLISHER ,bookdate) dat "
+					+ "RIGHT OUTER JOIN BOOKRESERVATION_COUNT ON dat.isbn=BOOKRESERVATION_COUNT.isbn ORDER BY cnt DESC)) WHERE num BETWEEN ? AND ?";
 			ps = conn.prepareStatement(sql);
 			int rowpage = 100;
 			int start = (page*rowpage)-(rowpage-1);
 			int end = (page*rowpage);
-			ps.setInt(1, start);
-			ps.setInt(2, end);
-			ps.setInt(3, acq);
-			
+			ps.setInt(1, acq);
+			ps.setInt(2, start);
+			ps.setInt(3, end);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				FavorLoanVO vo = new FavorLoanVO();
-				vo.setCnt(rs.getInt(1));
-				vo.setImage(rs.getString(2));
-				vo.setIsbn(rs.getString(3));
+				vo.setIsbn(rs.getString(1));
+				vo.setCnt(rs.getInt(2));
+				vo.setImage(rs.getString(3));
 				vo.setBooktitle(rs.getString(4));
 				vo.setBookauthor(rs.getString(5));
 				vo.setBookpublisher(rs.getString(6));
 				vo.setBookdate(rs.getString(7));
-				vo.setRegdate(rs.getString(8));
-				vo.setNum(rs.getInt(9));
+				vo.setNum(rs.getInt(8));
 				
 				list.add(vo);
 			}
@@ -418,10 +416,10 @@ public class LibraryDAO {
 		int total = 0;
 		try {
 			conn = dbconn.getConnection();
-			String sql = "SELECT count(*) "
-					+ "FROM (SELECT COUNT(*) AS cnt,bookinfo.isbn,booktitle,bookauthor,BOOKPUBLISHER,bookdate,TO_CHAR(regdate,'yyyy-mm-dd') AS regdate,ROW_NUMBER() OVER(ORDER BY count(*) DESC) AS rank "
-					+ "FROM BOOKRESERVATION_COUNT JOIN BOOKINFO ON BOOKRESERVATION_COUNT.isbn = BOOKINFO.isbn GROUP BY bookinfo.isbn,booktitle,bookauthor,BOOKPUBLISHER ,bookdate,TO_CHAR(regdate,'yyyy-mm-dd')) "
-					+ "WHERE regdate>SYSDATE-?";
+			String sql = "SELECT COUNT(*) FROM (SELECT isbn,cnt,image,booktitle,BOOKAUTHOR,BOOKPUBLISHER,BOOKDATE,rownum as num FROM (SELECT DISTINCT dat.isbn,cnt,image,booktitle,bookauthor,BOOKPUBLISHER,bookdate "
+					+ "	FROM (SELECT COUNT(*) AS cnt,image,bookinfo.isbn,booktitle,bookauthor,BOOKPUBLISHER,bookdate,ROW_NUMBER() OVER(ORDER BY count(*) DESC) AS rank "
+					+ "	FROM BOOKRESERVATION_COUNT JOIN BOOKINFO ON BOOKRESERVATION_COUNT.isbn = BOOKINFO.isbn WHERE BOOKRESERVATION_COUNT.REGDATE >SYSDATE-? GROUP BY bookinfo.isbn,image,booktitle,bookauthor,BOOKPUBLISHER ,bookdate) dat "
+					+ "	RIGHT OUTER JOIN BOOKRESERVATION_COUNT ON dat.isbn=BOOKRESERVATION_COUNT.isbn ORDER BY cnt DESC))";
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, acq);
 			ResultSet rs = ps.executeQuery();

@@ -286,5 +286,25 @@ public class LibrarySearchDAO {
 		}
 		return list;
 	}
+	public String apiFind(String id) {
+		String apikey = "";
+		try {
+			conn = dbconn.getConnection();
+			String sql = "SELECT val FROM webfind WHERE id=?";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, id);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			apikey = rs.getString(1);
+			rs.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return apikey;
+	}
 
 }

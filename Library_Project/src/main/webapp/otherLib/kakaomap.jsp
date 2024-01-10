@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="java.util.*,com.sist.vo.*"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	String address = "";
 %>
@@ -13,8 +14,8 @@
 	</head>
 	<body>
 		<div id="map" style="width:100%;height:100%;z-index: 0;"></div>
-		
-		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=개인api입력&libraries=services"></script>
+		<c:set var="apikey" value="${api}"/>
+		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${apikey }&libraries=services"></script>
 		<script>
 			let name = "서울도서관";
 			let addr = "서울특별시 중구 세종대로 110";
