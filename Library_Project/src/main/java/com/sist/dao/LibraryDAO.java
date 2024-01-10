@@ -362,6 +362,12 @@ public class LibraryDAO {
 			ps.setString(2, id);
 			ps.setString(3, "y");
 			ps.executeUpdate();
+			ps.close();
+			sql = "UPDATE BOOKRESERVATION_COUNT SET enddate=SYSDATE WHERE isbn=? AND userid=? AND enddate is null";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, isbn);
+			ps.setString(2, id);
+			ps.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();

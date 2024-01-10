@@ -215,7 +215,7 @@
 				</td>
 				<td>
 					<c:if test="${vo.brvo.enddate==null }"></c:if>
-					<c:if test="${vo.brvo.enddate!=null }">${vo.brvo.enddate }</c:if>
+					<c:if test="${vo.brvo.enddate!=null }"><c:if test="${vo.brvo.status=='y' }">${vo.brvo.enddate }</c:if></c:if>
 				</td>
 				<td><input id="reserve" data-value="${sessionScope.email }" type="button" class="btn btn-sm" value="<c:if test="${reserveBtn=='y' }">반 납</c:if><c:if test="${reserveBtn=='' }">예약 신청</c:if><c:if test="${reserveBtn=='n' }">예약 취소</c:if>" style="border-radius: 10px !important;line-height: 0px !important;"></td>
 			</tr>
