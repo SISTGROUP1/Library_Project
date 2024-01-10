@@ -24,6 +24,9 @@
 	.table1 tr{
 		background:white !important;
 	}
+	.table1 tr>th{
+		padding :11px;
+	}
 </style>
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 <script type="text/javascript">
