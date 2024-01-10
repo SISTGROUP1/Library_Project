@@ -136,7 +136,7 @@
 			</div>
 		<div class="row">
 			<div class="col-md-3" style="width:20%">
-				<img src="${vo.image }" class="img-fluid" alt="Book Image" style="width:200px;height:300px;">
+				<img src="${vo.image }" class="img-fluid" alt="Book Image" style="width:100%;height:300px;">
 			</div>
 			<div class="col-md-9" style="width:80%">
 				<div class="card">
