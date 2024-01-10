@@ -14,6 +14,12 @@
 		$('#link').click(function() {
 			$(location).attr('href','../program/programList.do');
 		});
+		$('#link2').click(function() {
+			$(location).attr('href','../searchBook/newarrival.do');
+		});
+		$('#link3').click(function() {
+			$(location).attr('href','../searchBook/favorLoan.do');
+		});
 	});
 </script>
 <style type="text/css">
@@ -47,7 +53,7 @@
 		border: 1px solid skyblue;
 		margin: 1em 0;
 	}
-	section#two #link{
+	section#two #link,#link2,#link3{
 		position: absolute;
 		right: 0;
 		bottom: 0;
@@ -55,7 +61,7 @@
 		font-size: 50px;
 		padding: 0;
 	}
-	section#two #link:hover{
+	section#two #link:hover,#link2:hover,#link3:hover{
 		color: #ED8E6C;
 	}
 	section#two .slide-nav div{
@@ -110,7 +116,7 @@
                 <div class="slide slide-2">
                 	<div class="inner">
 					<header><h2>새로 들어온 책</h2>
-						<span id="link"><a href="../searchBook/newarrival.do">+</a></span>
+						<span id="link2"><a href="../searchBook/newarrival.do">+</a></span>
 						<hr>
 					</header>
 						<c:if test="${newArrivalCnt!=0}">
@@ -137,7 +143,7 @@
                 <div class="slide slide-3">
                 	<div class="inner">
 					<header><h2>대출이 많은 책</h2>
-						<span id="link">+</span>
+						<span id="link3">+</span>
 						<hr>
 					</header>
 						<c:if test="${favorLoancnt!=0}">
