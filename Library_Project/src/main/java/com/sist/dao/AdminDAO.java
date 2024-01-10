@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.sist.dbcp.CreateDBCPConnection;
 import com.sist.vo.BookReserve;
+import com.sist.vo.BookReserveCountVO;
 import com.sist.vo.ProgramVO;
 
 public class AdminDAO {
@@ -201,8 +202,9 @@ public class AdminDAO {
 			conn=dbconn.getConnection();
 			// 삭제전 신청한 인원 조회
 			// 프로그램 목록에서는 없어지나
-			// 사용자의 프로그램 신청내역에서는 유지
-			// status를 종료(2)로 변경
+			// 사용자의 프로그램 신청내역에서는 유지 -> X
+			// status를 종료(2)로 변경 -> X
+			// 삭제
 			String sql="SELECT COUNT(*) "
 					+ "FROM program_application "
 					+ "WHERE pno="+pno;
@@ -213,17 +215,18 @@ public class AdminDAO {
 			rs.close();
 			ps.close();
 			if(count>0) {
-				sql="UPDATE program_application SET "
-						+ "status=2 "
-						+ "WHERE pno="+pno;
-				ps=conn.prepareStatement(sql);
-				ps.executeUpdate();
-			}else {
-				sql="DELETE FROM program "
+//				sql="UPDATE program_application SET "
+//						+ "status=2 "
+//						+ "WHERE pno="+pno;
+				sql="DELETE FROM program_application "
 						+ "WHERE pno="+pno;
 				ps=conn.prepareStatement(sql);
 				ps.executeUpdate();
 			}
+			sql="DELETE FROM program "
+					+ "WHERE pno="+pno;
+			ps=conn.prepareStatement(sql);
+			ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -289,20 +292,21 @@ public class AdminDAO {
 		return count;
 	}
 	
-	public void bookReserveAuthorize(int no,String isbn) {
+	public void bookReserveAuthorize(BookReserveCountVO vo) {
 		try {
 			conn=dbconn.getConnection();
 			String sql="UPDATE bookreservation SET "
-					+ "status='y' "
-					+ "WHERE no="+no;
+					+ "status='y',enddate=SYSDATE+14 "
+					+ "WHERE no="+vo.getBrno();
 			ps=conn.prepareStatement(sql);
 			ps.executeUpdate();
 			ps.close();
-			sql="INSERT INTO bookreservation_count(bno,isbn,regdate,brno) "
-					+ "VALUES (brc_seq.nextval,?,SYSDATE,?)";
+			sql="INSERT INTO bookreservation_count(bno,isbn,regdate,brno,userid) "
+					+ "VALUES (brc_seq.nextval,?,SYSDATE,?,?)";
 			ps=conn.prepareStatement(sql);
-			ps.setString(1, isbn);
-			ps.setInt(2, no);
+			ps.setString(1, vo.getIsbn());
+			ps.setInt(2, vo.getBrno());
+			ps.setString(3, vo.getUserid());
 			ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

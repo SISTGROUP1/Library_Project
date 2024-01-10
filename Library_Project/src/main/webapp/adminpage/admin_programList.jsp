@@ -37,7 +37,7 @@
 <body>
 <!-- 좋아요 도서 조회 -->
 	<div>
-		<form method="post" action="#" id="searchForm">
+		<form method="post" action="../admin/programList.do" id="searchForm">
 		<div>
 			<div style="padding: 15px;">
 				<div>

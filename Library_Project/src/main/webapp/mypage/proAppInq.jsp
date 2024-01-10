@@ -6,15 +6,22 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<!-- <style type="text/css">
-	.cancelBtn{
-		border-radius: 10px;
-		font-weight: 0;
-		height: 1.5em;
-		line-height: 0;
-	}
-</style> -->
+<script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$('.pgCancelBtn').click(function() {
+			let no=$(this).attr('data-no')
+			let pno=$(this).attr('data-pno')
+			if(confirm('프로그램 신청을 취소하시겠습니까?')===true){
+				location.href='../mypage/programCancel.do?no='+no+'&pno='+pno
+			}else{
+				return false
+			}
+		})
+	})
+</script>
 </head>
+
 <body>
 <!-- 프로그램 신청 조회 -->
 	<div>
@@ -43,10 +50,10 @@
 	<table class="table">
 		<tr>
 			<th width="5%" class="text-center">번호</th>
-			<th width="45%" class="text-center">강좌명</th>
-			<th width="15%" class="text-center">장소</th>
-			<th width="15%" class="text-center">강좌기간</th>
-			<th width="15%" class="text-center">상태</th>
+			<th width="35%" class="text-center">강좌명</th>
+			<th width="25%" class="text-center">장소</th>
+			<th width="20%" class="text-center">강좌기간</th>
+			<th width="10%" class="text-center">상태</th>
 			<th width="5%" class="text-center">취소</th>
 		</tr>
 		<c:if test="${list_size eq 0}">
@@ -61,14 +68,20 @@
 		<c:forEach var="vo" items="${list }">
 			<tr>
 				<td width="5%" class="text-center">${count }</td>
-				<td width="40%" style="white-space: nowrap;text-overflow: ellipsis;">
-					손기정어린이도서관 연말행사 크리스마스 매직쇼
+				<td width="35%" style="white-space: nowrap;text-overflow: ellipsis;">
+					${vo.pvo.title }
 				</td>
-				<td width="20%" class="text-center">손기정어린이도서관 2층</td>
-				<td width="20%" class="text-center">2023-12-24 ~ 2023-12-24</td>
-				<td width="10%" class="text-center">신청중</td>
+				<td width="25%" class="text-center">${vo.pvo.place }</td>
+				<td width="20%" class="text-center">${vo.pvo.edu1_str } ~<br>${vo.pvo.edu2_str }</td>
+				<td width="10%" class="text-center">
+					<c:if test="${vo.status==0 }">신청취소</c:if>
+					<c:if test="${vo.status==1 }">신청중<br>${vo.waitingNo gt 0?"대기:"+=vo.waitingNo:"" }</c:if>
+					<c:if test="${vo.status==2 }">종료</c:if>
+				</td>
 				<td width="5%" class="text-center">
-					<input type="button" value="취소" style="border-radius: 10px;font-weight: normal;height: 1.5em;line-height: 0;">
+					<c:if test="${vo.status==1 }">
+						<input type="button" value="취소" class="pgCancelBtn" data-no="${vo.no }" data-pno=${vo.pno } style="border-radius: 10px;font-weight: normal;height: 1.5em;line-height: 0;">
+					</c:if>
 				</td>
 			</tr>
 			<c:set var="count" value="${count-1 }"/>

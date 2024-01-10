@@ -86,13 +86,12 @@
 			</tr>
 			<tr>
 				<td width="100%" colspan="4">
-					<img src="${vo.poster }">
 					<c:choose>
 						<c:when test="${fn:startsWith(vo.poster,'https') }">
 							<img src="${vo.poster }" style="max-width: 855px;max-height: 1200px;">
 						</c:when>
 						<c:otherwise>
-							<img src="${vo.poster }" style="max-width: 855px;max-height: 1200px;">	
+							<img src="https://www.junggulib.or.kr/attachfile/editor/${vo.poster }" style="max-width: 855px;max-height: 1200px;">	
 						</c:otherwise>
 					</c:choose>
 				</td>

@@ -30,21 +30,21 @@ public class BoardDAO {
 		return ROW;
 	}
 	
-	public List<BoardVO> boardMainData(){
-		List<BoardVO> list=new ArrayList<BoardVO>();
+	public List<NoticeVO> noticeMainData(){
+		List<NoticeVO> list=new ArrayList<NoticeVO>();
 		try {
 			conn=dbconn.getConnection();
-			String sql="SELECT no,subject,content,TO_CHAR(regdate,'YYYY-MM-DD'),rownum "
-					+ "FROM board "
-					+ "WHERE rownum<=5 "
+			String sql="SELECT no,typeno,title,TO_CHAR(wrdate,'YYYY-MM-DD'),rownum "
+					+ "FROM seoul_notice "
+					+ "WHERE status='n' "
 					+ "ORDER BY no DESC";
 			ps=conn.prepareStatement(sql);
 			ResultSet rs=ps.executeQuery();
 			while(rs.next()) {
-				BoardVO vo=new BoardVO();
+				NoticeVO vo=new NoticeVO();
 				vo.setNo(rs.getInt(1));
-				vo.setSubject(rs.getString(2));
-				vo.setContent(rs.getString(3));
+				vo.setTypeno(rs.getInt(2));
+				vo.setTitle(rs.getString(3));
 				vo.setDbday(rs.getString(4));
 				list.add(vo);
 			}
@@ -56,8 +56,8 @@ public class BoardDAO {
 		}
 		return list;
 	}
-	// typeno 1 공지사항
-	// typeno 2 보도자료
+	// typeno 0 공지사항
+	// typeno 1 보도자료
 	public List<NoticeVO> noticeListData(int page,int typeno){
 		List<NoticeVO> list=new ArrayList<NoticeVO>();
 		try {
@@ -66,7 +66,8 @@ public class BoardDAO {
 					+ "FROM (SELECT no,typeno,title,wrDate,hit,filesize,status,rownum as num "
 					+ "FROM (SELECT /*+ INDEX_DESC(seoul_notice snt_no_pk) */no,typeno,title,wrDate,hit,filesize,status "
 					+ "FROM seoul_notice "
-					+ "WHERE typeno=?)) "
+					+ "WHERE typeno=? "
+					+ "ORDER BY status DESC,wrDate DESC)) "
 					+ "WHERE num BETWEEN ? AND ?";
 			ps=conn.prepareStatement(sql);
 			ps.setInt(1, typeno);
@@ -150,6 +151,76 @@ public class BoardDAO {
 	}
 	
 	//////////////////////////////////////////////////////////////
+	///////////////// 관리자 Notice
+	// 공지사항 및 보도자료 추가
+	public void noticeInsert(NoticeVO vo) {
+		try {
+			conn=dbconn.getConnection();
+			String sql="INSERT INTO seoul_notice(NO,typeno,title,content,filename,filesize,status) "
+					+ "VALUES (snt_no_seq.nextval,?,?,?,?,?,?)";
+			ps=conn.prepareStatement(sql);
+			ps.setInt(1, vo.getTypeno());
+			ps.setString(2, vo.getTitle());
+			ps.setString(3, vo.getContent());
+			ps.setString(4, vo.getFilename());
+			ps.setInt(5, vo.getFilesize());
+			ps.setString(6, vo.getStatus());
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
+	}
+	// 공지사항 수정 화면
+	public NoticeVO noticeUpdateData(int no,int typeno) {
+		NoticeVO vo=new NoticeVO();
+		try {
+			conn=dbconn.getConnection();
+			String sql="SELECT no,typeno,title,content,status "
+					+ "FROM seoul_notice "
+					+ "WHERE no=? AND typeno=?";
+			ps=conn.prepareStatement(sql);
+			ps.setInt(1, no);
+			ps.setInt(2, typeno);
+			ResultSet rs=ps.executeQuery();
+			rs.next();
+			vo.setNo(rs.getInt(1));
+			vo.setTypeno(rs.getInt(2));
+			vo.setTitle(rs.getString(3));
+			vo.setContent(rs.getString(4));
+			vo.setStatus(rs.getString(5));
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return vo;
+	}
+	// 공지사항 수정
+	public void noticeUpdate(NoticeVO vo) {
+		try {
+			conn=dbconn.getConnection();
+			String sql="UPDATE seoul_notice SET "
+					+ "title=?,content=?,filename=?,filesize=?,status=? "
+					+ "WHERE no=? AND typeno=?";
+			ps=conn.prepareStatement(sql);
+			ps.setString(1, vo.getTitle());
+			ps.setString(2, vo.getContent());
+			ps.setString(3, vo.getFilename());
+			ps.setInt(4, vo.getFilesize());
+			ps.setString(5, vo.getStatus());
+			ps.setInt(6, vo.getNo());
+			ps.setInt(7, vo.getTypeno());
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
+	}
+	//////////////////////////////////////////////////////////////
 	///////////////// 사용자 QNA
 	public List<QnaVO> qnaListData(int page){
 		List<QnaVO> list=new ArrayList<QnaVO>();
@@ -185,7 +256,7 @@ public class BoardDAO {
 		}
 		return list;
 	}
-	
+	// QNA 총 갯수
 	public int qnaTotalCnt() {
 		int total=0;
 		try {
@@ -204,7 +275,7 @@ public class BoardDAO {
 		}
 		return total;
 	}
-	
+	// QNA 상세보기
 	public QnaVO qnaDetailData(int no) {
 		QnaVO vo=new QnaVO();
 		try {
@@ -230,7 +301,7 @@ public class BoardDAO {
 		}
 		return vo;
 	}
-	
+	// 사용자 QNA 추가
 	public void qnaInsertData(QnaVO vo) {
 		try {
 			conn=dbconn.getConnection();
@@ -249,7 +320,7 @@ public class BoardDAO {
 			dbconn.disConnection(conn, ps);
 		}
 	}
-	
+	// 사용자 QNA 수정 화면
 	public QnaVO qnaUpdateData(int no) {
 		QnaVO vo=new QnaVO();
 		try {
@@ -272,7 +343,7 @@ public class BoardDAO {
 		}
 		return vo;
 	}
-	
+	// 사용자 QNA 수정
 	public void qnaUpdate(QnaVO vo) {
 		try {
 			conn=dbconn.getConnection();
@@ -290,7 +361,7 @@ public class BoardDAO {
 			dbconn.disConnection(conn, ps);
 		}
 	}
-	
+	// 사용자 QNA 삭제
 	public void qnaDelete(int no) {
 		try {
 			conn=dbconn.getConnection();
@@ -306,6 +377,7 @@ public class BoardDAO {
 	}
 	
 	///////////////// 관리자 QNA
+	// QNA 답글 추가
 	public void qnaInsertComment(QnaCommentVO vo) {
 		try {
 			conn=dbconn.getConnection();
@@ -329,7 +401,7 @@ public class BoardDAO {
 			dbconn.disConnection(conn, ps);
 		}
 	}
-	
+	// QNA 답글 수정
 	public QnaCommentVO qnaSelectComment(int no) {
 		QnaCommentVO vo=new QnaCommentVO();
 		try {
@@ -352,7 +424,7 @@ public class BoardDAO {
 		}
 		return vo;
 	}
-	
+	// QNA 답글 삭제
 	public void qnaDeleteComment(int no) {
 		try {
 			conn=dbconn.getConnection();

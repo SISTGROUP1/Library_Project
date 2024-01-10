@@ -95,29 +95,10 @@
 				url: '../program/programCookieDelete.do',
 				data: {"pno":pno},
 				success:function(json){
-					/* let res=JSON.parse(json)
-					for(let r of res){
-						
-					} */
-					/* $('.program_'+pno).remove() */
 					location.href='../program/programList.do'
 				}
 			})			
 		})
-		/* let target_hidden=$("#target_hidden").attr("value")
-		let targets=document.querySelectorAll("#target_hidden+select option")
-		for(let target of targets){
-			if(target.value===target_hidden){
-				target.selected=true
-			}
-		}
-		let searchType_hidden=$("#searchType_hidden").attr("value")
-		let searchTypes=document.querySelectorAll("#searchType_hidden+select option")
-		for(let searchType of searchTypes){
-			if(searchType.value===searchType_hidden){
-				searchType.selected=true
-			}
-		} */
 	})
 </script>
 </head>
@@ -129,18 +110,20 @@
 		<div>
 			<%-- <input type="hidden" id="target_hidden" value="${target }"> --%>
 			<select name="target" style="margin-right: 10px;line-height: 0;" class="input-lg">
-				<option value="0">대상</option>
-				<option value="1">영유아</option>
-				<option value="2">어린이</option>
-				<option value="3">청소년</option>
-				<option value="4">성인</option>
-				<option value="5">누구나</option>
+				<option value="0" ${target eq "0" ? "selected" : "" }>대상</option>
+				<option value="1" ${target eq "1" ? "selected" : "" }>영유아</option>
+				<option value="2" ${target eq "2" ? "selected" : "" }>어린이</option>
+				<option value="3" ${target eq "3" ? "selected" : "" }>청소년</option>
+				<option value="4" ${target eq "4" ? "selected" : "" }>성인</option>
+				<option value="5" ${target eq "5" ? "selected" : "" }>누구나</option>
 			</select>
 			<select name="status" style="line-height: 0;" class="input-lg">
-				<option value="0">접수상태</option>
-				<option value="1">접수중</option>
-				<option value="2">접수마감</option>
-				<option value="3">종료</option>
+				<option value="-1" ${status eq "-1" ? "selected" : "" }>접수상태</option>
+				<option value="0" ${status eq "0" ? "selected" : "" }>접수예정</option>
+				<option value="1" ${status eq "1" ? "selected" : "" }>접수중</option>
+				<option value="2" ${status eq "2" ? "selected" : "" }>대기접수</option>
+				<option value="3" ${status eq "3" ? "selected" : "" }>접수마감</option>
+				<option value="4" ${status eq "4" ? "selected" : "" }>종료</option>
 			</select>
 		</div>
 		<div style="margin-top: 10px;">
@@ -160,11 +143,19 @@
 		<hr style="margin-top: 10px;">
 	</div>
 	<div class="row" style="margin-top: 30px;">
+		<c:if test="${list_size gt 0 }">
 		<c:forEach var="vo" items="${list }">
 			<div class="col-md-3">
     			<div class="thumbnail pro_thumbnail">
 	      			<a href="../program/programDetail_before.do?pno=${vo.pno }" style="text-decoration: none;">
-	        			<img src="${vo.poster }" style="width:100%;height: 300px;">
+	      				<c:choose>
+		      				<c:when test="${fn:startsWith(vo.poster,'https') }">
+		        				<img src="${vo.poster }" style="width:100%;height: 300px;">
+		        			</c:when>
+		        			<c:otherwise>
+		        				<img src="https://www.junggulib.or.kr/attachfile/editor/${vo.poster }" style="width:100%;height: 300px;">
+		        			</c:otherwise>
+	        			</c:choose>
 	        			<div class="caption">
 	          				<p style="font-size: 20px;font-weight: bold;" class="title ${fn:length(vo.title)<9?'text-center':'' }">${vo.title }</p>
 	          				<p class="text-center">
@@ -187,6 +178,12 @@
     			</div>
   			</div>
 		</c:forEach>
+		</c:if>
+		<c:if test="${list_size eq 0 }">
+			<div class="text-center">
+				검색 내역이 존재하지 않습니다.
+			</div>
+		</c:if>
 	</div>
 	<div style="height: 20px;"></div>
 	<div>
@@ -225,7 +222,7 @@
 								<img src="${vo.poster }" title="${vo.title }" style="width: 106px;height: 150px;">
 							</c:when>
 							<c:otherwise>
-								<img src="${vo.poster }" title="${vo.title }" style="width: 106px;height: 150px;">	
+								<img src="https://www.junggulib.or.kr/attachfile/editor/${vo.poster }" title="${vo.title }" style="width: 106px;height: 150px;">	
 							</c:otherwise>
 						</c:choose>
 						<a class="cookieDeleteBtn" data-pno="${vo.pno }">X</a>

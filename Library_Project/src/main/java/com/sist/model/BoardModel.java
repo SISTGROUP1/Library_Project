@@ -1,6 +1,11 @@
 package com.sist.model;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -61,6 +66,34 @@ public class BoardModel {
 		request.setAttribute("board_jsp", "../Board/notice_detail.jsp");
 		request.setAttribute("main_jsp", "../Board/board_main.jsp");
 		return "../main/main.jsp";
+	}
+	@RequestMapping("Board/notice_download.do")
+	public void notice_download(HttpServletRequest request,HttpServletResponse response) {
+		try {
+			request.setCharacterEncoding("UTF-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		String fn=request.getParameter("fn");
+		System.out.println(fn);
+		try {
+			File file=new File("C:\\download\\"+fn);
+			// 1. 헤더 설정 => filename,filesize
+			response.setHeader("Content-Disposition", "Attachment;filename="+URLEncoder.encode(fn, "UTF-8"));
+			response.setContentLength((int) file.length());
+			
+			BufferedInputStream bis=new BufferedInputStream(new FileInputStream(file)); // 서버에서 읽기
+			BufferedOutputStream bos=new BufferedOutputStream(response.getOutputStream()); // 클라이언트에 저장
+			byte[] buffer=new byte[1024]; // 1024씩
+			int i=0;
+			while((i=bis.read(buffer, 0, 1024))!=-1) {
+				bos.write(buffer, 0, i);
+			}
+			bis.close();
+			bos.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	@RequestMapping("Board/qna.do")

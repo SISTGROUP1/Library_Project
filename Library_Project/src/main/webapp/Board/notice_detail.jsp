@@ -17,7 +17,7 @@
 </head>
 <body>
 	<div>
-		<h2>공지사항</h2>
+		<h2>${vo.typeno==0?"공지사항":"보도자료" }</h2>
 		<hr>
 	</div>
 	<table class="table" style="border-collapse: unset;">
@@ -34,13 +34,12 @@
 				<pre style="background-color: white;border: none;">${vo.content }</pre>
 			</td>
 		</tr>
-		<c:if test="${sessionScope.admin=='y' }">
-		<tr>
-			<td colspan="2" class="text-right">
-				<input type="button" value="수정" class="btn btn-xs btn-info">
-				<input type="button" value="삭제" class="btn btn-xs btn-warning">
-			</td>
-		</tr>
+		<c:if test="${vo.filesize gt 0 }">
+			<tr>
+				<td width="100%" colspan="2">
+					첨부파일&nbsp;&nbsp;<a href="../Board/notice_download.do?fn=${vo.filename }">${vo.filename }</a>(${vo.filesize }Bytes)
+				</td>
+			</tr>		
 		</c:if>
 		<tr>
 			<td colspan="2" class="text-center">

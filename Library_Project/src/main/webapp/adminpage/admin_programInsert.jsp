@@ -20,10 +20,6 @@
 		padding-left: 2em;
 	}
 </style>
-<script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
-<script type="text/javascript">
-	
-</script>
 </head>
 <body>
 	<div class="col-md-10">
@@ -75,8 +71,8 @@
 		<tr>
 			<th width="10%">운영기간</th>
 			<td width="40%">
-				<input type="date" name="edu1" required class="input-sm">&nbsp;~&nbsp;
-				<input type="date" name="edu2" required class="input-sm">
+				<input type="date" name="edu1" required class="input-sm" id="edu1">&nbsp;~&nbsp;
+				<input type="date" name="edu2" required class="input-sm" id="edu2">
 			</td>
 			<th width="10%">시간</th>
 			<td width="40%">

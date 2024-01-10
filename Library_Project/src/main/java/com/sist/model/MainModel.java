@@ -12,6 +12,7 @@ import com.sist.dao.LibraryDAO;
 import com.sist.dao.ProgramDAO;
 import com.sist.vo.BoardVO;
 import com.sist.vo.FavorLoanVO;
+import com.sist.vo.NoticeVO;
 import com.sist.vo.ProgramVO;
 import com.sist.vo.bookInfoVO;
 
@@ -38,10 +39,10 @@ public class MainModel {
 		}
 		// 메인화면 Board 요약 출력 리스트
 		BoardDAO bdao=BoardDAO.newInstance();
-		List<BoardVO> boardList=bdao.boardMainData();
+		List<NoticeVO> noticeMainData=bdao.noticeMainData();
 		
 		request.setAttribute("programList", programList);
-		request.setAttribute("boardList", boardList);
+		request.setAttribute("noticeMainData", noticeMainData);
 		request.setAttribute("newArrivalCnt", newArrivalCnt);
 		request.setAttribute("favorLoancnt", favorLoancnt);
 		request.setAttribute("main_jsp", "../main/home.jsp");

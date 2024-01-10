@@ -84,7 +84,12 @@
 				<th width="15%" class="text-center">${vo.userid }</th>
 				<th width="10%" class="text-center">
 					<c:if test="${vo.status eq 'n' }">
-						<a href="../admin/bookReserveAuthorize.do?no=${vo.no }&isbn=${vo.isbn }">승인</a>
+						<form method="post" action="../admin/bookReserveAuthorize.do">
+							<input type="hidden" name="no" value="${vo.no }">
+							<input type="hidden" name="isbn" value="${vo.isbn }">
+							<input type="hidden" name="userid" value="${vo.userid }">
+							<input type="submit" value="승인">
+						</form>
 					</c:if>
 					<c:if test="${vo.status eq 'y' }">
 						<a href="#"></a>

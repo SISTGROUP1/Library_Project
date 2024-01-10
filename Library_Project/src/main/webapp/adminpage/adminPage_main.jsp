@@ -34,7 +34,10 @@
 			</div>
 			<ul class="list-group">
 				<li class="list-group-item"><a href="../admin/main.do">서비스</a></li>
+				<li class="list-group-item"><a href="../admin/bookManagement.do">도서대출 관리</a></li>
 				<li class="list-group-item"><a href="../admin/programList.do">프로그램 관리</a></li>
+				<li class="list-group-item"><a href="../admin/noticeList.do?typeno=0">공지사항 관리</a></li>
+				<li class="list-group-item"><a href="../admin/noticeList.do?typeno=1">보도자료 관리</a></li>
 			</ul>
 		</div>
     </div>

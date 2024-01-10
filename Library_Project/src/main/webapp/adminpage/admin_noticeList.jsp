@@ -18,10 +18,10 @@
 	<div>
 		<div>
 			<c:if test="${typeno==0 }">
-				<h2>공지사항</h2>
+				<h2>공지사항 관리</h2>
 			</c:if>
 			<c:if test="${typeno==1 }">
-				<h2>보도자료</h2>
+				<h2>보도자료 관리</h2>
 			</c:if>
 			<hr>
 		</div>
@@ -45,15 +45,18 @@
 	</div>
 	<div style="width: 100%;padding: 0;">
 		총 <font color="red">${totalcnt }</font>건,${curpage }/${totalpage }페이지
+		<a href="../admin/noticeInsert.do?typeno=${typeno }" class="btn btn-sm btn-primary" style="margin-left: 20px;">
+			${typeno==0?"공지사항 등록":"보도자료 등록" }
+		</a>
 		<hr style="margin-top: 10px;">
 	</div>
 	<table class="table" id="notice">
 		<tr>
 			<th width="5%" class="text-center">번호</th>
-			<th width="65%" class="text-center">제목</th>
+			<th width="55%" class="text-center">제목</th>
 			<th width="15%" class="text-center">작성일</th>
 			<th width="10%" class="text-center">조회수</th>
-			<th width="5%" class="text-center">첨부</th>
+			<th width="15%" class="text-center"></th>
 		</tr>
 		<c:set var="count" value="${count }"/>
 		<c:forEach var="vo" items="${list }">
@@ -64,13 +67,12 @@
 				<c:if test="${vo.status eq 'n' }">
 					<td width="5%" class="text-center">${count }</td>
 				</c:if>
-				<td width="65%"><a href="../Board/notice_detail.do?no=${vo.no }&typeno=${vo.typeno }" style="text-decoration: none;color: #333;">${vo.title }</a></td>
+				<td width="55%"><a href="../Board/notice_detail.do?no=${vo.no }&typeno=${vo.typeno }" style="text-decoration: none;color: #333;">${vo.title }</a></td>
 				<td width="15%" class="text-center">${vo.dbday }</td>
 				<td width="10%" class="text-center">${vo.hit }</td>
-				<td width="5%" class="text-center">
-					<c:if test="${vo.filesize gt 0 }">
-						<img src="../images/clip.png" width="15px" height="15px">
-					</c:if>
+				<td width="15%" class="text-center">
+					<a href="../admin/noticeUpdate.do?no=${vo.no }&typeno=${vo.typeno }" class="btn btn-sm btn-primary">수정</a>
+					<a href="../admin/noticeDelete.do" class="btn btn-sm btn-primary">삭제</a>
 				</td>
 			</tr>
 			<c:set var="count" value="${count-1 }"/>

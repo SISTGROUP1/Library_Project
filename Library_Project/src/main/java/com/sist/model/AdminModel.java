@@ -1,29 +1,46 @@
 package com.sist.model;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.json.simple.JSONObject;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.sist.controller.RequestMapping;
 import com.sist.dao.AdminDAO;
+import com.sist.dao.BoardDAO;
 import com.sist.dao.ProgramDAO;
 import com.sist.vo.BookReserve;
+import com.sist.vo.BookReserveCountVO;
+import com.sist.vo.NoticeVO;
 import com.sist.vo.ProgramVO;
 
 public class AdminModel {
+	// 어드민 메인 화면
 	@RequestMapping("admin/main.do")
 	public String admin_main(HttpServletRequest request,HttpServletResponse response) {
 		request.setAttribute("admin_jsp", "../adminpage/admin_info.jsp");
 		request.setAttribute("main_jsp", "../adminpage/adminPage_main.jsp");
 		return "../main/main.jsp";
 	}
+	// 어드민 프로그램 관리 화면
 	@RequestMapping("admin/programList.do")
 	public String admin_programList(HttpServletRequest request,HttpServletResponse response) {
 		String page=request.getParameter("page");
@@ -57,12 +74,14 @@ public class AdminModel {
 		request.setAttribute("main_jsp", "../adminpage/adminPage_main.jsp");
 		return "../main/main.jsp";
 	}
+	// 어드민 프로그램 추가 화면
 	@RequestMapping("admin/programInsert.do")
 	public String admin_programInsert(HttpServletRequest request,HttpServletResponse response) {
 		request.setAttribute("admin_jsp", "../adminpage/admin_programInsert.jsp");
 		request.setAttribute("main_jsp", "../adminpage/adminPage_main.jsp");
 		return "../main/main.jsp";
 	}
+	// 어드민 프로그램 추가
 	@RequestMapping("admin/programInsert_ok.do")
 	public String admin_programInsert_ok(HttpServletRequest request,HttpServletResponse response) {
 		try {
@@ -143,6 +162,7 @@ public class AdminModel {
 		}
 		return "redirect:../admin/programList.do";
 	}
+	// 어드민 프로그램 수정 화면
 	@RequestMapping("admin/programUpdate.do")
 	public String admin_programUpdate(HttpServletRequest request,HttpServletResponse response) {
 		String pno=request.getParameter("pno");
@@ -184,6 +204,7 @@ public class AdminModel {
 		request.setAttribute("main_jsp", "../adminpage/adminPage_main.jsp");
 		return "../main/main.jsp";
 	}
+	// 어드민 프로그램 수정
 	@RequestMapping("admin/programUpdate_ok.do")
 	public String admin_programUpdate_ok(HttpServletRequest request,HttpServletResponse response) {
 		try {
@@ -264,6 +285,7 @@ public class AdminModel {
 		}
 		return "redirect:../admin/programList.do";
 	}
+	// 어드민 프로그램 삭제
 	@RequestMapping("admin/programDelete.do")
 	public String admin_programDelete(HttpServletRequest request,HttpServletResponse response) {
 		String pno=request.getParameter("pno");
@@ -271,6 +293,7 @@ public class AdminModel {
 		dao.programDelete(Integer.parseInt(pno));
 		return "redirect:../admin/programList.do";
 	}
+	// 어드민 도서대출 관리
 	@RequestMapping("admin/bookManagement.do")
 	public String admin_bookManagement(HttpServletRequest request,HttpServletResponse response) {
 		String page=request.getParameter("page");
@@ -301,13 +324,142 @@ public class AdminModel {
 		request.setAttribute("main_jsp", "../adminpage/adminPage_main.jsp");
 		return "../main/main.jsp";
 	}
+	// 어드민 도서대출승인
 	@RequestMapping("admin/bookReserveAuthorize.do")
 	public String admin_bookReserveAuthorize(HttpServletRequest request,HttpServletResponse response) {
 		String no=request.getParameter("no");
 		String isbn=request.getParameter("isbn");
+		String userid=request.getParameter("userid");
+		
+		BookReserveCountVO vo=new BookReserveCountVO();
+		vo.setBrno(Integer.parseInt(no));
+		vo.setIsbn(isbn);
+		vo.setUserid(userid);
+		
 		AdminDAO dao=AdminDAO.newInstance();
-		dao.bookReserveAuthorize(Integer.parseInt(no), isbn);
+		dao.bookReserveAuthorize(vo);
 		
 		return "redirect:../admin/bookManagement.do";
+	}
+	// 어드민 공지사항 목록
+	@RequestMapping("admin/noticeList.do")
+	public String admin_noticeList(HttpServletRequest request,HttpServletResponse response) {
+		String typeno=request.getParameter("typeno");
+		String page=request.getParameter("page");
+		
+		if(page==null) page="1";
+		if(typeno==null) typeno="0";
+		int curpage=Integer.parseInt(page);
+		BoardDAO dao=BoardDAO.newInstance();
+		List<NoticeVO> list=dao.noticeListData(curpage, Integer.parseInt(typeno));
+		int count=dao.noticeTotalCnt(Integer.parseInt(typeno));
+		int totalpage=(int) Math.ceil(count/(double)dao.getROW());
+		count=count-((curpage*dao.getROW())-dao.getROW());
+		final int BLOCK=10;
+		int startPage=((curpage-1)/BLOCK*BLOCK)+1;
+		int endPage=((curpage-1)/BLOCK*BLOCK)+BLOCK;
+		if(endPage>totalpage) endPage=totalpage;
+		
+		request.setAttribute("typeno", typeno);
+		request.setAttribute("curpage", curpage);
+		request.setAttribute("list", list);
+		request.setAttribute("count", count);
+		request.setAttribute("totalpage", totalpage);
+		request.setAttribute("startPage", startPage);
+		request.setAttribute("endPage", endPage);
+		request.setAttribute("admin_jsp", "../adminpage/admin_noticeList.jsp");
+		request.setAttribute("main_jsp", "../adminpage/adminPage_main.jsp");
+		return "../main/main.jsp";
+	}
+	// 어드민 공지사항 추가 화면
+	@RequestMapping("admin/noticeInsert.do")
+	public String admin_noticeInsert(HttpServletRequest request,HttpServletResponse response) {
+		String typeno=request.getParameter("typeno");
+		request.setAttribute("typeno", typeno);
+		request.setAttribute("admin_jsp", "../adminpage/admin_noticeInsert.jsp");
+		request.setAttribute("main_jsp", "../adminpage/adminPage_main.jsp");
+		return "../main/main.jsp";
+	}
+	// 어드민 공지사항 추가
+	@RequestMapping("admin/noticeInsert_ok.do")
+	public String admin_noticeInsert_ok(HttpServletRequest request,HttpServletResponse response) {
+		String path="C:\\download";
+		String enctype="UTF-8";
+		int max_size=1024*1024*500;
+		MultipartRequest mr=null;
+		try {
+			mr=new MultipartRequest(request, path, max_size, enctype);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String typeno=mr.getParameter("typeno");
+		String status=mr.getParameter("status");
+		String title=mr.getParameter("title");
+		String fileName=mr.getFilesystemName("file");
+		String content=mr.getParameter("content");
+		File file=new File(path+"\\"+fileName);
+		
+		NoticeVO vo=new NoticeVO();
+		vo.setTypeno(Integer.parseInt(typeno));
+		vo.setStatus(status);
+		vo.setTitle(title);
+		vo.setFilename(fileName);
+		vo.setContent(content);
+		vo.setFilesize((int) file.length());
+		
+		BoardDAO dao=BoardDAO.newInstance();
+		dao.noticeInsert(vo);
+		
+		return "redirect:../admin/noticeList.do?typeno="+typeno;
+	}
+	// 어드민 공지사항 수정 화면
+	@RequestMapping("admin/noticeUpdate.do")
+	public String admin_noticeUpdate(HttpServletRequest request,HttpServletResponse response) {
+		String no=request.getParameter("no");
+		String typeno=request.getParameter("typeno");
+		BoardDAO dao=BoardDAO.newInstance();
+		NoticeVO vo=dao.noticeDetailData(Integer.parseInt(no), Integer.parseInt(typeno));
+		
+		request.setAttribute("vo", vo);
+		request.setAttribute("admin_jsp", "../adminpage/admin_noticeUpdate.jsp");
+		request.setAttribute("main_jsp", "../adminpage/adminPage_main.jsp");
+		return "../main/main.jsp";
+	}
+	
+	// 어드민 공지사항 수정
+	@RequestMapping("admin/noticeUpdate_ok.do")
+	public String admin_noticeUpdate_ok(HttpServletRequest request,HttpServletResponse response) {
+		String path="C:\\download";
+		String enctype="UTF-8";
+		int max_size=1024*1024*500;
+		MultipartRequest mr=null;
+		try {
+			mr=new MultipartRequest(request, path, max_size, enctype);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String no=mr.getParameter("no");
+		String typeno=mr.getParameter("typeno");
+		String status=mr.getParameter("status");
+		String title=mr.getParameter("title");
+		String fileName=mr.getFilesystemName("file");
+		String content=mr.getParameter("content");
+		File file=new File(path+"\\"+fileName);
+		
+		NoticeVO vo=new NoticeVO();
+		vo.setNo(Integer.parseInt(no));
+		vo.setTypeno(Integer.parseInt(typeno));
+		vo.setStatus(status);
+		vo.setTitle(title);
+		vo.setFilename(fileName);
+		vo.setContent(content);
+		vo.setFilesize((int) file.length());
+		
+		BoardDAO dao=BoardDAO.newInstance();
+		dao.noticeUpdate(vo);
+		
+		return "redirect:../admin/noticeList.do";
 	}
 }

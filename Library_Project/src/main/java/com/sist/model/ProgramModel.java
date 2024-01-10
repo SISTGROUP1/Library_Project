@@ -32,18 +32,20 @@ public class ProgramModel {
 		if(searchType==null) searchType="title";
 		String search=request.getParameter("search");
 		if(search==null) search="";
+		String status=request.getParameter("status");
 		//-------------------------------
 		//------------- 목록 -------------
 		ProgramDAO dao=ProgramDAO.newInstance();
 		// 리스트를 뽑기전 status 업데이트
 		dao.programStatusUpdate(0);
-		List<ProgramVO> list=dao.programListData(curpage,Integer.parseInt(target),searchType,search);
-		int totalpage=dao.programListTotalPage(Integer.parseInt(target),searchType,search);
+		List<ProgramVO> list=dao.programListData(curpage,Integer.parseInt(target),searchType,search,status);
+		int list_size=list.size();
+		int totalpage=dao.programListTotalPage(Integer.parseInt(target),searchType,search,status);
 		final int BLOCK=10;
 		int startBlockNum=((curpage-1)/BLOCK*BLOCK)+1;
 		int endBlockNum=((curpage-1)/BLOCK*BLOCK)+BLOCK;
 		if(totalpage<endBlockNum) endBlockNum=totalpage;
-		int find_cnt=dao.programFindCnt(Integer.parseInt(target),searchType,search);
+		int find_cnt=dao.programFindCnt(Integer.parseInt(target),searchType,search,status);
 		//--------------------------------
 		//------------- 쿠키 -------------
 		Cookie[] cookies=request.getCookies();
@@ -60,6 +62,7 @@ public class ProgramModel {
 		//--------------------------------
 		
 		request.setAttribute("list", list);
+		request.setAttribute("list_size", list_size);
 		request.setAttribute("curpage", curpage);
 		request.setAttribute("totalpage", totalpage);
 		request.setAttribute("startBlockNum", startBlockNum);
@@ -70,6 +73,7 @@ public class ProgramModel {
 		request.setAttribute("target", target);
 		request.setAttribute("searchType", searchType);
 		request.setAttribute("search", search);
+		request.setAttribute("status", status);
 		request.setAttribute("program_jsp", "../program/programList.jsp");
 		request.setAttribute("main_jsp", "../program/program_main.jsp");
 		return "../main/main.jsp";

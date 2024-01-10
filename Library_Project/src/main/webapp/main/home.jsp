@@ -141,62 +141,68 @@
 	}
 </style>
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
+<script type="text/javascript">
+	$(function() {
+		let t0_title=$('#t0 li:first-child() a').text()
+		let t0_href=$('#t0 li:first-child() a').attr('href')
+		let t0_date=$('#t0 li:first-child() span').text()
+		$('#t0_recent a').text(t0_title)
+		$('#t0_recent a').attr('href',t0_href)
+		$('#t0_recent span').text(t0_date)
+		
+		
+		let t1_title=$('#t1 li:first-child() a').text()
+		let t1_href=$('#t1 li:first-child() a').attr('href')
+		let t1_date=$('#t1 li:first-child() span').text()
+		$('#t1_recent a').text(t1_title)
+		$('#t1_recent a').attr('href',t1_href)
+		$('#t1_recent span').text(t1_date)
+	})
+</script>
 </head>
 <body>
 <section id="one" class="wrapper">
 	<div class="inner">
 		<div class="notice">
 		<div class="tit">
-				<p>공지사항</p><span><a href="#">
+				<p>공지사항</p><span><a href="../Board/notice.do?typeno=0">
 					<img src="../images/plus_on.png">
 				</a></span>
 			</div>
-			<div class="new_notice">
-				<a href="#">2023년 희망 및 긴급도서 구입 마감 안내</a><span>2023-12-11</span>
+			<div class="new_notice" id="t0_recent">
+				<a href="#"></a><span></span>
 			</div>
-			<ul class="notice_list">
-				<li>
-					<a href="#">2023년 희망 및 긴급도서 구입 마감 안내</a><span>2023-12-11</span>
-				</li>
-				<li>
-					<a href="#">도서관은 핫하다: 끄고, 도서관으로(OFF&LIBRARY) 캠페인 안내</a><span>2023-02-14</span>
-				</li>
-				<li>
-					<a href="#">서울시 북스타트: 엄마 북(Book)돋움 책상자를 신청하세요. </a><span>2023-02-14</span>
-				</li>
-				<li>
-					<a href="#">서울시 북스타트: 엄마 북(Book)돋움 책상자를 신청하세요. </a><span>2023-02-14</span>
-				</li>
-				<li>
-					<a href="#">서울시 북스타트: 엄마 북(Book)돋움 책상자를 신청하세요. </a><span>2023-02-14</span>
-				</li>
+			<ul class="notice_list" id="t0">
+				<c:set var="check" value="0"/>
+				<c:forEach var="vo" items="${noticeMainData }">
+				<c:if test="${vo.typeno==0 && check<5}">
+					<c:set var="check" value="${check+1 }"/>
+					<li>
+						<a href="../Board/notice_detail.do?no=${vo.no }&typeno=${vo.typeno }">${vo.title }</a><span>${vo.dbday }</span>
+					</li>
+				</c:if>
+				</c:forEach>
 			</ul>
 		</div>
 		<div class="notice">
 		<div class="tit">
-				<p>보도자료</p><span><a href="#">
+				<p>보도자료</p><span><a href="../Board/notice.do?typeno=1">
 					<img src="../images/plus_on.png">
 				</a></span>
 			</div>
-			<div class="new_notice">
-				<a href="#">서울시민이 꼽은 올해 최고 정책은 `책읽는 서울광장·광화문 책마당`</a><span>2023-12-21</span>
+			<div class="new_notice" id="t1_recent">
+				<a href="#"></a><span></span>
 			</div>
-			<ul class="notice_list">
-				<li>
-					<a href="#">서울시민이 꼽은 올해 최고 정책은 `책읽는 서울광장·광화문 책마당`</a><span>2023-12-21</span>
-				</li>
-				<li>
-					<a href="#">서울도서관, 세계적인 그림책 작가 `바루` 초청 `그림책으로 보는 환경 토론회` 개최</a><span>2023-12-05</span>
-				</li>
-				<li>
-					<a href="#">서울도서관, 세계적인 그림책 작가 `바루` 초청 `그림책으로 보는 환경 토론회` 개최</a><span>2023-12-05</span>
-				</li>
-				<li>
-					<a href="#">서울도서관, 세계적인 그림책 작가 `바루` 초청 `그림책으로 보는 환경 토론회` 개최</a><span>2023-12-05</span>
-				</li>
-				<li>
-					<a href="#">서울도서관, 세계적인 그림책 작가 `바루` 초청 `그림책으로 보는 환경 토론회` 개최</a><span>2023-12-05</span>
-				</li>
+			<ul class="notice_list" id="t1">
+				<c:set var="check" value="0"/>
+				<c:forEach var="vo" items="${noticeMainData }">
+				<c:if test="${vo.typeno==1 && check<5}">
+					<c:set var="check" value="${check+1 }"/>
+					<li>
+						<a href="../Board/notice_detail.do?no=${vo.no }&typeno=${vo.typeno }">${vo.title }</a><span>${vo.dbday }</span>
+					</li>
+				</c:if>
+				</c:forEach>
 			</ul>
 		</div>
 		<div id="lib_summary_info">

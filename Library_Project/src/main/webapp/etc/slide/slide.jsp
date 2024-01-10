@@ -104,7 +104,15 @@
 							<div class="box person">
 							<a href="#">
 							<div class="image">
-								<img src="${vo.poster }" alt="Person 1" width="168">
+								<c:choose>
+				      				<c:when test="${fn:startsWith(vo.poster,'https') }">
+				        				<img src="${vo.poster }" alt="Person 1" width="168">
+				        			</c:when>
+				        			<c:otherwise>
+				        				<img src="https://www.junggulib.or.kr/attachfile/editor/${vo.poster }" alt="Person 1" width="168">
+				        			</c:otherwise>
+			        			</c:choose>
+								<%-- <img src="${vo.poster }" alt="Person 1" width="168"> --%>
 								<span class="img_dark"></span></div>
 							<h3 style="color: black;font-size: 16px;">${fn:length(vo.title) gt 13 ? fn:substring(vo.title,0,13)+='...' : vo.title }</h3>
 							</a>

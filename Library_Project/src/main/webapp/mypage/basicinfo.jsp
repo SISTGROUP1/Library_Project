@@ -94,15 +94,15 @@
 				<h3>서비스 이용 현황</h3>
 				<ul>
 					<li>
-						<a href="#">
+						<a href="../mypage/bookloaninfo_main.do">
 							<strong class="tit">대출중인<br>도서수</strong>
-							<span class="cnt">0</span>
+							<span class="cnt">${loanStatusTotalCnt }</span>
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="../mypage/reserveStatus.do">
 							<strong class="tit">예약신청한<br>도서수</strong>
-							<span class="cnt">0</span>
+							<span class="cnt">${reserveStatusTotalCnt }</span>
 						</a>
 					</li>
 					<li>
@@ -114,7 +114,7 @@
 					<li>
 						<a href="../mypage/proAppInq.do">
 							<strong class="tit">신청중인<br>문화행사수</strong>
-							<span class="cnt">0</span>
+							<span class="cnt">${programApplCnt }</span>
 						</a>
 					</li>
 				</ul>

@@ -54,7 +54,7 @@
 		<ul>
 			<li>
 				<a href="../admin/bookManagement.do">
-					<strong class="tit">도서대출 및 예약<br>관리</strong>
+					<strong class="tit">도서대출 <br>관리</strong>
 					<span class="cnt">0</span>
 				</a>
 			</li>

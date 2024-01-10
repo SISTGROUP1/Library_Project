@@ -57,8 +57,8 @@ public class ProgramDAO {
 		}
 		return list;
 	}
-	
-	public List<ProgramVO> programListData(int page,int target,String searchType,String search){
+	// 프로그램 목록
+	public List<ProgramVO> programListData(int page,int target,String searchType,String search,String status){
 		List<ProgramVO> list=new ArrayList<ProgramVO>();
 		try {
 			conn=dbconn.getConnection();
@@ -69,8 +69,11 @@ public class ProgramDAO {
 					+ "capacity,applicant,waiting,waitingCap,status "
 					+ "FROM program "
 					+ "WHERE "+searchType+" LIKE '%'||?||'%' "
-					+ "AND target1 LIKE '%'||?||'%')) "
-					+ "WHERE num BETWEEN ? AND ?";
+					+ "AND target1 LIKE '%'||?||'%'";
+			if(status!=null) {
+				if(!status.equals("-1")) sql+=" AND status="+Integer.parseInt(status);
+			}
+				sql+= ")) WHERE num BETWEEN ? AND ?";
 			ps=conn.prepareStatement(sql);
 			int start=(ROW_SIZE*page)-(ROW_SIZE-1);
 			int end=ROW_SIZE*page;
@@ -102,8 +105,48 @@ public class ProgramDAO {
 		}
 		return list;
 	}
-	
-	public int programListTotalPage(int target,String searchType,String search) {
+	// 통합 검색 프로그램
+	public List<ProgramVO> programFindAllData(String search){
+		List<ProgramVO> list=new ArrayList<ProgramVO>();
+		try {
+			conn=dbconn.getConnection();
+			String sql="SELECT pno,poster,title,target1,TO_CHAR(edu1,'YYYY-MM-DD'),TO_CHAR(edu2,'YYYY-MM-DD'),capacity,applicant,waiting,waitingCap,status,num "
+					+ "FROM (SELECT pno,poster,title,target1,edu1,edu2,capacity,applicant,waiting,waitingCap,status,rownum as num "
+					+ "FROM (SELECT /*+ INDEX_DESC(program pg_pno_pk)*/pno,poster,title,target1,edu1,edu2,"
+					+ "capacity,applicant,waiting,waitingCap,status "
+					+ "FROM program "
+					+ "WHERE title LIKE '%'||?||'%' "
+					+ "|| target1 LIKE '%'||?||'%'"
+					+ "|| place LIKE '%'||?||'%')) "
+					+ "WHERE num BETWEEN 1 AND 5";
+			ps=conn.prepareStatement(sql);
+			ps.setString(1, search);
+			ResultSet rs=ps.executeQuery();
+			while(rs.next()) {
+				ProgramVO vo=new ProgramVO();
+				vo.setPno(rs.getInt(1));
+				vo.setPoster(rs.getString(2));
+				vo.setTitle(rs.getString(3));
+				vo.setTarget1(rs.getString(4));
+				vo.setEdu1_str(rs.getString(5));
+				vo.setEdu2_str(rs.getString(6));
+				vo.setCapacity(rs.getInt(7));
+				vo.setApplicant(rs.getInt(8));
+				vo.setWaiting(rs.getInt(9));
+				vo.setWaitingCap(rs.getInt(10));
+				vo.setStatus(rs.getInt(11));
+				list.add(vo);
+			}
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return list;
+	}
+	// 프로그램 총페이지
+	public int programListTotalPage(int target,String searchType,String search,String status) {
 		int total=0;
 		try {
 			conn=dbconn.getConnection();
@@ -112,6 +155,9 @@ public class ProgramDAO {
 					+ "FROM program "
 					+ "WHERE "+searchType+" LIKE '%'||?||'%' "
 					+ "AND target1 LIKE '%'||?||'%'";
+			if(status!=null) {
+				if(!status.equals("-1")) sql+=" AND status="+Integer.parseInt(status);
+			}
 			ps=conn.prepareStatement(sql);
 			ps.setString(1, search);
 			ps.setString(2, t);
@@ -126,8 +172,8 @@ public class ProgramDAO {
 		}
 		return total;
 	}
-	
-	public int programFindCnt(int target,String searchType,String search) {
+	// 프로그램 총개수
+	public int programFindCnt(int target,String searchType,String search,String status) {
 		int find_cnt=0;
 		try {
 			conn=dbconn.getConnection();
@@ -136,6 +182,9 @@ public class ProgramDAO {
 					+ "FROM program "
 					+ "WHERE "+searchType+" LIKE '%'||?||'%' "
 					+ "AND target1 LIKE '%'||?||'%'";
+			if(status!=null) {
+				if(!status.equals("-1")) sql+=" AND status="+Integer.parseInt(status);
+			}
 			ps=conn.prepareStatement(sql);
 			ps.setString(1, search);
 			ps.setString(2, t);
@@ -150,7 +199,7 @@ public class ProgramDAO {
 		}
 		return find_cnt;
 	}
-	
+	// 프로그램 상세보기
 	public ProgramVO programDetailData(int pno) {
 		ProgramVO vo=new ProgramVO();
 		try {
@@ -187,7 +236,7 @@ public class ProgramDAO {
 		}
 		return vo;
 	}
-	
+	// 프로그램 쿠키
 	public ProgramVO programCookieData(int pno) {
 		ProgramVO vo=new ProgramVO();
 		try {
@@ -231,7 +280,14 @@ public class ProgramDAO {
 				sql="UPDATE program SET "
 						+ "status=3 "
 						+ "WHERE TO_CHAR(accept2,'YYYY-MM-DD HH24:MI')<=TO_CHAR(SYSDATE,'YYYY-MM-DD HH24:MI') "
-						+ "AND status=1";
+						+ "AND (status=1 OR status=2)";
+				ps=conn.prepareStatement(sql);
+				ps.executeUpdate();
+				ps.close();
+				sql="UPDATE program SET "
+						+ "status=4 "
+						+ "WHERE TO_CHAR(edu2,'YYYY-MM-DD HH24:MI')<=TO_CHAR(SYSDATE,'YYYY-MM-DD HH24:MI') "
+						+ "AND status=3";
 				ps=conn.prepareStatement(sql);
 				ps.executeUpdate();
 				ps.close();
@@ -323,8 +379,6 @@ public class ProgramDAO {
 				ps.executeUpdate();
 				ps.close();
 				programStatusUpdate(pno);
-			}else if(status==3) {
-				vo.setMsg("NO");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -332,5 +386,68 @@ public class ProgramDAO {
 			dbconn.disConnection(conn, ps);
 		}
 		return vo;
+	}
+	// 프로그램 취소
+	public void programCancel(ProgramApplicationVO vo) {
+		try {
+			conn=dbconn.getConnection();
+			String sql="SELECT waitingNo "
+					+ "FROM program_application "
+					+ "WHERE no=? AND userid=?";
+			ps=conn.prepareStatement(sql);
+			ps.setInt(1, vo.getNo());
+			ps.setString(2, vo.getUserid());
+			ResultSet rs=ps.executeQuery();
+			rs.next();
+			int waitingNo=rs.getInt(1);
+			rs.close();
+			ps.close();
+			if(waitingNo==0) {
+				sql="UPDATE program_application SET "
+						+ "waitingNo=waitingNo-1 "
+						+ "WHERE pno=? AND status=1 AND waitingNo>0";
+				ps=conn.prepareStatement(sql);
+				ps.setInt(1, vo.getPno());
+				ps.executeUpdate();
+				ps.close();
+				sql="UPDATE program_application SET "
+						+ "status=0 "
+						+ "WHERE no="+vo.getNo();
+				ps=conn.prepareStatement(sql);
+				ps.executeUpdate();
+				ps.close();
+				sql="UPDATE program SET "
+						+ "applicant=applicant-1 "
+						+ "WHERE pno="+vo.getPno();
+				ps=conn.prepareStatement(sql);
+				ps.executeUpdate();
+				ps.close();
+			}else {
+				sql="UPDATE program_application SET "
+						+ "status=0,waitingNo=0 "
+						+ "WHERE no="+vo.getNo();
+				ps=conn.prepareStatement(sql);
+				ps.execute();
+				ps.close();
+				sql="UPDATE program_application SET "
+						+ "waitingNo=waitingNo-1 "
+						+ "WHERE waitingNo>"+waitingNo;
+				ps=conn.prepareStatement(sql);
+				ps.execute();
+				ps.close();
+			}
+			sql="UPDATE program SET "
+					+ "waiting=waiting-1 "
+					+ "WHERE pno=? AND waiting>0";
+			ps=conn.prepareStatement(sql);
+			ps.setInt(1, vo.getPno());
+			ps.executeUpdate();
+			ps.close();
+			programStatusUpdate(vo.getPno());
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
 	}
 }
