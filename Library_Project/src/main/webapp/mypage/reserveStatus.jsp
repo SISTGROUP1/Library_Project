@@ -28,13 +28,13 @@
 		<div>
 			<div style="padding: 15px;">
 				<div>
-					<select name="searchDate" class="input-lg" style="line-height: 0;margin-right: 10px;">
+					<select name="searchDate" class="input-lg" style="line-height: 0;margin-right: 10px;appearance: auto;">
 						<option value="0">예약일</option>
 						<option value="1">예약만기일</option>
 					</select><input type="date">&nbsp;~&nbsp;<input type="date">
 				</div>
 				<div style="margin-top: 10px;">
-					<select id="searchOp" name="searchType" class="input-lg">
+					<select id="searchOp" name="searchType" class="input-lg" style="appearance: auto;">
 						<option value="0">서명</option>
 					</select>
 					<input type="text" size="15" style="float: left;width: 60%;margin-left: 10px;margin-right: 10px;line-height: 0;" name="search" class="input-lg">

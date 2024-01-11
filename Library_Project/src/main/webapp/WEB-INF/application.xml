@@ -14,4 +14,5 @@
 	<bean id="reserve" class="com.sist.model.SeatReserveModel"/>
 	<bean id="Search" class="com.sist.model.SearchMainModel"/>
 	<bean id="admin" class="com.sist.model.AdminModel"/>
+	<bean id="allreply" class="com.sist.model.AllReplyModel"/>
 </beans>

@@ -41,7 +41,7 @@
 		<div>
 			<div style="padding: 15px;">
 				<div>
-					<select id="searchOp" name="searchType" class="input-lg">
+					<select id="searchOp" name="searchType" class="input-lg" style="appearance: auto;">
 						<option value="0" ${searchType eq '0' ? "selected":"" }>프로그램명</option>
 					</select>
 					<input type="text" size="15" style="float: left;width: 60%;margin-left: 10px;margin-right: 10px;line-height: 0;" name="search" class="input-lg"

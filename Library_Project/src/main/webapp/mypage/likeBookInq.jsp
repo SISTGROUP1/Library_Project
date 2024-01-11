@@ -28,7 +28,7 @@
 		<div>
 			<div style="padding: 15px;">
 				<div>
-					<select id="searchOp" name="searchType" class="input-lg">
+					<select id="searchOp" name="searchType" class="input-lg" style="appearance: auto;">
 						<option value="0" ${searchType eq '0' ? "selected":"" }>서명</option>
 						<!-- <option value="">소장도서관</option> -->
 						<option value="1" ${searchType eq '1' ? "selected":"" }>저자</option>

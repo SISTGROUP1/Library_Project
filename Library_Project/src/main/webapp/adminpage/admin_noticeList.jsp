@@ -32,7 +32,7 @@
 					작성일&nbsp;:&nbsp;<input type="date">&nbsp;~&nbsp;<input type="date">
 				</div>
 				<div style="margin-top: 10px;">
-					<select id="searchOp" name="searchType" class="input-lg">
+					<select id="searchOp" name="searchType" class="input-lg" style="appearance: auto;">
 						<option value="">제목</option>
 						<option value="">내용</option>
 					</select>

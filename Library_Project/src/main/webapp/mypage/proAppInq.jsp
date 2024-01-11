@@ -32,7 +32,7 @@
 					강좌기간&nbsp;:&nbsp;<input type="date" name="edu1">&nbsp;~&nbsp;<input type="date" name="edu2">
 				</div>
 				<div style="margin-top: 10px;">
-					<select id="searchOp" name="searchType" class="input-lg">
+					<select id="searchOp" name="searchType" class="input-lg" style="appearance: auto;">
 						<option value="0">강좌명</option>
 						<option value="1">장소</option>
 					</select>

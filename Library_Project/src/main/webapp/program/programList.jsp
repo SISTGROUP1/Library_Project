@@ -109,7 +109,7 @@
 		<div style="padding: 15px;">
 		<div>
 			<%-- <input type="hidden" id="target_hidden" value="${target }"> --%>
-			<select name="target" style="margin-right: 10px;line-height: 0;" class="input-lg">
+			<select name="target" style="margin-right: 10px;line-height: 0;appearance: auto;" class="input-lg">
 				<option value="0" ${target eq "0" ? "selected" : "" }>대상</option>
 				<option value="1" ${target eq "1" ? "selected" : "" }>영유아</option>
 				<option value="2" ${target eq "2" ? "selected" : "" }>어린이</option>
@@ -117,7 +117,7 @@
 				<option value="4" ${target eq "4" ? "selected" : "" }>성인</option>
 				<option value="5" ${target eq "5" ? "selected" : "" }>누구나</option>
 			</select>
-			<select name="status" style="line-height: 0;" class="input-lg">
+			<select name="status" style="line-height: 0;appearance: auto;" class="input-lg">
 				<option value="-1" ${status eq "-1" ? "selected" : "" }>접수상태</option>
 				<option value="0" ${status eq "0" ? "selected" : "" }>접수예정</option>
 				<option value="1" ${status eq "1" ? "selected" : "" }>접수중</option>
@@ -128,7 +128,7 @@
 		</div>
 		<div style="margin-top: 10px;">
 			<%-- <input type="hidden" id="searchType_hidden" value="${searchType }"> --%>
-			<select id="searchOp" name="searchType" class="input-lg">
+			<select id="searchOp" name="searchType" class="input-lg" style="appearance: auto;">
 				<option value="title">프로그램명</option>
 				<option value="place">장소</option>
 			</select>

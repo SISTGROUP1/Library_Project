@@ -102,7 +102,7 @@
 						<c:forEach var="vo" items="${programList }">
 							
 							<div class="box person">
-							<a href="#">
+							<a href="../program/programDetail_before.do?pno=${vo.pno }">
 							<div class="image">
 								<c:choose>
 				      				<c:when test="${fn:startsWith(vo.poster,'https') }">
