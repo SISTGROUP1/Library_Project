@@ -111,7 +111,7 @@
 	}
 	section#one #lib_summary_info td[rowspan="2"]{
 		background: url("../images/banner_icon06_off.png") no-repeat top center;
-		background-size: 75px 60px;
+		background-size: 65px 65px;
 		background-color: white;
 	}
 	section#one #lib_summary_info .summary_date{
