@@ -39,7 +39,7 @@ $(function() {
 				  {
 					  alert("이름이나 이메일을 다시 입력해주세요.")
 				  }
-				  else if(res==='FINDYES')
+				  else
 				  {
 					  
 					  $('#res1').html('<span style="color:blue">아이디: '+res+'</span>')	
