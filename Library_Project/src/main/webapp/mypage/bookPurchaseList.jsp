@@ -9,7 +9,7 @@
 </head>
 <body>
    <div style="width: 100%;padding: 0; margin-top: 20px">
-      도서구매내역 <font color="red">${count }</font>건
+      도서구매내역 <font color="red">${totalcount }</font>건
       <hr style="margin-top: 10px;">
    </div>
    <div class="row">
@@ -26,8 +26,8 @@
              <tr>
                 <!-- 도서명 또는 이미지 클릭 시 전체 내역 출력 -->
                 <td class="text-center">${vo.orderNum }</td>
-                <td class="text-center"><a href="../mypage/bookPurchaseDetail.do?orderNum=${vo.orderNum }"><img src="${vo.image }" style="width: 30px;height: 45px"></a></td>
-                <td><a href="../mypage/bookPurchaseDetail.do?orderNum=${vo.orderNum }">${vo.booktitle }</a>&nbsp;&nbsp;<font color="red"></font></td>
+                <td class="text-center"><a href="../searchBook/alqDetail_before.do?isbn=${vo.isbn }"><img src="${vo.image }" style="width: 30px;height: 45px"></a></td>
+                <td><a href="../searchBook/alqDetail_before.do?isbn=${vo.isbn }">${vo.booktitle }</a>&nbsp;&nbsp;<font color="red"></font></td>
                 <td class="text-center">${vo.saleprice }&nbsp;원</td>
                 <td class="text-center"><font color="red">${vo.sumprice }</font>&nbsp;원</td>
                 <td class="text-center">${vo.orderDate }</td>

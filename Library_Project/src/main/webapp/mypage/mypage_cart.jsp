@@ -11,9 +11,12 @@
 <script type="text/javascript">
 var IMP = window.IMP; // 생략 가능
 IMP.init("imp76004233");  // 예: imp00000000 (내 식별코드 쓰기)
+let booktitle = '';
+let sumprice='';
 function requestPay() {
    console.log('clicked');
-   
+   console.log(booktitle);
+   console.log(sumprice);
   // IMP.request_pay(param, callback) 결제창 호출
    IMP.request_pay({
        pg : 'html5_inicis', // version 1.1.0부터 지원. 
@@ -26,8 +29,8 @@ function requestPay() {
            */
        pay_method : 'card', // 'card' : 신용카드 | 'trans' : 실시간계좌이체 | 'vbank' : 가상계좌 | 'phone' : 휴대폰소액결제
        merchant_uid : 'merchant_' + new Date().getTime(),
-       name :$('.butByn').attr("data-booktitle"),
-       amount : $('.buyBtn').attr("data-sumprice"), //$('#totalpay').text(), //.attr("data-price"), // 여기
+       name :booktitle,
+       amount : sumprice, //$('#totalpay').text(), //.attr("data-price"), // 여기
        buyer_email : 'iamport@siot.do',
        buyer_name : '구매자이름',
        buyer_tel : '010-1234-5678',
@@ -41,9 +44,13 @@ function requestPay() {
            msg += '상점 거래ID : ' + rsp.merchant_uid;
            msg += '결제 금액 : ' + rsp.paid_amount;
            msg += '카드 승인번호 : ' + rsp.apply_num;
+           booktitle='';
+           sumprice='';
        } else {
            var msg = '결제에 실패하였습니다.';
            msg += '에러내용 : ' + rsp.error_msg;
+           booktitle='';
+           sumprice='';
            
            location.href="../mypage/bookPurchaseList.do"
        }
@@ -63,7 +70,8 @@ $(function(){
       		let isbn=$(this).attr("data-isbn");
       		console.log(isbn);
       		let stno=$(this).attr("data-stno");
-      		
+      		booktitle = $(this).attr("data-booktitle");
+      		sumprice=$(this).attr("data-sumprice");
          requestPay()
          
       // 총금액 서버로 전송
@@ -87,7 +95,7 @@ $(function(){
 </head>
 <body>
 <div style="width: 100%;padding: 0; margin-top: 20px">
-      장바구니 <font color="red">${count }</font>건
+      장바구니 <font color="red">${totalcount }</font>건
       <hr style="margin-top: 10px;">
    </div>
    <div class="row">
@@ -121,7 +129,7 @@ $(function(){
           </c:forEach>
       </table>
    </div>
-	  <div class="text-center">
+	  <nav class="text-center">
 		<ul class="pagination">
 			<c:if test="${startPage>1 }">
 				<li><a href="../mypage/mypage_cart.do?page=${startPage-1 }">&lt; 이전</a></li>			
@@ -133,6 +141,6 @@ $(function(){
 				<li><a href="../mypage/mypage_cart.do?page=${endPage+1 }">다음 &gt;</a></li>			
 			</c:if>
 		</ul> 
-	</div>	
+	</nav>	
 </body>
 </html>
