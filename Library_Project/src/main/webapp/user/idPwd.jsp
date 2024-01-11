@@ -79,12 +79,12 @@ $(function() {
 				  let res=result.trim()
 				  if(res==='NO')
 				  {
-					  $('#res2').html('<span style="color:blue;font-size:10px">아이디나 질문을 다시 입력해주세요.</span>')
+					  alert("아이디나 질문을 다시 입력해주세요.")
 				  }
 				  else
 				  {
-					  $('#res2').html('<span style="color:blue">비밀번호: '+res+'</span>')	
-				  }
+					  $('#res2').html('<span style="color:blue">비밀번호: '+res+'</span>')
+					  $('.pwdall').show();				  }
 			  }
 		  })
 	  })
