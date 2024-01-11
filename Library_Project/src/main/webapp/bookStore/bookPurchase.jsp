@@ -116,6 +116,10 @@ $(".pruchaseBtn").click(function(event){
    x=$(this).attr("href");
    $("html, body").stop().animate({scrollTop : $(x).offset().top-0}, 1000, "easeInOutExpo");
 })
+//별점
+function star_count(e){
+	$('#star_number').text(e.value+".0"+"/5.0");
+}
 </script>
 </head>
 <body>
@@ -204,19 +208,19 @@ $(".pruchaseBtn").click(function(event){
      
 <!-- ##### 별점 그래프 영역 시작 ##### -->
 <div class="star-rating space-x-4 mx-auto">
-   <input type="radio" id="5-stars" name="rating" value="5" v-model="ratings"/>
+   <input type="radio" id="5-stars" name="rating" value="5" v-model="ratings" onclick="star_count(this)"/>
    <label for="5-stars" class="star pr-4">★</label>
-   <input type="radio" id="4-stars" name="rating" value="4" v-model="ratings"/>
+   <input type="radio" id="4-stars" name="rating" value="4" v-model="ratings" onclick="star_count(this)"/>
    <label for="4-stars" class="star">★</label>
-   <input type="radio" id="3-stars" name="rating" value="3" v-model="ratings"/>
+   <input type="radio" id="3-stars" name="rating" value="3" v-model="ratings" onclick="star_count(this)"/>
    <label for="3-stars" class="star">★</label>
-   <input type="radio" id="2-stars" name="rating" value="2" v-model="ratings"/>
+   <input type="radio" id="2-stars" name="rating" value="2" v-model="ratings" onclick="star_count(this)"/>
    <label for="2-stars" class="star">★</label>
-   <input type="radio" id="1-star" name="rating" value="1" v-model="ratings" />
+   <input type="radio" id="1-star" name="rating" value="1" v-model="ratings" onclick="star_count(this)"/>
    <label for="1-star" class="star">★</label>
 </div>
 <div id="star_number">
-   5.0/5.0
+   0.0/5.0
 </div>
 
      <input type=submit value="리뷰쓰기 >" class="btn btn-xs btn-danger" id="reviewBtn">
