@@ -62,13 +62,6 @@ function update_check()
 		return false;
 	}
 	
-	if(ufrm.update_pwd1.value != ufrm.update_pwd2.value)
-	{
-		alert("비밀번호가 일치하지 않습니다.");
-		ufrm.update_pwd1.select();
-		return false;
-	}
-	
 	if(ufrm.update_phone.value.length==0)
 	{
 		alert("전화번호를 입력하세요.");
@@ -78,14 +71,18 @@ function update_check()
 	
 	if(ufrm.update_hintA.value.length==0)
 	{
-		alert("계정확인 답변을 입력하세요.");
+		alert("질문에 대한 답을 입력하세요.");
 		ufrm.update_hintA.focus();
 		return false;
 	}
-	if(ufrm.update_pwd1!=0 && ufrm.update_pwd2!=0 && ufrm.update_phone!=0 && ufrm.update_hintA!=0)
+	
+	if(ufrm.update_pwd1.value != ufrm.update_pwd2.value)
 	{
-		alert("회원정보를 수정하였습니다.");
-	};
+		alert("비밀번호가 일치하지 않습니다.");
+		ufrm.update_pwd1.select();
+		return false;
+	}
+	
 }
 </script>
 </head>

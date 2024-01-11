@@ -35,6 +35,28 @@ h2 {
   margin-left:14%;*/
   color:black;
 }
+#update_pwd1,#update_pwd2,#update_phone,#update_email,#update_post,#update_addr1,#update_addr2
+{
+  padding: 0.5em;
+  margin: 3% 0% 0% 14%;
+  max-width: 70%;
+  -moz-border-radius: 0.1em;
+  -webkit-border-radius: 0.1em;
+  border-radius: 0.1em;
+  -moz-transition: all 0.15s ease-in-out;
+  -o-transition: all 0.15s ease-in-out;
+  -webkit-transition: all 0.15s ease-in-out;
+  transition: all 0.15s ease-in-out;
+  background-color: #f9f9f9;
+  border: 1.3px solid #3f6fd1;
+  border-radius: 2px;
+}
+#update_pwd1:focus,#update_pwd2:focus,#update_phone:focus,#update_email:focus,
+#update_post:focus,#update_addr1:focus,#update_addr2:focus
+{
+	outline: none;
+    border: 0.1em solid rgb(44, 88, 180);
+}
 div.left input[type="text"], div.left input[type="password"],
 div.left input[type="email"]
 {

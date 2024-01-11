@@ -40,7 +40,7 @@ $(function(){
 				}
 				else
 				{
-					alert("비밀번호가 틀립니다!!")
+					alert("비밀번호가 틀립니다.")
 					$('#delete_pwd').val("")
 					$('#delete_pwd').focus();
 				}
@@ -66,16 +66,12 @@ $(function(){
 				{
 					if(result==="yes")
 					{
-						var returnValue=confirm("탈퇴 하시겠습니까?");
-						if(returnValue===true)
-						{
-							alert("탈퇴 되었습니다.")
-							setTimeout("location.href='../main/main.do'",500);
-						}
+						alert("탈퇴 되었습니다.");
+						setTimeout("location.href='../main/main.do'",1000);
 					}
 					else
 					{
-						alert("비밀번호가 틀립니다!!")
+						alert("비밀번호가 틀립니다.")
 						$('#delete_pwd').val("")
 						$('#delete_pwd').focus();
 					}

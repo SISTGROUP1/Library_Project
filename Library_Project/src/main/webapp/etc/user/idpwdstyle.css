@@ -190,9 +190,3 @@ select:focus{
 #fp:hover {
   background: linear-gradient(110deg, #53a2e0 10%,#3f6fd1 80%);
 }
-.pwdall{
-	display:none;
-	color:blue;
-	font-size:13px;
-	text-decoration:underline
-}

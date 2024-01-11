@@ -113,17 +113,17 @@ $(function(){
 
   <div class="right">
     <div class="connect" style="color:black;">다른 방법으로 로그인</div>
-    <a href="" class="facebook">
+    <a href="https://www.facebook.com/?locale=ko_KR" class="facebook">
 <!--       <span class="fontawesome-facebook"></span> -->
       <i class="fa fa-facebook" aria-hidden="true"></i>
     </a> <br />
-    <a href="" class="twitter">
+    <a href="https://twitter.com/i/flow/login" class="twitter">
 <!--       <span class="fontawesome-twitter"></span> -->
       <i class="fa fa-twitter" aria-hidden="true"></i>
     </a> <br />
-    <a href="" class="google-plus">
+    <a href="https://accounts.google.com/" class="google">
 <!--       <span class="fontawesome-google-plus"></span> -->
-      <i class="fa fa-google-plus" aria-hidden="true"></i>
+      <i class="fa fa-google" aria-hidden="true"></i>
     </a>
   </div>
   <input type="button" value="로그인" id="logBtn">

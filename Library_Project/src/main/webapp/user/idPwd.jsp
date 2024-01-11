@@ -119,7 +119,6 @@ $(function() {
     <input type=button value="비밀번호 찾기" id="fp">
     <br>
     <label id=res2></label>
-    <a href="#" class="pwdall">(전체 비밀번호 찾기)</a>
   </div>
   
 </form>

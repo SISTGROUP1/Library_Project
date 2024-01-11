@@ -90,3 +90,24 @@ input[type="password"]:focus{
 #delBtn:hover {
   background: linear-gradient(110deg, #53a2e0 10%,#3f6fd1 80%);
 }
+#delnoBtn {
+  width: 20%;
+  background-color: #1245AB;
+  margin:3% 0% 6% 10%;
+  outline: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  border: none;
+  letter-spacing: 0.1em;
+  font-weight: bold;
+  -moz-border-radius: 0.2em;
+  -webkit-border-radius: 0.2em;
+  border-radius: 0.2em;
+  -moz-transition: all 0.15s ease-in-out;
+  -o-transition: all 0.15s ease-in-out;
+  -webkit-transition: all 0.15s ease-in-out;
+  transition: all 0.15s ease-in-out;
+}
+#delnoBtn:hover {
+  background: linear-gradient(110deg, #53a2e0 10%,#3f6fd1 80%);
+}

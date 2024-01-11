@@ -164,13 +164,14 @@ div.right a.twitter {
 div.right a.twitter:hover {
   background: rgba(64, 153, 255, 0.8);
 }
-div.right a.google-plus {
-  background: #e9544f;
+div.right a.google {
+  background: linear-gradient(90deg, #ea4335 20%,#fbbc05 40%,
+  							#34a853 60%, #4285e0 80%, #8a8d92 100%);
   -moz-transition: all 0.15s ease-in-out;
   -o-transition: all 0.15s ease-in-out;
   -webkit-transition: all 0.15s ease-in-out;
   transition: all 0.15s ease-in-out;
 }
-div.right a.google-plus:hover {
+div.right a.google:hover {
   background: rgba(233, 84, 79, 0.8);
 }
