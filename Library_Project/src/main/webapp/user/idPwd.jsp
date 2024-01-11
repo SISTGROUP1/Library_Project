@@ -35,11 +35,11 @@ $(function() {
 			  success:function(result)
 			  {
 				  let res=result.trim()
-				  if(res==='NO')
+				  if(res==='FINDNO')
 				  {
-					  $('#res1').html('<span style="color:blue;font-size:10px'">이름이나 이메일을 다시 입력해주세요.</span>')
+					  alert("이름이나 이메일을 다시 입력해주세요.")
 				  }
-				  else
+				  else if(res==='FINDYES')
 				  {
 					  
 					  $('#res1').html('<span style="color:blue">아이디: '+res+'</span>')	
@@ -119,6 +119,7 @@ $(function() {
     <input type=button value="비밀번호 찾기" id="fp">
     <br>
     <label id=res2></label>
+    <a href="#" class="pwdall">(전체 비밀번호 찾기)</a>
   </div>
   
 </form>

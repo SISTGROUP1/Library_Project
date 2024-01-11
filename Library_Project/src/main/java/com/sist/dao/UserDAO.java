@@ -295,10 +295,11 @@ public class UserDAO {
 			if(count==0)
 			{
 				// 정보틀림
-				result="NO";
+				result="FINDNO";
 			}
 			else
 			{
+				result="FINDYES";
 				sql="SELECT RPAD(SUBSTR(userid,1,2),LENGTH(userid),'*') "
 					+"FROM userjoin "
 					+"WHERE name=? AND email=?";
