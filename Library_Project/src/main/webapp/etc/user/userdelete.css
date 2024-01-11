@@ -6,24 +6,22 @@ body {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-form#login-form {
+form#delete_form {
   background: #fff;
   width: 30%;
-  margin:0% auto;
-  margin-top: 5%;
-  margin-bottom:5%;
+  margin:0% 0% 3% 33%;
   overflow: hidden;
   position: relative;
-  -moz-border-radius: 0.3em;
-  -webkit-border-radius: 0.3em;
-  border-radius: 0.3em;
+  -moz-border-radius: 0.2em;
+  -webkit-border-radius: 0.2em;
+  border-radius: 0.2em;
   -moz-box-shadow: 0 0 0.1em rgb(128, 128, 128);
   -webkit-box-shadow: 0 0 0.1em rgb(128, 128, 128);
   box-shadow: 0 0 0.1em rgb(128, 128, 128);
 }
-form#login-form div.heading {
-  background: rgba(179, 179, 179,0.6);
-  color: rgb(0, 0, 0);
+form#delete_form div.heading {
+  background: #1245AB;
+  color: white;
   text-align: center;
   text-transform: uppercase;
   font-weight: bold;
@@ -31,7 +29,7 @@ form#login-form div.heading {
   font-size: 1.3em;
 }
 
-form#login-form:before, form#login-form:after {
+form#delete_form:before, form#delete_form:after {
   position: absolute;
   top: 0;
   right: 0;
@@ -40,19 +38,20 @@ form#login-form:before, form#login-form:after {
   margin: auto;
 }
 
-label {
+form#delete_form label {
   display: inline-block;
-  color: rgb(0, 0, 0);
-  font-size: 1.1em;
-  margin: 3% 0% 0% 24%;
+  color: black;
+  font-size: 1.3em;
+  margin-top: 2em;
+  margin-left: 7.6em;
+  
 }
 
-
-input[type="text"] {
+input[type="password"] {
   border: 0.1em solid #dfdfdf;
   padding: 0.5em;
-  margin: 1% 0% 0% 24%;
   max-width: 50%;
+  margin: 0.7em 0em 1em 10em;
   -moz-border-radius: 0.1em;
   -webkit-border-radius: 0.1em;
   border-radius: 0.1em;
@@ -65,16 +64,15 @@ input[type="text"] {
   transition: all 0.15s ease-in-out;
 }
 
-input[type="text"]:focus{
+input[type="password"]:focus{
   outline: none;
   border: 0.1em solid #919191;
 }
 
-
-input[type="button"] {
+#delBtn {
   width: 20%;
-  background: rgba(179, 179, 179,0.6);
-  margin:7% 0% 10% 26%;
+  background-color: #1245AB;
+  margin:3% 0% 6% 24.2%;
   outline: none;
   text-transform: uppercase;
   overflow: hidden;
@@ -89,11 +87,6 @@ input[type="button"] {
   -webkit-transition: all 0.15s ease-in-out;
   transition: all 0.15s ease-in-out;
 }
-input[type="button"]:hover {
-  background: rgba(179, 179, 179);
-  
-}
-
-#s2{
-margin-left: 5%;	
+#delBtn:hover {
+  background: linear-gradient(110deg, #53a2e0 10%,#3f6fd1 80%);
 }

@@ -33,28 +33,35 @@ $(function(){
 					$('#result').html('<font color="blue">'+id+'는(은) 사용 가능한 ID입니다.</font>')
 					$('#okBtn').show()
 				}
-				else
+				else if(count===1)
 				{
 					$('#result').html('<font color="red">'+id+'는(은) 이미 사용중인 ID입니다.</font>')
 					$('#id').val("")
 					$('#id').focus()
 				}
+				else
+				{
+					$('#result').html('<font color="red">공백은 사용할 수 없습니다</span>')
+				}
 			}
 		})
 	});
+	
 	$('#okBtn').click(function(){
 		parent.frm.id1.value=$('#id').val()
 		parent.Shadowbox.close()
 	})
 })
+
 </script>
 </head>
 <body>
+<form name="idform">
   <div class="container">
     <div class="row">
       <table class="table">
         <tr>
-          <td>입력:<input type="text" size=15 class="input-sm" id="id">
+          <td>입력:<input type="text" size=15 class="input-sm" id="id" name="id">
             <input type="button" value="아이디중복체크" class="btn btn-sm btn-success" id="idcheckBtn">
           </td>
         </tr>
@@ -68,5 +75,6 @@ $(function(){
       </table>
     </div>
   </div>
+</form>
 </body>
 </html>

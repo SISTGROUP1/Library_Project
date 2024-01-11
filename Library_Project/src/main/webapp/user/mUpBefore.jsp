@@ -17,9 +17,9 @@
     <input type="text" name="email" id="id">
     <label for="password">비밀번호</label>
     <input type="text" name="password" id="up_pwd">
-    <input type="button" onClick="location.href='./mUpdate.jsp'" value="수정" id="s1" style="cursor:pointer;">
-    <input type="button" onClick="location.href='../main/main.do'" value="취소" id="s2" style="cursor:pointer;">
+    <input type="button" onclick="location.href='../user/mUpdate.do'" value="수정" id="s1" style="cursor:pointer;">
+    <input type="button" onclick="javascript:history.back()" value="취소" id="s2" style="cursor:pointer;">
 </form>
-
+<jsp:include page="${mUpdate_jsp }"></jsp:include>
 </body>
 </html>

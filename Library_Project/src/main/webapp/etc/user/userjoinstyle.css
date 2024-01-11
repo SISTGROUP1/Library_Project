@@ -8,11 +8,8 @@ body {
 
 form#login-form {
   background: #fff;
-  width: 35%;
-  /*margin:5% 0% 6% 30%;*/
-  margin:0px auto;
-  margin-top: 5%;
-  margin-bottom:5%;
+  width: 57%;
+  margin:0% 0% 3% 10%;
   overflow: hidden;
   position: relative;
   border-radius: 0.3em;
@@ -21,8 +18,8 @@ form#login-form {
   box-shadow: 0 0 0.1em rgb(128, 128, 128);
 }
 form#login-form div.heading {
-  background: rgba(179, 179, 179,0.6);
-  color: rgb(0, 0, 0);
+  background: #1245AB;
+  color: white;
   text-align: center;
   text-transform: uppercase;
   font-weight: bold;
@@ -82,7 +79,7 @@ div.left input[type="text"]:focus, div.left input[type="password"]:focus {
 
 input[type="button"], input[type="submit"] {
   width: 20%;
-  background: rgba(179, 179, 179,0.6);
+  background-color: #1245AB;
   margin:3% 0% 0% 1%;
   outline: none;
   text-transform: uppercase;
@@ -99,7 +96,7 @@ input[type="button"], input[type="submit"] {
   transition: all 0.15s ease-in-out;
 }
 input[type="button"]:hover, input[type="submit"]:hover {
-  background: rgba(179, 179, 179);
+  background: linear-gradient(110deg, #53a2e0 10%,#3f6fd1 80%);
   
 }
 
@@ -110,4 +107,11 @@ input[type="radio"] {
 #male{
 	margin-left: 13%;
 	margin-top: 1.5%
+}
+
+#res{
+	background-color: white;
+	text-align:right;
+	margin: 1% 0% 0% 14%;
+    max-width: 70%;
 }

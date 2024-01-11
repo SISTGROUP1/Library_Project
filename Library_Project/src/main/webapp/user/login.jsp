@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html lang="en" >
 <head>
-  <meta charset="UTF-8">
-  <title>CodePen - Login to Everdwell</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<meta charset="UTF-8">
+<title>CodePen - Login to Everdwell</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Raleway'>
 <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'><link rel="stylesheet" href="../etc/user/loginstyle.css">
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
@@ -51,6 +51,51 @@ $(function(){
 				}
 			}
 		})
+	})
+	
+	window.addEventListener("keyup",(e)=>{
+		if(e.keyCode===13)
+		{
+			let id=$('#email').val();
+			if(id.trim()==="")
+			{
+				$('#email').focus()
+				return;
+			}
+			let pwd=$('#pass').val();
+			if(pwd.trim()==="")
+			{
+				$('#pass').focus()
+				return;
+			}
+			
+			$.ajax({
+				type:'post',
+				url:'../user/login_ok.do',
+				data:{"email":id,"pass":pwd},
+				success:function(result)
+				{
+					// NOID , NOPWD , OK
+					if(result==='NOID')
+					{
+						alert("아이디가 존재하지 않습니다")
+						$('#email').val("");
+						$('#pass').val("");
+						$('#email').focus()
+					}
+					else if(result==='NOPWD')
+					{
+						alert("비밀번호가 틀렸습니다")
+						$('#pass').val("");
+						$('#pass').focus()
+					}
+					else
+					{
+						location.href="../main/main.do"
+					}
+				}
+			})
+		}
 	})
 });
 </script>
