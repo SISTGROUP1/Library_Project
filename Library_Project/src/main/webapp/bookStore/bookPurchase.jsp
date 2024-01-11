@@ -11,6 +11,7 @@
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <script type="text/javascript">
 var IMP = window.IMP; // 생략 가능
+let star_review = '';
 IMP.init("imp76004233");  // 예: imp00000000 (내 식별코드 쓰기)
 function requestPay() {
    console.log('clicked');
@@ -44,13 +45,12 @@ function requestPay() {
        } else {
            var msg = '결제에 실패하였습니다.';
            msg += '에러내용 : ' + rsp.error_msg;
-           
-           location.href="../mypage/bookPurchaseList.do"
        }
    });
 }
 // 총금액 계산
 $(function(){
+	let bcheck=false;
    $('#sel').change(function(){
       let count=$(this).val();
       let price=$('#saleprice').attr("data-price")
@@ -62,62 +62,114 @@ $(function(){
       let userid=$('#buy').attr("data-value");
       let isbn=$('#bookisbn').text();
       
-   // 총금액 결제
-      $('#buy').click(function(){
-         if(${sessionScope.email==null})
-         {
-            alert("로그인 후 이용해주세요.")
-            return;
-         }
-         requestPay()
       // 총금액 서버로 전송
-         $.ajax({
-             type: "POST",
-             url: "../bookStore/bookPurchase_ok.do",  // 보내지는 위치
-             data: {"userid":userid, "isbn":isbn, sumprice:total}, //sumprice에 total값 저장
-             success: function(response) {
-                 console.log("서버 전송 완료");
-                 
-             },
-             error: function(error) {
-                 console.error("서버 전송 오류");
-             }
-         });
-      })
-      $('#cart').click(function(){
-         if(${sessionScope.email==null})
-         {
-            alert("로그인 후 이용해주세요.")
-            return;
-         }
-         // cart로 데이터 전송
-         $.ajax({
-             type: "POST",
-             url: "../bookStore/cart_insert.do",  // 보내지는 위치
-             data: {"userid":userid, "isbn":isbn, sumprice:total}, //sumprice에 total값 저장
-             success: function(response) {
-                 console.log("서버 전송 완료");
-                 location.href="../mypage/mypage_cart.do"
-             },
-             error: function(error) {
-                 console.error("서버 전송 오류");
-             }
-         });
-      })
-      
-      
+        $.ajax({
+            type: "POST",
+            url: "../bookStore/bookPurchase_ok.do",  // 보내지는 위치
+            data: {"userid":userid, "isbn":isbn, sumprice:total}, //sumprice에 total값 저장
+            success: function(response) {
+                console.log("서버 전송 완료");
+            },
+            error: function(error) {
+                console.error("서버 전송 오류");
+            }
+        });
    })
    
+   // 총금액 결제
+   $('#buy').click(function(){
+      if(${sessionScope.email==null})
+      {
+         alert("로그인 후 이용해주세요.")
+         return;
+      }
+      requestPay()
+   })
+   
+   $('#reviewBtn').click(function(){
+	   let id = $('#userid_data').val();
+	   let reviewText = $('#reviewText').val();
+	   if(id===''){
+		   alert("로그인 후 이용해주세요");
+		   return ;
+	   }
+	   if(star_review===''){
+		   alert("별점을 입력해주세요");
+		   return ;
+	   }
+	   if(reviewText===''){
+		   alert("내용을 입력해주세요");
+		   return ;
+	   }
+	   let isbn = $('#bookisbn').text();
+	   $.ajax({
+		   type:'post',
+		   url:'../reply/reviewinsert.do',
+		   data:{"typeno":0,"rscore":star_review,"isbn":isbn,"r_content":reviewText,"email":id},
+		   success:function(res){
+			   location.href="../bookStore/bookPurchase.do?isbn="+res;
+		   },
+		   error: function(error) {
+               console.error("서버 전송 오류");
+           }
+	   })
+   })
+   $('.reviewmodify').click(function(){
+	   if(bcheck===false){
+		   let content = $(this).attr('data-content');
+		   $('#data-change').html('<textarea id="change_text" style="width:100%;">'+content+'</textarea>');
+		   $('.reviewchange').show();
+		   $(this).val('취소');
+		   bcheck=true;
+	   }
+	   else{
+		   let content = $(this).attr('data-content');
+		   $('#data-change').html(content);
+		   $('.reviewchange').hide();
+		   $(this).val('수정');
+		   bcheck=false;
+	   }
+   })
+   $('.reviewchange').click(function(){
+	   let rno = $(this).attr('data-source');
+	   let isbn = $('#bookisbn').text();
+	   let r_content = $('#change_text').val();
+	   $.ajax({
+		   type:'post',
+		   url:'../reply/reviewupdate.do',
+		   data:{'rno':rno,'typeno':0,'isbn':isbn,'r_content':r_content},
+		   success:function(res){
+			   $('#data-change').html(res);
+			   $('.reviewchange').hide();
+			   $('.reviewmodify').val('수정');
+			   bcheck=false;
+		   }
+	   })
+   })
+   $('.reviewdelete').click(function(){
+	   let rno = $(this).attr('data-source');
+	   let isbn = $('#bookisbn').text();
+	   $.ajax({
+		   type:'post',
+		   url:'../reply/reviewdelete.do',
+		   data:{'rno':rno,'typeno':0,'isbn':isbn},
+		   success:function(res){
+			   location.href="../bookStore/bookPurchase.do?isbn="+isbn;
+		   }
+	   })
+   })
 })
 
 // 스크롤
 $(".pruchaseBtn").click(function(event){
    event.preventDefault();
    x=$(this).attr("href");
-   $("html, body").stop().animate({scrollTop : $(x).offset().top-0}, 1000, "easeInOutExpo");
+   $("html, body").stop().animate({scrollTop : $(x).offset().top-130}, 1000, "easeInOutExpo");
 })
+
 //별점
 function star_count(e){
+	star_review = e.value;
 	$('#star_number').text(e.value+".0"+"/5.0");
 }
 </script>
@@ -183,7 +235,8 @@ function star_count(e){
            </tr>
            <tr>
               <td width="50%">
-                 <input type="button" value="장바구니" id="cart" data-value="${sessionScope.email }">
+                 <a href="../bookStore/shopCart.do"><input type="button" value="장바구니" id="cart"></a>
+
                  <input type="button" value="바로구매" id="buy" data-value="${sessionScope.email }">
                  <a href="javascript:history.back()"><input type="button" value="뒤로가기" id="backto"></a>
               </td>
@@ -197,10 +250,10 @@ function star_count(e){
      <hr>
      <h2 id="bookinfo_scr">책소개</h2>
      <hr>
-     <p style="margin-top:2%;width: 65%;height: 400px">${vo.bookinfo}</p>
+     <p style="margin-top:2%;width: 65%">${vo.bookinfo}</p>
      <h2 id="bookauthor_scr">저자소개</h2>
      <hr>
-     <p style="margin-top:2%;width: 65%;height: 400px">${vo.authorinfo}</p>
+     <p style="margin-top:2%;width: 65%">${vo.authorinfo}</p>
    <div class="bookpurchase_review">
    <h2 id="bookreview_scr">도서리뷰</h2>
      <hr>
@@ -222,19 +275,43 @@ function star_count(e){
 <div id="star_number">
    0.0/5.0
 </div>
-
-     <input type=submit value="리뷰쓰기 >" class="btn btn-xs btn-danger" id="reviewBtn">
-      <table class="table">
-        <tr>
-         <td>
-          <form method=post>
-            <textarea rows="5" cols="40" id="reviewText"></textarea>
-            
-          </form>
-         </td>
-        </tr>
-      </table>
-      
+     <section id="one" class="wrapper" style="padding:3em 0;"><div class="inner">
+		<div class="flex flex-3">
+			<table id="review_show" class="table" style="margin:0px;width:100%;height:100%">
+				<c:forEach var="rvo" items="${rvo }">
+					<tr>
+						<td width=100%>
+							${rvo.userid}(${rvo.dbday })
+						</td>
+	      			</tr>
+	      			<tr>
+	      				<td id="data-change">${rvo.r_content }</td>
+	      			</tr>
+	      			<c:if test="${sessionScope.email==rvo.userid }">
+		      			<tr>
+		      				<td id="reviewbtnall">
+								<input type=button value="삭제" class="btn btn-xs btn-danger reviewdelete" data-source="${rvo.rno }" style="float:right;">
+								<input type=button value="수정" class="btn btn-xs btn-danger reviewmodify" data-source="${rvo.rno }" data-content="${rvo.r_content }" style="float:right;margin-right:5px;">
+								<input type=button value="수정" class="btn btn-xs btn-danger reviewchange" data-source="${rvo.rno }" data-content="${rvo.r_content }" style="float:right;margin-right:5px;display:none">
+							</td>
+						</tr>
+					</c:if>
+      			</c:forEach>
+        		<tr>
+         			<td style="padding:0px;" colspan=2>
+          				<form method=post>
+          					<input type="hidden" id="userid_data" value="${sessionScope.email }">
+            				<textarea rows="5" cols="40" id="reviewText" style="width:100%"></textarea>
+          				</form>
+         			</td>
+        		</tr>
+      		</table>
+      		<input type=button value="리뷰쓰기 >" class="btn btn-xs btn-danger" id="reviewBtn" style="width:100%;float:right;margin-left:90%;">
+      	</div>
+      	</div>
+      </section>
+      </div>
    </div>
+   <div style="clear:both;padding-bottom: 20px;"></div>
 </body>
 </html>

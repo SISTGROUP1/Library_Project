@@ -1,12 +1,16 @@
 package com.sist.model;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 
 import com.sist.controller.RequestMapping;
+import com.sist.dao.AllReplyDAO;
 import com.sist.dao.BookStoreDAO;
+import com.sist.vo.AllReplyVO;
 import com.sist.vo.BookStoreVO;
 
 public class BookStoreModel {
@@ -16,7 +20,10 @@ public class BookStoreModel {
 		String isbn=request.getParameter("isbn");
 		BookStoreDAO dao=BookStoreDAO.newInstance();
 		BookStoreVO vo=dao.bookStoreAllDetailData(isbn);
+		AllReplyDAO rdao = AllReplyDAO.newInstance();
+		List<AllReplyVO> rvo = rdao.replyReviewListData(0, isbn);
 		request.setAttribute("vo", vo);
+		request.setAttribute("rvo", rvo);
 		
 		request.setAttribute("main_jsp", "../bookStore/bookPurchase.jsp");
 		return "../main/main.jsp";

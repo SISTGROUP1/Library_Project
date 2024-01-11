@@ -100,8 +100,54 @@ public class AllReplyDAO {
 		}
 	}
 	
-	/*
-	 	DELETE FROM reply_all
-    WHERE no=pNo
-	 */
+	public List<AllReplyVO> replyReviewListData(int typeno,String isbn){
+		List<AllReplyVO> list=new ArrayList<AllReplyVO>();
+		try {
+			conn=dbconn.getConnection();
+			String sql="SELECT rno,typeno,userid,r_content,r_score,TO_CHAR(r_date,'YYYY-MM-DD HH24:MI:SS'),isbn "
+					+ "FROM all_reply "
+					+ "WHERE typeno=? AND isbn=? "
+					+ "ORDER BY rno DESC";
+			ps=conn.prepareStatement(sql);
+			ps.setInt(1, typeno);
+			ps.setString(2, isbn);
+			ResultSet rs=ps.executeQuery();
+			while(rs.next()) {
+				AllReplyVO vo=new AllReplyVO();
+				vo.setRno(rs.getInt(1));
+				vo.setTypeno(rs.getInt(2));
+				vo.setUserid(rs.getString(3));
+				vo.setR_content(rs.getString(4));
+				vo.setR_score(rs.getInt(5));
+				vo.setDbday(rs.getString(6));
+				vo.setIsbn(rs.getString(7));
+				list.add(vo);
+			}
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return list;
+	}
+	
+	public void replyReviewInsert(AllReplyVO vo) {
+		try {
+			conn=dbconn.getConnection();
+			String sql="INSERT INTO all_reply(rno,typeno,r_score,userid,r_content,isbn) "
+					+ "VALUES (ar_rno_seq.nextval,?,?,?,?,?)";
+			ps=conn.prepareStatement(sql);
+			ps.setInt(1, vo.getTypeno());
+			ps.setInt(2, vo.getR_score());
+			ps.setString(3, vo.getUserid());
+			ps.setString(4, vo.getR_content());
+			ps.setString(5, vo.getIsbn());
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
+	}
 }
