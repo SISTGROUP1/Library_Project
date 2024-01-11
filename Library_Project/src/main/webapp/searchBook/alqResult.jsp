@@ -130,7 +130,8 @@
 	</div>
 	<div class="col-md-2">
 		<div style="margin-top: 50px;"></div>
-		<h6>Cookies</h6>
+		<h3>도서 검색 목록</h3>
+		<hr>
 		<c:forEach var="c" items="${cList_1 }">
 			<div style="display: flex;">
 				<p style="width:170px; text-overflow: ellipsis;white-space: nowrap;overflow: hidden;"><a href="../searchBook/alqDetail.do?isbn=${c.isbn }" style="color:black;text-decoration: none;">${c.booktitle }</a></p>
