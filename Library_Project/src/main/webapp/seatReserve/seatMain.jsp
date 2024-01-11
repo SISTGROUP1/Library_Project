@@ -71,7 +71,6 @@
 			let id = $(this).attr('data-source');
 			if(id!=null){
 				let compare = $('.seat_reserve_btn').attr("data-seat");
-				console.log(compare);
 				if(compare!=''){
 					seat_number = $('.seat_reserve_btn').attr("data-seat");	
 				}
@@ -92,6 +91,7 @@
 							data:{"snum":seat_number},
 							success:function(res){
 								if(res==='Y'){
+									$('#seat'+seat_number).css("background-color",'#2dcff8');
 									$('#use_other_seat').show();
 								}
 								else{
