@@ -43,6 +43,47 @@ public class BookStoreModel {
 		dao.bookPurchase_ok(userid, isbn, sumprice);
 		
 	}
+	
+	// 도서 카트 인서트
+		@RequestMapping("bookStore/cart_insert.do")
+		public void cart_insert(HttpServletRequest request, HttpServletResponse response)
+		{
+			
+			String userid=request.getParameter("userid");
+			String isbn=request.getParameter("isbn");
+			String sumpriceStr=request.getParameter("sumprice");
+			if(sumpriceStr==null)
+				sumpriceStr="0";
+			
+			int sumprice=Integer.parseInt(sumpriceStr);;
+			
+			BookStoreDAO dao=BookStoreDAO.newInstance();
+			dao.cart_insert(userid, isbn, sumprice);
+			
+		}
+		
+		// 카트 도서 결제
+		@RequestMapping("bookStore/cartbookPurchase_ok.do")
+		public void cartbookPurchase_ok(HttpServletRequest request, HttpServletResponse response)
+		{
+			// data: {"userid":userid, "isbn":isbn, sumprice:total}
+			String userid=request.getParameter("userid");
+			String isbn=request.getParameter("isbn");
+			String sumpriceStr=request.getParameter("sumprice");
+			String stno=request.getParameter("stno");
+			
+			// sumprice를 정수로 변환
+			int sumprice=0;
+			try {
+			    sumprice=Integer.parseInt(sumpriceStr);
+			} catch (NumberFormatException e) {
+			    e.printStackTrace();
+			}
+			
+			BookStoreDAO dao=BookStoreDAO.newInstance();
+			dao.cartbookPurchase_ok(userid, isbn, sumprice, Integer.parseInt(stno));
+			
+		}
 }
 
 

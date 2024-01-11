@@ -85,4 +85,56 @@ public class BookStoreDAO {
 		}
 	}
 	
+	// 도서 카트 인서트
+		public void cart_insert(String userid, String isbn, int sumprice)
+		{
+			try
+			{	
+				conn=dbconn.getConnection();
+				String sql="INSERT INTO BOOKCART(stno, userid, isbn, sumprice) "
+						+"VALUES(bc_stno_seq.nextval,?, ?, ?)";
+				ps=conn.prepareStatement(sql);
+				ps.setString(1, userid);
+				ps.setString(2, isbn);
+				ps.setInt(3, sumprice);
+				ps.executeUpdate();
+				
+			}catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			finally {
+				dbconn.disConnection(conn, ps);
+			}
+		}
+		
+	// 카트 도서 결제
+		public void cartbookPurchase_ok(String userid, String isbn, int sumprice, int stno)
+		{
+			try
+			{	
+				conn=dbconn.getConnection();
+				System.out.println(userid);
+				System.out.println(isbn);
+				System.out.println(sumprice);
+				System.out.println(stno);
+				String sql="INSERT INTO BOOKDELIVERY(orderNum, userid, isbn, sumprice) "
+						+"SELECT bd_odnum_seq.nextval,userid,isbn,sumprice FROM BOOKCART WHERE userid=? AND isbn=? AND sumprice=? AND stno=?";
+						
+				ps=conn.prepareStatement(sql);
+				ps.setString(1, userid);
+				ps.setString(2, isbn);
+				ps.setInt(3, sumprice);
+				ps.setInt(4, stno);
+				ps.executeUpdate();
+				
+			}catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			finally {
+				dbconn.disConnection(conn, ps);
+			}
+		}
+	
 }

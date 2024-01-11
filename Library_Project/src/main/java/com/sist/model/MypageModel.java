@@ -14,6 +14,7 @@ import com.sist.dao.LibraryDAO;
 import com.sist.dao.MyPageDAO;
 import com.sist.dao.ProgramDAO;
 import com.sist.vo.AllLikeVO;
+import com.sist.vo.BookCartVO;
 import com.sist.vo.BookDeliverVO;
 import com.sist.vo.BookReserve;
 import com.sist.vo.BookReserveCountVO;
@@ -294,44 +295,105 @@ public class MypageModel {
 			return "redirect:../mypage/likeBookInq.do";
 		}
 	
-	// 도서결제내역
-		@RequestMapping("mypage/bookPurchaseList.do")
-		public String mypage_bookPurchaseList(HttpServletRequest request, HttpServletResponse response)
-		{
-			String page=request.getParameter("page");
-			if(page==null)
-				page="1";
-			int curpage=Integer.parseInt(page);
+		// 도서결제내역
+				@RequestMapping("mypage/bookPurchaseList.do")
+				public String mypage_bookPurchaseList(HttpServletRequest request, HttpServletResponse response)
+				{
+					String page=request.getParameter("page");
+					if(page==null)
+						page="1";
+					int curpage=Integer.parseInt(page);
+					
+					MyPageDAO dao=MyPageDAO.newInstance();
+					HttpSession session=request.getSession();
+					String userid=(String)session.getAttribute("email"); // 무슨의미일까
+					List<BookDeliverVO> list=dao.userPurchaseList(curpage, userid);
+					int totalpage=dao.userPurchaseTotalpage();
+					
+					int count=dao.buyListTotalCount(userid);
+				    count=count-((curpage*dao.getROW())-dao.getROW());
+					
+					final int BLOCK=10;
+					int startPage=((curpage-1)/BLOCK*BLOCK)+1;
+					int endPage=((curpage-1)/BLOCK*BLOCK)+BLOCK;
+					if(endPage>totalpage)
+						endPage=totalpage;
+					
+					request.setAttribute("count", count);
+					request.setAttribute("curpage", curpage);
+					request.setAttribute("totalpage", totalpage);
+					request.setAttribute("startPage", startPage);
+					request.setAttribute("endPage", endPage);
+					request.setAttribute("list", list);
+				
+					request.setAttribute("mypage_jsp", "../mypage/bookPurchaseList.jsp");
+					request.setAttribute("main_jsp", "../mypage/myPage_main.jsp");
+					return "../main/main.jsp";
+				}
 			
-			MyPageDAO dao=MyPageDAO.newInstance();
-			HttpSession session=request.getSession();
-			String userid=(String)session.getAttribute("email"); // 무슨의미일까
-			List<BookDeliverVO> list=dao.userPurchaseList(curpage, userid);
-			int totalpage=dao.userPurchaseTotalpage();
-			
-			request.setAttribute("curpage", curpage);
-			request.setAttribute("totalpage", totalpage);
-			request.setAttribute("list", list);
-			
-			request.setAttribute("mypage_jsp", "../mypage/bookPurchaseList.jsp");
-			request.setAttribute("main_jsp", "../mypage/myPage_main.jsp");
-			return "../main/main.jsp";
-		}
-	
-		// 도서결제내역 디테일
-		@RequestMapping("mypage/bookPurchaseDetail.do")
-		public String mypage_bookPurchaseDetail(HttpServletRequest request, HttpServletResponse response)
-		{
-			MyPageDAO dao=MyPageDAO.newInstance();
-			HttpSession session=request.getSession();
-			String userid=(String)session.getAttribute("email");
-			//String orderNum=request.getParameter("orderNum");
-			
-			BookDeliverVO vo=dao.bookBuyDetail(userid);
-			request.setAttribute("vo", vo);
-		
-			request.setAttribute("mypage_jsp", "../mypage/bookPurchaseDetail.jsp");
-			request.setAttribute("main_jsp", "../mypage/myPage_main.jsp");
-			return "../main/main.jsp";
-		}
+				// 도서결제내역 디테일
+				@RequestMapping("mypage/bookPurchaseDetail.do")
+				public String mypage_bookPurchaseDetail(HttpServletRequest request, HttpServletResponse response)
+				{
+					MyPageDAO dao=MyPageDAO.newInstance();
+					HttpSession session=request.getSession();
+					String userid=(String)session.getAttribute("email");
+					//String orderNum=request.getParameter("orderNum");
+					
+					BookDeliverVO vo=dao.bookBuyDetail(userid);
+					request.setAttribute("vo", vo);
+				
+					request.setAttribute("mypage_jsp", "../mypage/bookPurchaseDetail.jsp");
+					request.setAttribute("main_jsp", "../mypage/myPage_main.jsp");
+					return "../main/main.jsp";
+				}
+				
+				// 장바구니내역
+				@RequestMapping("mypage/mypage_cart.do")
+				public String mypage_cart(HttpServletRequest request, HttpServletResponse response)
+				{
+					String page=request.getParameter("page");
+					if(page==null)
+						page="1";
+					int curpage=Integer.parseInt(page);
+					
+					
+					
+					String stno=request.getParameter("stno");
+					MyPageDAO dao=MyPageDAO.newInstance();
+					HttpSession session=request.getSession();
+					String userid=(String)session.getAttribute("email"); // 무슨의미일까
+					List<BookCartVO> list=dao.userCartList(curpage, userid);
+					int totalpage=dao.userCartTotalpage();
+					
+					int count=dao.cartTotalCount(userid);
+				    count=count-((curpage*dao.getROW())-dao.getROW());
+					
+					final int BLOCK=10;
+					int startPage=((curpage-1)/BLOCK*BLOCK)+1;
+					int endPage=((curpage-1)/BLOCK*BLOCK)+BLOCK;
+					if(endPage>totalpage)
+						endPage=totalpage;
+					
+					request.setAttribute("count", count);
+					request.setAttribute("curpage", curpage);
+					request.setAttribute("totalpage", totalpage);
+					request.setAttribute("startPage", startPage);
+					request.setAttribute("endPage", endPage);
+					request.setAttribute("list", list);
+					
+					request.setAttribute("mypage_jsp", "../mypage/mypage_cart.jsp");
+					request.setAttribute("main_jsp", "../mypage/myPage_main.jsp");
+					return "../main/main.jsp";
+				}
+				
+				// 장바구니내역 삭제
+				@RequestMapping("mypage/mypage_cartDelete.do")
+				public String mypage_cartDelete(HttpServletRequest request, HttpServletResponse response)
+				{
+					String stno=request.getParameter("stno");
+					MyPageDAO dao=MyPageDAO.newInstance();
+					dao.cartDelete(Integer.parseInt(stno));
+					return "redirect:../mypage/mypage_cart.do";
+				}
 }

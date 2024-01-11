@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.sist.dbcp.CreateDBCPConnection;
 import com.sist.vo.AllLikeVO;
+import com.sist.vo.BookCartVO;
 import com.sist.vo.BookDeliverVO;
 import com.sist.vo.BookReserve;
 import com.sist.vo.BookReserveCountVO;
@@ -208,106 +209,6 @@ public class MyPageDAO {
 			}
 			return vo;
 		}
-	
-	// 결제 내역 출력
-	public List<BookDeliverVO> userPurchaseList(int page, String userid)
-	{
-		List<BookDeliverVO> list=new ArrayList<BookDeliverVO>();
-		try {
-			conn=dbconn.getConnection();
-			String sql="SELECT image, booktitle, saleprice, sumprice, orderdate, orderNum, userid, num "
-					+"FROM (SELECT image, booktitle, saleprice, sumprice, orderdate, orderNum, userid, rownum as num "
-					+"FROM (SELECT image, booktitle, saleprice, sumprice, orderdate, orderNum, userid "
-					+"FROM BOOKINFO "
-					+"JOIN BOOKDELIVERY ON BOOKINFO.ISBN=BOOKDELIVERY.ISBN "
-					+"WHERE userid=?)) "
-					+"WHERE num BETWEEN ? AND ?";
-			ps=conn.prepareStatement(sql);
-			ps.setString(1, userid);
-			int startPage=(ROW*page)-(ROW-1);
-			int endPage=ROW*page;
-			ps.setInt(2, startPage);
-			ps.setInt(3, endPage);
-			ResultSet rs=ps.executeQuery();
-			while(rs.next())
-			{
-				BookDeliverVO vo=new BookDeliverVO();
-				vo.setImage(rs.getString(1));
-				vo.setBooktitle(rs.getString(2));
-				vo.setSaleprice(rs.getInt(3));
-				vo.setSumprice(rs.getInt(4));
-				vo.setOrderDate(rs.getDate(5));
-				vo.setOrderNum(rs.getInt(6));
-				vo.setUserid(rs.getString(7));
-				list.add(vo);
-			}
-			rs.close();
-			ps.close();
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		finally {
-			dbconn.disConnection(conn, ps);
-		}
-		return list;
-	}
-	
-	// 결제내역 totalpage
-	public int userPurchaseTotalpage()
-	{
-		int total=0;
-		try {
-			conn=dbconn.getConnection();
-			String sql="SELECT CEIL(COUNT(*)/12.0) FROM BOOKDELIVERY";
-			ps=conn.prepareStatement(sql);
-			ResultSet rs=ps.executeQuery();
-			rs.next();
-			total=rs.getInt(1);
-			rs.close();
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		finally {
-			dbconn.disConnection(conn, ps);
-		}
-		return total;
-	}
-	
-	// 결제 내역 상세페이지
-    public BookDeliverVO bookBuyDetail(String userid)
-    {
-       BookDeliverVO vo=new BookDeliverVO();
-       try {
-          conn=dbconn.getConnection();
-          String sql="SELECT image, booktitle, saleprice, sumprice, orderdate, orderNum "
-                +"FROM BOOKINFO "
-                +"JOIN BOOKDELIVERY ON BOOKINFO.ISBN=BOOKDELIVERY.ISBN "
-                +"WHERE userid=?";
-                
-          ps=conn.prepareStatement(sql);
-          ps.setString(1, userid);
-          //ps.setInt(2, orderNum);
-          ResultSet rs=ps.executeQuery();
-          rs.next();
-          vo.setImage(rs.getString(1));
-          vo.setBooktitle(rs.getString(2));
-          vo.setSaleprice(rs.getInt(3));
-          vo.setSumprice(rs.getInt(4));
-          vo.setOrderDate(rs.getDate(5));
-          vo.setOrderNum(rs.getInt(6));
-          rs.close();
-          ps.close();
-       } catch (Exception e) {
-          // TODO: handle exception
-          e.printStackTrace();
-       }
-       finally {
-          dbconn.disConnection(conn, ps);
-       }
-       return vo;
-    }
     
  // 프로그램 신청내역 조회(검색X)
   	public List<ProgramApplicationVO> myProgramApplList(int page,String userid){
@@ -613,4 +514,235 @@ public class MyPageDAO {
    		}
     		return total;
     	}
+    	
+    	// 결제 내역 출력
+     	public List<BookDeliverVO> userPurchaseList(int page, String userid)
+     	{
+     		List<BookDeliverVO> list=new ArrayList<BookDeliverVO>();
+     		try {
+     			conn=dbconn.getConnection();
+     			String sql="SELECT image, booktitle, saleprice, sumprice, orderdate, orderNum, userid, isbn, num "
+     					+"FROM (SELECT image, booktitle, saleprice, sumprice, orderdate, orderNum, userid, isbn, rownum as num "
+     					+"FROM (SELECT image, booktitle, saleprice, sumprice, orderdate, orderNum, userid, bookinfo.isbn "
+     					+"FROM BOOKINFO "
+     					+"JOIN BOOKDELIVERY ON BOOKINFO.ISBN=BOOKDELIVERY.ISBN "
+     					+"WHERE userid=? ORDER BY orderdate DESC)) "
+     					+"WHERE num BETWEEN ? AND ?";
+     			ps=conn.prepareStatement(sql);
+     			ps.setString(1, userid);
+     			int startPage=(ROW*page)-(ROW-1);
+     			int endPage=ROW*page;
+     			ps.setInt(2, startPage);
+     			ps.setInt(3, endPage);
+     			ResultSet rs=ps.executeQuery();
+     			while(rs.next())
+     			{
+     				BookDeliverVO vo=new BookDeliverVO();
+     				vo.setImage(rs.getString(1));
+     				vo.setBooktitle(rs.getString(2));
+     				vo.setSaleprice(rs.getInt(3));
+     				vo.setSumprice(rs.getInt(4));
+     				vo.setOrderDate(rs.getDate(5));
+     				vo.setOrderNum(rs.getInt(6));
+     				vo.setUserid(rs.getString(7));
+     				vo.setIsbn(rs.getString(8));
+     				list.add(vo);
+     			}
+     			rs.close();
+     			ps.close();
+     		} catch (Exception e) {
+     			// TODO: handle exception
+     			e.printStackTrace();
+     		}
+     		finally {
+     			dbconn.disConnection(conn, ps);
+     		}
+     		return list;
+     	}
+     	
+     	// 결제내역 totalpage
+     	public int userPurchaseTotalpage()
+     	{
+     		int total=0;
+     		try {
+     			conn=dbconn.getConnection();
+     			String sql="SELECT CEIL(COUNT(*)/20.0) FROM BOOKDELIVERY";
+     			ps=conn.prepareStatement(sql);
+     			ResultSet rs=ps.executeQuery();
+     			rs.next();
+     			total=rs.getInt(1);
+     			rs.close();
+     		} catch (Exception e) {
+     			// TODO: handle exception
+     			e.printStackTrace();
+     		}
+     		finally {
+     			dbconn.disConnection(conn, ps);
+     		}
+     		return total;
+     	}
+     // 결제내역 전체갯수
+      	public int buyListTotalCount(String userid)
+      	{
+      		int total=0;
+      		try {
+      			conn=dbconn.getConnection();
+      			String sql="SELECT COUNT(*) "
+      					+ "FROM BOOKDELIVERY "
+      					+ "WHERE userid=?";
+      			ps=conn.prepareStatement(sql);
+      			ps.setString(1, userid);
+      			ResultSet rs=ps.executeQuery();
+      			rs.next();
+      			total=rs.getInt(1);
+      			rs.close();
+      		} catch (Exception e) {
+      			e.printStackTrace();
+      		} finally {
+      			dbconn.disConnection(conn, ps);
+      		}
+      		return total;
+      	}
+     	
+     	// 결제 내역 상세페이지
+         public BookDeliverVO bookBuyDetail(String userid)
+         {
+            BookDeliverVO vo=new BookDeliverVO();
+            try {
+               conn=dbconn.getConnection();
+               String sql="SELECT image, booktitle, saleprice, sumprice, orderdate, orderNum "
+                     +"FROM BOOKINFO "
+                     +"JOIN BOOKDELIVERY ON BOOKINFO.ISBN=BOOKDELIVERY.ISBN "
+                     +"WHERE userid=?";
+                     
+               ps=conn.prepareStatement(sql);
+               ps.setString(1, userid);
+               //ps.setInt(2, orderNum);
+               ResultSet rs=ps.executeQuery();
+               rs.next();
+               vo.setImage(rs.getString(1));
+               vo.setBooktitle(rs.getString(2));
+               vo.setSaleprice(rs.getInt(3));
+               vo.setSumprice(rs.getInt(4));
+               vo.setOrderDate(rs.getDate(5));
+               vo.setOrderNum(rs.getInt(6));
+               rs.close();
+               ps.close();
+            } catch (Exception e) {
+               // TODO: handle exception
+               e.printStackTrace();
+            }
+            finally {
+               dbconn.disConnection(conn, ps);
+            }
+            return vo;
+         }
+     	
+     // 장바구니 내역 출력
+     	public List<BookCartVO> userCartList(int page, String userid)
+     	{
+     		List<BookCartVO> list=new ArrayList<BookCartVO>();
+     		try {
+     			conn=dbconn.getConnection();
+     			String sql="SELECT image, booktitle, saleprice, sumprice, orderdate, orderNum, userid, stno, isbn, num "
+     					+"FROM (SELECT image, booktitle, saleprice, sumprice, orderdate, orderNum, userid, stno, isbn, rownum as num "
+     					+"FROM (SELECT image, booktitle, saleprice, sumprice, orderdate, orderNum, userid, stno, bookinfo.isbn "
+     					+"FROM BOOKINFO "
+     					+"JOIN BOOKCART ON BOOKINFO.ISBN=BOOKCART.ISBN "
+     					+"WHERE userid=? ORDER BY stno DESC)) "
+     					+"WHERE num BETWEEN ? AND ?";
+     			ps=conn.prepareStatement(sql);
+     			ps.setString(1, userid);
+     			int startPage=(ROW*page)-(ROW-1);
+     			int endPage=ROW*page;
+     			ps.setInt(2, startPage);
+     			ps.setInt(3, endPage);
+     			ResultSet rs=ps.executeQuery();
+     			while(rs.next())
+     			{
+     				BookCartVO vo=new BookCartVO();
+     				vo.setImage(rs.getString(1));
+     				vo.setBooktitle(rs.getString(2));
+     				vo.setSaleprice(rs.getInt(3));
+     				vo.setSumprice(rs.getInt(4));
+     				vo.setOrderDate(rs.getDate(5));
+     				vo.setOrderNum(rs.getInt(6));
+     				vo.setUserid(rs.getString(7));
+     				vo.setStno(rs.getInt(8));
+     				vo.setIsbn(rs.getString(9));
+     				list.add(vo);
+     			}
+     			rs.close();
+     			ps.close();
+     		} catch (Exception e) {
+     			// TODO: handle exception
+     			e.printStackTrace();
+     		}
+     		finally {
+     			dbconn.disConnection(conn, ps);
+     		}
+     		return list;
+     	}
+     	
+     	// 장바구니 totalpage
+     	public int userCartTotalpage()
+     	{
+     		int total=0;
+     		try {
+     			conn=dbconn.getConnection();
+     			String sql="SELECT CEIL(COUNT(*)/20.0) FROM BOOKCART";
+     			ps=conn.prepareStatement(sql);
+     			ResultSet rs=ps.executeQuery();
+     			rs.next();
+     			total=rs.getInt(1);
+     			rs.close();
+     		} catch (Exception e) {
+     			// TODO: handle exception
+     			e.printStackTrace();
+     		}
+     		finally {
+     			dbconn.disConnection(conn, ps);
+     		}
+     		return total;
+     	}
+     	
+     	// 장바구니 전체갯수
+     	public int cartTotalCount(String userid)
+     	{
+     		int total=0;
+     		try {
+     			conn=dbconn.getConnection();
+     			String sql="SELECT COUNT(*) "
+     					+ "FROM BOOKCART "
+     					+ "WHERE userid=?";
+     			ps=conn.prepareStatement(sql);
+     			ps.setString(1, userid);
+     			ResultSet rs=ps.executeQuery();
+     			rs.next();
+     			total=rs.getInt(1);
+     			rs.close();
+     		} catch (Exception e) {
+     			e.printStackTrace();
+     		} finally {
+     			dbconn.disConnection(conn, ps);
+     		}
+     		return total;
+     	}
+     	
+     	// 장바구니 삭제
+     	public void cartDelete(int stno)
+     	{
+     		try {
+    			conn=dbconn.getConnection();
+    			String sql="DELETE FROM BOOKCART WHERE stno="+stno;
+    			ps=conn.prepareStatement(sql);
+    			ps.executeUpdate();
+    		} catch (Exception e) {
+    			// TODO: handle exception
+    			e.printStackTrace();
+    		}
+     		finally {
+    			dbconn.disConnection(conn, ps);
+    		}
+     	}
 }

@@ -9,7 +9,7 @@
 </head>
 <body>
    <div style="width: 100%;padding: 0; margin-top: 20px">
-      도서구매내역 <font color="red">${list.size() }</font>건
+      도서구매내역 <font color="red">${count }</font>건
       <hr style="margin-top: 10px;">
    </div>
    <div class="row">
@@ -31,14 +31,23 @@
                 <td class="text-center">${vo.saleprice }&nbsp;원</td>
                 <td class="text-center"><font color="red">${vo.sumprice }</font>&nbsp;원</td>
                 <td class="text-center">${vo.orderDate }</td>
+                
              </tr>
           </c:forEach>
       </table>
    </div>
-    <div class="text-center">
-			<a href="../mypage/bookPurchaseList.do?page=${curpage>1?curpage-1:curpage }" class="btn btn-sm btn-primary">이전</a>
-			${curpage } page / ${ totalpage} pages
-			<a href="../mypage/bookPurchaseList.do?page=${curpage<totalpage?curpage+1:curpage }" class="btn btn-sm btn-primary">다음</a>
-		</div>
+    <nav class="text-center">
+		<ul class="pagination">
+			<c:if test="${startPage>1 }">
+				<li><a href="../mypage/bookPurchaseList.do?page=${startPage-1 }">&lt; 이전</a></li>			
+			</c:if>
+			<c:forEach var="i" begin="${startPage }" end="${endPage }">
+				<li><a href="../mypage/bookPurchaseList.do?page=${i }">${i }</a></li>			
+			</c:forEach>
+		  	<c:if test="${endPage<totalpage }">
+				<li><a href="../mypage/bookPurchaseList.do?page=${endPage+1 }">다음 &gt;</a></li>			
+			</c:if>
+		</ul> 
+	</nav>	
 </body>
 </html>
