@@ -55,6 +55,10 @@
 				}
 				else{
 					$(number).css('background-color','#fd6d8e');
+					$('#seat'+seat_number).css("background-color",'#2dcff8');
+					let aval = $('#seat_available').attr('data-source')-1;
+					$('#seat_available').text("이용 가능 좌석 "+aval);
+					$('#seat_disavailable').text("사용 중인 좌석 "+(96-aval));
 					number = '';
 					$('#use_other_seat').show();
 				}
@@ -92,6 +96,9 @@
 							success:function(res){
 								if(res==='Y'){
 									$('#seat'+seat_number).css("background-color",'#2dcff8');
+									let aval = $('#seat_available').attr('data-source')-1;
+									$('#seat_available').text("이용 가능 좌석 "+aval);
+									$('#seat_disavailable').text("사용 중인 좌석 "+(96-aval));
 									$('#use_other_seat').show();
 								}
 								else{
