@@ -158,142 +158,142 @@ public class MypageModel {
 //		return "../main/main.jsp";
 //	}
 	// 마이페이지 프로그램 신청 조회
-		@RequestMapping("mypage/proAppInq.do")
-		public String mypage_myApp_main(HttpServletRequest request,HttpServletResponse response) {
+	@RequestMapping("mypage/proAppInq.do")
+	public String mypage_myApp_main(HttpServletRequest request,HttpServletResponse response) {
+		try {
+			request.setCharacterEncoding("UTF-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		HttpSession session=request.getSession();
+		String id=(String) session.getAttribute("email");
+		String page=request.getParameter("page");
+		if(page==null) page="1";
+		int curpage=Integer.parseInt(page);
+		//------------------------------------- 검색
+		String search=request.getParameter("search");
+		String searchType=request.getParameter("searchType");
+		SimpleDateFormat eduFormat=new SimpleDateFormat("yyyy-MM-dd");
+		Date edu1=null;
+		Date edu2=null;
+		MyPageDAO dao=MyPageDAO.newInstance();
+		List<ProgramApplicationVO> list=null;
+		int totalcount=0;
+		if(request.getParameter("edu1")!=null && request.getParameter("edu2")!=null) {
 			try {
-				request.setCharacterEncoding("UTF-8");
-			} catch (Exception e) {
+				edu1=eduFormat.parse(request.getParameter("edu1"));
+				edu2=eduFormat.parse(request.getParameter("edu2"));
+			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			HttpSession session=request.getSession();
-			String id=(String) session.getAttribute("email");
-			String page=request.getParameter("page");
-			if(page==null) page="1";
-			int curpage=Integer.parseInt(page);
-			//------------------------------------- 검색
-			String search=request.getParameter("search");
-			String searchType=request.getParameter("searchType");
-			SimpleDateFormat eduFormat=new SimpleDateFormat("yyyy-MM-dd");
-			Date edu1=null;
-			Date edu2=null;
-			MyPageDAO dao=MyPageDAO.newInstance();
-			List<ProgramApplicationVO> list=null;
-			int totalcount=0;
-			if(request.getParameter("edu1")!=null && request.getParameter("edu2")!=null) {
-				try {
-					edu1=eduFormat.parse(request.getParameter("edu1"));
-					edu2=eduFormat.parse(request.getParameter("edu2"));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				list=dao.myProgramApplList(curpage, id,search,Integer.parseInt(searchType),eduFormat.format(edu1),eduFormat.format(edu2));
-				totalcount=dao.myProgramApplTotalCount(id,search,Integer.parseInt(searchType),eduFormat.format(edu1),eduFormat.format(edu2));
-			}else {
-				list=dao.myProgramApplList(curpage, id);
-				totalcount=dao.myProgramApplTotalCount(id);
-			}
-			
-			int count=0;
-			int list_size=list.size();
-			int totalpage=(int)(Math.ceil(totalcount/(double)dao.getROW()));
-			count=totalcount-((curpage*dao.getROW())-dao.getROW());
-			final int BLOCK=10;
-			int startPage=((curpage-1)/BLOCK*BLOCK)+1;
-			int endPage=((curpage-1)/BLOCK*BLOCK)+BLOCK;
-			if(endPage>totalpage) endPage=totalpage;
-			
-			request.setAttribute("list", list);
-			request.setAttribute("list_size", list_size);
-			request.setAttribute("curpage", curpage);
-			request.setAttribute("count", count);
-			request.setAttribute("totalcount", totalcount);
-			request.setAttribute("totalpage", totalpage);
-			request.setAttribute("startPage", startPage);
-			request.setAttribute("endPage", endPage);
-			request.setAttribute("search", search);
-			request.setAttribute("searchType", searchType);
-			request.setAttribute("app_select_jsp", "../mypage/proAppInq.jsp");
-			request.setAttribute("mypage_jsp", "../mypage/myApp_main.jsp");
-			request.setAttribute("main_jsp", "../mypage/myPage_main.jsp");
-			return "../main/main.jsp";
+			list=dao.myProgramApplList(curpage, id,search,Integer.parseInt(searchType),eduFormat.format(edu1),eduFormat.format(edu2));
+			totalcount=dao.myProgramApplTotalCount(id,search,Integer.parseInt(searchType),eduFormat.format(edu1),eduFormat.format(edu2));
+		}else {
+			list=dao.myProgramApplList(curpage, id);
+			totalcount=dao.myProgramApplTotalCount(id);
 		}
-		// 마이페이지 프로그램 신청 취소
-		@RequestMapping("mypage/programCancel.do")
-		public String program_cancel(HttpServletRequest request,HttpServletResponse response) {
-			String no=request.getParameter("no");
-			String pno=request.getParameter("pno");
-			HttpSession session=request.getSession();
-			String userid=(String) session.getAttribute("email");
-			
-			ProgramApplicationVO vo=new ProgramApplicationVO();
-			vo.setNo(Integer.parseInt(no));
-			vo.setPno(Integer.parseInt(pno));
-			vo.setUserid(userid);
-			
-			ProgramDAO dao=ProgramDAO.newInstance();
-			dao.programCancel(vo);
-			
-			return "redirect:../mypage/proAppInq.do";
+		
+		int count=0;
+		int list_size=list.size();
+		int totalpage=(int)(Math.ceil(totalcount/(double)dao.getROW()));
+		count=totalcount-((curpage*dao.getROW())-dao.getROW());
+		final int BLOCK=10;
+		int startPage=((curpage-1)/BLOCK*BLOCK)+1;
+		int endPage=((curpage-1)/BLOCK*BLOCK)+BLOCK;
+		if(endPage>totalpage) endPage=totalpage;
+		
+		request.setAttribute("list", list);
+		request.setAttribute("list_size", list_size);
+		request.setAttribute("curpage", curpage);
+		request.setAttribute("count", count);
+		request.setAttribute("totalcount", totalcount);
+		request.setAttribute("totalpage", totalpage);
+		request.setAttribute("startPage", startPage);
+		request.setAttribute("endPage", endPage);
+		request.setAttribute("search", search);
+		request.setAttribute("searchType", searchType);
+		request.setAttribute("app_select_jsp", "../mypage/proAppInq.jsp");
+		request.setAttribute("mypage_jsp", "../mypage/myApp_main.jsp");
+		request.setAttribute("main_jsp", "../mypage/myPage_main.jsp");
+		return "../main/main.jsp";
+	}
+	// 마이페이지 프로그램 신청 취소
+	@RequestMapping("mypage/programCancel.do")
+	public String program_cancel(HttpServletRequest request,HttpServletResponse response) {
+		String no=request.getParameter("no");
+		String pno=request.getParameter("pno");
+		HttpSession session=request.getSession();
+		String userid=(String) session.getAttribute("email");
+		
+		ProgramApplicationVO vo=new ProgramApplicationVO();
+		vo.setNo(Integer.parseInt(no));
+		vo.setPno(Integer.parseInt(pno));
+		vo.setUserid(userid);
+		
+		ProgramDAO dao=ProgramDAO.newInstance();
+		dao.programCancel(vo);
+		
+		return "redirect:../mypage/proAppInq.do";
+	}
+	// 마이페이지 좋아요 도서 조회
+	@RequestMapping("mypage/likeBookInq.do")
+	public String mypage_likeBook_Inq(HttpServletRequest request,HttpServletResponse response) {
+		try {
+			request.setCharacterEncoding("UTF-8");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		// 마이페이지 좋아요 도서 조회
-		@RequestMapping("mypage/likeBookInq.do")
-		public String mypage_likeBook_Inq(HttpServletRequest request,HttpServletResponse response) {
-			try {
-				request.setCharacterEncoding("UTF-8");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			HttpSession session=request.getSession();
-			String id=(String) session.getAttribute("email");
-			String page=request.getParameter("page");
-			if(page==null) page="1";
-			int curpage=Integer.parseInt(page);
-			//------------------------------------- 검색
-			String search=request.getParameter("search");
-			System.out.println(search);
-			String searchType=request.getParameter("searchType");
-			if(searchType==null) searchType="0";
-			//-------------------------------------
-			MyPageDAO dao=MyPageDAO.newInstance();
-			List<AllLikeVO> list=null;
-			int count=0;
-			if(search==null) {
-				list=dao.likeBookList(curpage,id);
-				count=dao.likeBookTotalCount(id);
-			}else {
-				list=dao.likeBookList(curpage,id,search,Integer.parseInt(searchType));
-				count=dao.likeBookTotalCount(id,search,Integer.parseInt(searchType));
-			}
-			int list_size=list.size();
-			int totalpage=(int)(Math.ceil(count/(double)dao.getROW()));
-			count=count-((curpage*dao.getROW())-dao.getROW());
-			final int BLOCK=10;
-			int startPage=((curpage-1)/BLOCK*BLOCK)+1;
-			int endPage=((curpage-1)/BLOCK*BLOCK)+BLOCK;
-			if(endPage>totalpage) endPage=totalpage;
-			
-			request.setAttribute("list", list);
-			request.setAttribute("list_size", list_size);
-			request.setAttribute("curpage", curpage);
-			request.setAttribute("count", count);
-			request.setAttribute("totalpage", totalpage);
-			request.setAttribute("startPage", startPage);
-			request.setAttribute("endPage", endPage);
-			request.setAttribute("search", search);
-			request.setAttribute("searchType", searchType);
-			request.setAttribute("app_select_jsp", "../mypage/likeBookInq.jsp");
-			request.setAttribute("mypage_jsp", "../mypage/myApp_main.jsp");
-			request.setAttribute("main_jsp", "../mypage/myPage_main.jsp");
-			return "../main/main.jsp";
+		HttpSession session=request.getSession();
+		String id=(String) session.getAttribute("email");
+		String page=request.getParameter("page");
+		if(page==null) page="1";
+		int curpage=Integer.parseInt(page);
+		//------------------------------------- 검색
+		String search=request.getParameter("search");
+		System.out.println(search);
+		String searchType=request.getParameter("searchType");
+		if(searchType==null) searchType="0";
+		//-------------------------------------
+		MyPageDAO dao=MyPageDAO.newInstance();
+		List<AllLikeVO> list=null;
+		int count=0;
+		if(search==null) {
+			list=dao.likeBookList(curpage,id);
+			count=dao.likeBookTotalCount(id);
+		}else {
+			list=dao.likeBookList(curpage,id,search,Integer.parseInt(searchType));
+			count=dao.likeBookTotalCount(id,search,Integer.parseInt(searchType));
 		}
-		// 마이페이지 좋아요 도서 취소
-		@RequestMapping("mypage/likeBookDelete.do")
-		public String mypage_likeBook_delete(HttpServletRequest request,HttpServletResponse response) {
-			String ino=request.getParameter("ino");
-			MyPageDAO dao=MyPageDAO.newInstance();
-			dao.likeBookDelete(Integer.parseInt(ino));
-			return "redirect:../mypage/likeBookInq.do";
-		}
+		int list_size=list.size();
+		int totalpage=(int)(Math.ceil(count/(double)dao.getROW()));
+		count=count-((curpage*dao.getROW())-dao.getROW());
+		final int BLOCK=10;
+		int startPage=((curpage-1)/BLOCK*BLOCK)+1;
+		int endPage=((curpage-1)/BLOCK*BLOCK)+BLOCK;
+		if(endPage>totalpage) endPage=totalpage;
+		
+		request.setAttribute("list", list);
+		request.setAttribute("list_size", list_size);
+		request.setAttribute("curpage", curpage);
+		request.setAttribute("count", count);
+		request.setAttribute("totalpage", totalpage);
+		request.setAttribute("startPage", startPage);
+		request.setAttribute("endPage", endPage);
+		request.setAttribute("search", search);
+		request.setAttribute("searchType", searchType);
+		request.setAttribute("app_select_jsp", "../mypage/likeBookInq.jsp");
+		request.setAttribute("mypage_jsp", "../mypage/myApp_main.jsp");
+		request.setAttribute("main_jsp", "../mypage/myPage_main.jsp");
+		return "../main/main.jsp";
+	}
+	// 마이페이지 좋아요 도서 취소
+	@RequestMapping("mypage/likeBookDelete.do")
+	public String mypage_likeBook_delete(HttpServletRequest request,HttpServletResponse response) {
+		String ino=request.getParameter("ino");
+		MyPageDAO dao=MyPageDAO.newInstance();
+		dao.likeBookDelete(Integer.parseInt(ino));
+		return "redirect:../mypage/likeBookInq.do";
+	}
 	
 		// 도서구매내역
 		@RequestMapping("mypage/bookPurchaseList.do")

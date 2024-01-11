@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -123,15 +124,17 @@ public class AdminModel {
 			Date accept1=acceptFormat.parse(mr.getParameter("accept1"));
 			Date accept2=acceptFormat.parse(mr.getParameter("accept2"));
 			
-			String[] weeks=mr.getParameterValues("week");
-			String week="";
-			for(int i=0;i<weeks.length;i++) {
-				if(i==0) {
-					week+=weeks[i];
-				}else {
-					week+=","+weeks[i];
-				}
-			}
+//			String[] weeks=mr.getParameterValues("week");
+//			String week="";
+//			for(int i=0;i<weeks.length;i++) {
+//				if(i==0) {
+//					week+=weeks[i];
+//				}else {
+//					week+=","+weeks[i];
+//				}
+//			}
+			String dd=mr.getParameter("dd");
+			dd=dd.substring(1);
 			String capacity=mr.getParameter("capacity");
 			String waitingCap=mr.getParameter("waitingCap");
 			String poster=mr.getFilesystemName("poster");
@@ -147,7 +150,7 @@ public class AdminModel {
 			vo.setTime(time);
 			vo.setAccept1_str(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(accept1));
 			vo.setAccept2_str(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(accept2));
-			vo.setWeek(week);
+			vo.setWeek(dd);
 			vo.setCapacity(Integer.parseInt(capacity));
 			vo.setWaitingCap(Integer.parseInt(waitingCap));
 			File file=new File(path+"\\"+poster);
@@ -161,6 +164,68 @@ public class AdminModel {
 			e.printStackTrace();
 		}
 		return "redirect:../admin/programList.do";
+	}
+	// 어드민 프로그램 날짜 선택
+	@RequestMapping("admin/programSelectDate.do")
+	public String admin_programSelectDate(HttpServletRequest request,HttpServletResponse response) {
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-M-d");
+//		String today=sdf.format(new Date());
+		String edu=request.getParameter("edu1");
+		StringTokenizer st=new StringTokenizer(edu, "-");
+		String sy=st.nextToken();
+		String sm=st.nextToken();
+		String sd=st.nextToken();
+		int year=Integer.parseInt(sy);
+		int month=Integer.parseInt(sm);
+		int day=Integer.parseInt(sd);
+		// 요일
+		String[] strWeek= {
+			"일","월","화","수","목","금","토"
+		};
+		Calendar cal=Calendar.getInstance();
+		cal.set(Calendar.YEAR, year);
+		cal.set(Calendar.MONTH, month-1);
+		cal.set(Calendar.DATE, 1);
+		// 요일 구하기
+		int week=cal.get(Calendar.DAY_OF_WEEK);
+		int lastday=cal.getActualMaximum(Calendar.DATE);
+		week=week-1;
+		
+		request.setAttribute("year", year);
+		request.setAttribute("month", month);
+		request.setAttribute("day", day);
+		request.setAttribute("week", week);
+		request.setAttribute("lastday", lastday);
+		request.setAttribute("strWeek", strWeek);
+		
+		String edu1=request.getParameter("edu1");
+		String edu2=request.getParameter("edu2");
+		
+		LocalDate startDate=LocalDate.parse(edu1);
+		LocalDate endDate=LocalDate.parse(edu2);
+		
+		String dates="";
+		while (!startDate.isAfter(endDate)) {
+			dates+=","+(startDate.format(DateTimeFormatter.ofPattern("d")));
+            startDate = startDate.plusDays(1);
+        }
+		
+		dates=dates.substring(1);
+		System.out.println(dates);
+		
+		int[] rday=new int[32];
+		st=new StringTokenizer(dates, ",");
+		while(st.hasMoreTokens()) {
+			int a=Integer.parseInt(st.nextToken());
+			// 현재 날짜보다 큰 값만 판별
+			if(a>=day) {
+				rday[a]=1;
+			}
+		}
+		
+		request.setAttribute("rday", rday);
+		
+		return "../adminpage/select_Date.jsp";
 	}
 	// 어드민 프로그램 수정 화면
 	@RequestMapping("admin/programUpdate.do")

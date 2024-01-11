@@ -20,7 +20,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.sist.controller.RequestMapping;
+import com.sist.dao.AllReplyDAO;
 import com.sist.dao.BoardDAO;
+import com.sist.vo.AllReplyVO;
 import com.sist.vo.NoticeVO;
 import com.sist.vo.ProgramVO;
 import com.sist.vo.QnaCommentVO;
@@ -134,8 +136,12 @@ public class BoardModel {
 			qcvo=dao.qnaSelectComment(Integer.parseInt(no));
 		}
 		
+		AllReplyDAO rdao=AllReplyDAO.newInstance();
+		List<AllReplyVO> rList=rdao.replyListData(1, Integer.parseInt(no));
+		
 		request.setAttribute("vo", vo);
 		request.setAttribute("qcvo", qcvo);
+		request.setAttribute("rList", rList);
 		request.setAttribute("board_jsp", "../Board/qna_detail.jsp");
 		request.setAttribute("main_jsp", "../Board/board_main.jsp");
 		return "../main/main.jsp";
@@ -278,44 +284,44 @@ public class BoardModel {
 		request.setAttribute("main_jsp", "../Board/board_main.jsp");
 		return "../main/main.jsp";
 	}
-	@RequestMapping("Board/calendar_ajax.do")
-	public void board_calendar_ajax(HttpServletRequest request,HttpServletResponse response) {
-		String year=request.getParameter("year");
-		String month=request.getParameter("month");
-		Calendar cal=Calendar.getInstance();
-		cal.set(Calendar.YEAR, Integer.parseInt(year));
-		cal.set(Calendar.MONTH, Integer.parseInt(month)-1);
-		cal.set(Calendar.DATE, 1);
-		int week=cal.get(Calendar.DAY_OF_WEEK);
-		week=week-1; 
-		int lastday=cal.getActualMaximum(Calendar.DATE);
-		BoardDAO dao=BoardDAO.newInstance();
-		List<ProgramVO> calendarProgramList=dao.calendarProgramData(String.valueOf(year), String.valueOf(month));
-		
-		JSONArray arr=new JSONArray();
-		for(ProgramVO vo:calendarProgramList) {
-			JSONObject obj=new JSONObject();
-			obj.put("pno", String.valueOf(vo.getPno()));
-			obj.put("title", vo.getTitle());
-			obj.put("edu1", vo.getEdu1_str());
-			obj.put("edu2", vo.getEdu2_str());
-			obj.put("week", vo.getWeek());
-			arr.add(obj);
-		}
-		JSONObject obj=new JSONObject();
-		obj.put("week", String.valueOf(week));
-		obj.put("lastday", String.valueOf(lastday));
-		obj.put("year", String.valueOf(year));
-		obj.put("month", String.valueOf(month));
-		obj.put("arr", arr);
-		/* obj.put("cplist", calendarProgramList); */
-		try {
-			response.setContentType("application/x-www-form-urlencoded; charset=UTF-8");
-			PrintWriter out=response.getWriter();
-			out.write(obj.toJSONString());
-			/* out.write(arr.toJSONString()); */
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	@RequestMapping("Board/calendar_ajax.do")
+//	public void board_calendar_ajax(HttpServletRequest request,HttpServletResponse response) {
+//		String year=request.getParameter("year");
+//		String month=request.getParameter("month");
+//		Calendar cal=Calendar.getInstance();
+//		cal.set(Calendar.YEAR, Integer.parseInt(year));
+//		cal.set(Calendar.MONTH, Integer.parseInt(month)-1);
+//		cal.set(Calendar.DATE, 1);
+//		int week=cal.get(Calendar.DAY_OF_WEEK);
+//		week=week-1; 
+//		int lastday=cal.getActualMaximum(Calendar.DATE);
+//		BoardDAO dao=BoardDAO.newInstance();
+//		List<ProgramVO> calendarProgramList=dao.calendarProgramData(String.valueOf(year), String.valueOf(month));
+//		
+//		JSONArray arr=new JSONArray();
+//		for(ProgramVO vo:calendarProgramList) {
+//			JSONObject obj=new JSONObject();
+//			obj.put("pno", String.valueOf(vo.getPno()));
+//			obj.put("title", vo.getTitle());
+//			obj.put("edu1", vo.getEdu1_str());
+//			obj.put("edu2", vo.getEdu2_str());
+//			obj.put("week", vo.getWeek());
+//			arr.add(obj);
+//		}
+//		JSONObject obj=new JSONObject();
+//		obj.put("week", String.valueOf(week));
+//		obj.put("lastday", String.valueOf(lastday));
+//		obj.put("year", String.valueOf(year));
+//		obj.put("month", String.valueOf(month));
+//		obj.put("arr", arr);
+//		/* obj.put("cplist", calendarProgramList); */
+//		try {
+//			response.setContentType("application/x-www-form-urlencoded; charset=UTF-8");
+//			PrintWriter out=response.getWriter();
+//			out.write(obj.toJSONString());
+//			/* out.write(arr.toJSONString()); */
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 }

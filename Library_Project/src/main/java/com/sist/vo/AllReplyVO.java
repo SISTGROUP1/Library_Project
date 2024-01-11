@@ -3,9 +3,10 @@ package com.sist.vo;
 import java.util.*;
 
 public class AllReplyVO {
-	private int rno, typeno, no, r_score;
-	private String r_title, r_content, r_like, userid, isbn;
+	private int rno,typeno,cno,r_score;
+	private String r_title,r_content,userid,isbn,dbday;
 	private Date r_date;
+	
 	public int getRno() {
 		return rno;
 	}
@@ -18,11 +19,11 @@ public class AllReplyVO {
 	public void setTypeno(int typeno) {
 		this.typeno = typeno;
 	}
-	public int getNo() {
-		return no;
+	public int getCno() {
+		return cno;
 	}
-	public void setNo(int no) {
-		this.no = no;
+	public void setCno(int cno) {
+		this.cno = cno;
 	}
 	public int getR_score() {
 		return r_score;
@@ -42,12 +43,6 @@ public class AllReplyVO {
 	public void setR_content(String r_content) {
 		this.r_content = r_content;
 	}
-	public String getR_like() {
-		return r_like;
-	}
-	public void setR_like(String r_like) {
-		this.r_like = r_like;
-	}
 	public String getUserid() {
 		return userid;
 	}
@@ -60,11 +55,16 @@ public class AllReplyVO {
 	public void setIsbn(String isbn) {
 		this.isbn = isbn;
 	}
+	public String getDbday() {
+		return dbday;
+	}
+	public void setDbday(String dbday) {
+		this.dbday = dbday;
+	}
 	public Date getR_date() {
 		return r_date;
 	}
 	public void setR_date(Date r_date) {
 		this.r_date = r_date;
 	}
-	
 }

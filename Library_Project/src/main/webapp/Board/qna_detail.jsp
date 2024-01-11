@@ -27,28 +27,31 @@
 			$('#qnaComment').hide()
 		})
 		
-		/* $('#commentBtn').click(function(){
-			let sqno=$(this).attr('data-sqno')
-			let title=$('#comment_title').val()
-			if(title.trim()===''){
-				$('#comment_title').focus()
-				return
+		$('.rDelete').click(function() {
+			let rno=$(this).attr('data-rno')
+			if(confirm('댓글을 삭제하시겠습니까?')===true){
+				$('#r_del_'+rno).submit()
+			}else{
+				return false
 			}
-			let content=$('#comment_content').val()
-			if(content.trim()===''){
-				$('#comment_content').focus()
-				return
+		})
+		
+		let bCheck=false
+		$('.rUpdate').click(function() {
+			let rno=$(this).attr('data-rno')
+			let cont=$(this).attr('data-cont')
+			
+			if(!bCheck){
+				bCheck=true
+				$(this).text('취소')
+				$('#r_upd_'+rno).show()
+				$('#r_upd_'+rno+' textarea').text(cont)
+			}else{
+				bCheck=false
+				$(this).text('수정')
+				$('#r_upd_'+rno).hide()
 			}
-			$.ajax({
-				type: 'POST',
-				url: '../Board/qna_comment_ok.do',
-				data: {"sqno":sqno,"title":title,"content":content},
-				success:function(result){
-					let res=JSON.parse(result)
-					console.log(res)
-				}
-			})
-		} */
+		})
 	})
 	function deleteBtn(no) {
 		if(confirm('글을 삭제하시겠습니까?')){
@@ -155,5 +158,55 @@
 			</c:if>
 		</table>
 	</c:if>
+	<!-- 댓글 영역 -->
+	<table class="table">
+		<tr>
+			<td>
+				<table class="table" style="width: 960px;">
+					<c:forEach var="rvo" items="${rList }">
+						<tr>
+							<td class="text-left" width="20%">${rvo.userid }(${rvo.dbday })</td>
+							<td class="text-left" width="65%">${rvo.r_content }</td>
+							<td class="text-right" width="15%">
+								<c:if test="${rvo.userid eq sessionScope.email }">
+									<span class="btn btn-xs btn-success inline rUpdate" data-rno="${rvo.rno }" data-cont="${rvo.r_content }" style="float: left;">수정</span>
+									<form method="post" action="../reply/delete.do" id="r_del_${rvo.rno }" style="float: left;">
+										<input type="hidden" name="rno" value="${rvo.rno }">
+										<input type="hidden" name="cno" value="${rvo.cno }">
+										<input type="hidden" name="typeno" value="1">
+										<span class="btn btn-xs btn-danger rDelete" data-rno="${rvo.rno }">삭제</span>
+									</form>
+								</c:if>
+							</td>
+						</tr>
+						<tr id="r_upd_${rvo.rno }" style="display: none;">
+							<td colspan="3">
+								<form method="post" action="../reply/update.do">
+									<input type="hidden" name="typeno" value="1">
+									<input type="hidden" name="cno" value="${vo.no }">
+									<input type="hidden" name="rno" value="${rvo.rno }">
+									<textarea rows="2" cols="70" name="r_content" style="float: left;width: 855px;resize: none;background-color: white;"></textarea>
+									<input type="submit" value="댓글수정" style="float: left;width: 80px;height: 80px;text-align: center;margin-left: 5px;padding: 0;" class="btn-primary">
+								</form>
+							</td>
+						</tr>
+					</c:forEach>
+				</table>
+			</td>
+		</tr>
+		<c:if test="${sessionScope.email ne null }">
+			<tr>
+				<td>
+					<form method="post" action="../reply/insert.do">
+						<input type="hidden" name="typeno" value="1">
+						<input type="hidden" name="cno" value="${vo.no }">
+						<textarea rows="2" cols="70" name="r_content" style="float: left;width: 875px;resize: none;background-color: white;"></textarea>
+						<input type="submit" value="댓글쓰기" style="float: left;width: 80px;height: 80px;text-align: center;margin-left: 5px;padding: 0;" class="btn-primary">
+					</form>
+				</td>
+			</tr>
+		</c:if>
+	</table>
+	<!-- ------ -->
 </body>
 </html>

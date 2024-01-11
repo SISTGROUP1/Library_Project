@@ -20,6 +20,29 @@
 		padding-left: 2em;
 	}
 </style>
+<script type="text/javascript" src="http://code.jquery.js/jquery.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$('#edu2').change(function() {
+			if($('#edu1').val()===''){
+				alert('운영시작시간을 먼저 입력해주세요')
+				return
+			}
+			
+			let edu1=$('#edu1').val()
+			let edu2=$('#edu2').val()
+			
+			$.ajax({
+				type: 'POST',
+				url: '../admin/programSelectDate.do',
+				data: {"edu1":edu1,"edu2":edu2},
+				success:function(result){
+					$('#select_Date').html(result)
+				}
+			})
+		})
+	})
+</script>
 </head>
 <body>
 	<div class="col-md-10">
@@ -81,13 +104,20 @@
 			</td>
 		</tr>
 		<tr>
+			<td></td>
+			<td colspan="2">
+				<div id="select_Date"></div>
+			</td>
+			<td></td>
+		</tr>
+		<tr>
 			<th width="10%">접수기간</th>
 			<td width="90%" colspan="3">
 				<input type="datetime-local" name="accept1" required class="input-sm">&nbsp;~&nbsp;
 				<input type="datetime-local" name="accept2" required class="input-sm">
 			</td>
 		</tr>
-		<tr>
+		<!-- <tr>
 			<th width="10%">요일</th>
 			<td width="90%" colspan="3">
 				<input type="checkbox" name="week" id="w_0" value="0">
@@ -104,7 +134,7 @@
 				<label for="w_5">금</label>
 				<input type="checkbox" name="week" id="w_6" value="6">
 				<label for="w_6">토</label>
-				<!-- <select name="week" multiple>
+				<select name="week" multiple>
 					<option value="0">일</option>
 					<option value="1">월</option>
 					<option value="2">화</option>
@@ -112,9 +142,9 @@
 					<option value="4">목</option>
 					<option value="5">금</option>
 					<option value="6">토</option>
-				</select> -->
+				</select>
 			</td>
-		</tr>
+		</tr> -->
 		<tr>
 			<th width="10%">정원</th>
 			<td width="40%">

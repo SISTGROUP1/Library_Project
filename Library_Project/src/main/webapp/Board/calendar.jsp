@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -81,10 +82,10 @@
 			}else{
 				month=month-1	
 			}
-			/* location.href='../Board/calendar.do?year='+year+'&month='+month */
-			req_data.year=year
+			location.href='../Board/calendar.do?year='+year+'&month='+month
+			/* req_data.year=year
 			req_data.month=month
-			ajax_code(req_data)
+			ajax_code(req_data) */
 		})
 		$('#nextBtn').click(function() {
 			let date=$('#date').text()
@@ -96,23 +97,23 @@
 			}else{
 				month=Number(month)+1
 			}
-			/* location.href='../Board/calendar.do?year='+year+'&month='+month */
-			req_data.year=year
+			location.href='../Board/calendar.do?year='+year+'&month='+month
+			/* req_data.year=year
 			req_data.month=month
-			ajax_code(req_data)
+			ajax_code(req_data) */
 		})
 		$('#curMonth').click(function() {
-			/* location.href='../Board/calendar.do' */
+			location.href='../Board/calendar.do'
 			/* 현재 날짜를 가져온다 */
-			let curDate=new Date()
+/* 			let curDate=new Date()
 			let curYear=curDate.getFullYear()
 			let curMonth=curDate.getMonth()+1
 			req_data.year=curYear
 			req_data.month=curMonth
-			ajax_code(req_data)
+			ajax_code(req_data) */
 		})
-		/* calendat ajax */
-		function ajax_code(req_data){
+		/* calendat ajax 
+		/* function ajax_code(req_data){
 			$.ajax({
 				type: 'POST',
 				url: '../Board/calendar_ajax.do',
@@ -120,20 +121,20 @@
 				success:function(result){
 					let res=JSON.parse(result)
 					$('#date').text(res.year+'년 '+res.month+'월')
-					/* calendarTable */
+					/* calendarTable 
 					let html=''
-					/* curDayProgramList */
+					/* curDayProgramList 
 					let html2=''
-					/* 1일부터 해당월의 마지막 날짜까지 반복문 */
+					/* 1일부터 해당월의 마지막 날짜까지 반복문 
 					for(let i=1;i<=res.lastday;i++){
-						/* 1일에 한하여 칸을 띄운다 */
+						/* 1일에 한하여 칸을 띄운다 
 						if(i===1){
 							html+='<tr>'
 							for(let j=1;j<=res.week;j++){
 								html+='<td style="border-right: 0.5px solid #EEEEEE"></td>'
 							}
 						}
-						/* week값이 6(토요일) 미만인 td칸에 대하여 style 설정 => 수직선 */
+						/* week값이 6(토요일) 미만인 td칸에 대하여 style 설정 => 수직선 
 						let style=(res.week+1>6)?'':'style="border-right: 0.5px solid #EEEEEE"'
 						html+='<td '+style+'>'
 						html+='<span class="calendarTable_day">'+i+'</span>'
@@ -143,35 +144,47 @@
 						}
 						for(let j of res.arr){
 							/* curDayProgramList 초기화*/
-							if(Number(j.week)===Number(res.week)){
-								/* 날짜 포맷 -> Date로 포맷하는 방법은? */
+							/* if(Number(j.week)===Number(res.week)){
+								/* 날짜 포맷 -> Date로 포맷하는 방법은?
 								let d=j.edu2.substring(j.edu2.lastIndexOf('-')+1)
 								if(d.substring(0,1)==='0'){
 									d=d.substring(1)
 								}
 								if(i<=Number(d)){
-									/*
 										<a href="../program/programDetail_before.do?pno=${vo.pno }">
 												<span data-title="${vo.title }" title="${vo.title }">${vo.title }</span>
 											</a>
 											<br>
-									*/
 									html+='<a href="../program/programDetail_before.do?pno='+j.pno+'">'
 									html+='<span data-title="'+j.title+'" data-pno="'+j.pno+'" title="'+j.title+'">'+j.title+'</span>'
 									html+='</a><br>'
 								}
-							}
+							} 
+							let ymd=res.year+'-'+res.month+'-'+j
+							
+							/*
+								<c:set var="concatenatedDate" value="${year}-${month}-${i}" />
+								<c:set var="weeks" value="${fn:split(vo.week,',')}" />
+								<c:forEach var="w" items="${weeks }">
+								<c:if test="${w==concatenatedDate}">
+									<a href="../program/programDetail_before.do?pno=${vo.pno }">
+										<span data-title="${vo.title }" data-pno="${vo.pno }" title="${vo.title }">${vo.title }</span>
+									</a>
+									<br>
+								</c:if>
+								</c:forEach>
+							
 						}
 						html+='</span>'
 						html+='</td>'
-						/* 프로그램 리스트 출력후 week+1후 week값이 6(토요일) 초과시 0으로 초기화 */
+						/* 프로그램 리스트 출력후 week+1후 week값이 6(토요일) 초과시 0으로 초기화
 						res.week=Number(res.week)+1
 						if(res.week>6){
 							res.week=0
 							html+='</tr><tr>'
 						}
 					}
-					/* 달력의 마지막 부분 style 설정 */
+					/* 달력의 마지막 부분 style 설정
 					for(let i=res.week;i<=6;i++){
 						if(i===6){
 							html+='<td></td>'
@@ -184,7 +197,7 @@
 					$('#calendarTable tbody').html(html)
 				}
 			})
-		}
+		} */
 		/* 날짜 클릭시 curDay 및 curDayProgramList의 style변경 */	
 		$('#calendarTable').on('click','.calendarTable_day',function(){
 			/* 모든 td의 background색상을 white로 지정 후 클릭한 요소에만 style 지정 */
@@ -252,7 +265,7 @@
 									휴관일<br>
 								</c:if>
 								<c:forEach var="vo" items="${cplist }">
-									<c:if test="${vo.week==week }">
+									<%-- <c:if test="${vo.week==week }">
 										<fmt:parseDate var="parseDate" value="${vo.edu2_str }" pattern="yyyy-MM-dd"/>
 										<fmt:formatDate var="fomattedDate" value="${parseDate }" pattern="d"/>
 										<c:if test="${i<=fomattedDate }">
@@ -261,7 +274,17 @@
 											</a>
 											<br>
 										</c:if>
+									</c:if> --%>
+									<c:set var="concatenatedDate" value="${year}-${month}-${i}" />
+									<c:set var="weeks" value="${fn:split(vo.week,',')}" />
+									<c:forEach var="w" items="${weeks }">
+									<c:if test="${w==concatenatedDate}">
+										<a href="../program/programDetail_before.do?pno=${vo.pno }">
+											<span data-title="${vo.title }" data-pno="${vo.pno }" title="${vo.title }">${vo.title }</span>
+										</a>
+										<br>
 									</c:if>
+									</c:forEach>
 								</c:forEach>
 							</span>
 						</td>

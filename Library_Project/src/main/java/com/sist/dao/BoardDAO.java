@@ -96,6 +96,40 @@ public class BoardDAO {
 		return list;
 	}
 	
+	// 공지사항 및 보도자료 통합검색
+	public List<NoticeVO> noticeFindAllData(String search){
+		List<NoticeVO> list=new ArrayList<NoticeVO>();
+		try {
+			conn=dbconn.getConnection();
+			String sql="SELECT no,typeno,title,TO_CHAR(wrDate,'YYYY-MM-DD'),num "
+					+ "FROM (SELECT no,typeno,title,wrDate,rownum as num "
+					+ "FROM (SELECT /*+ INDEX_DESC(seoul_notice snt_no_pk) */no,typeno,title,wrDate "
+					+ "FROM seoul_notice "
+					+ "WHERE status='n' AND "
+					+ "(title LIKE '%'||?||'%' OR content LIKE '%'||?||'%') "
+					+ "ORDER BY wrDate DESC)) "
+					+ "WHERE num BETWEEN 1 AND 10";
+			ps=conn.prepareStatement(sql);
+			ps.setString(1, search);
+			ps.setString(2, search);
+			ResultSet rs=ps.executeQuery();
+			while(rs.next()){
+				NoticeVO vo=new NoticeVO();
+				vo.setNo(rs.getInt(1));
+				vo.setTypeno(rs.getInt(2));
+				vo.setTitle(rs.getString(3));
+				vo.setDbday(rs.getString(4));
+				list.add(vo);
+			}
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return list;
+	}
+	
 	public int noticeTotalCnt(int typeno) {
 		int total=0;
 		try {
@@ -365,10 +399,28 @@ public class BoardDAO {
 	public void qnaDelete(int no) {
 		try {
 			conn=dbconn.getConnection();
-			String sql="DELETE FROM seoul_qna "
+			// 관리자 답변 여부 조회
+			String sql="SELECT COUNT(*) "
+					+ "FROM seoul_qna_comment "
+					+ "WHERE sqno="+no;
+			ps=conn.prepareStatement(sql);
+			ResultSet rs=ps.executeQuery();
+			rs.next();
+			int count=rs.getInt(1);
+			rs.close();
+			ps.close();
+			if(count>0) {
+				sql="DELETE FROM seoul_qna_comment "
+						+ "WHERE sqno="+no;
+				ps=conn.prepareStatement(sql);
+				ps.executeUpdate();
+				ps.close();
+			}
+			sql="DELETE FROM seoul_qna "
 					+ "WHERE no="+no;
 			ps=conn.prepareStatement(sql);
 			ps.executeUpdate();
+			ps.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -450,10 +502,12 @@ public class BoardDAO {
 			conn=dbconn.getConnection();
 			String sql="SELECT pno,title,TO_CHAR(edu1,'YYYY-MM-DD'),TO_CHAR(edu2,'YYYY-MM-DD'),week "
 					+ "FROM program "
-					+ "WHERE week IN ('0','1','2','3','4','5','6') "
-					+ "AND (?>=TO_CHAR(edu1,'YYYY') AND ?<=TO_CHAR(edu2,'YYYY')) "
-					+ "AND ?<=TO_CHAR(edu2,'YYYY-MM') "
-					+ "AND ?>=TO_CHAR(edu1,'YYYY-MM') "
+					+ "WHERE week IS NOT NULL "
+					+ "AND ( "
+					+ "  (? >= TO_CHAR(edu1, 'YYYY') AND ? <= TO_CHAR(edu2, 'YYYY')) "
+					+ "  AND ? <= TO_CHAR(edu2, 'YYYY-MM') "
+					+ "  AND ? >= TO_CHAR(edu1, 'YYYY-MM') "
+					+ ") "
 					+ "ORDER BY edu1";
 			ps=conn.prepareStatement(sql);
 			ps.setString(1, year);

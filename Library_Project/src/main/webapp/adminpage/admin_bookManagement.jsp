@@ -54,7 +54,6 @@
 	</div> --%>
 	<div style="width: 100%;padding: 0;">
 		도서대출예약 <font color="red">${totalcount }</font>건
-		<a href="../admin/programInsert.do" class="btn btn-sm btn-primary" style="margin-left: 20px;">일괄 승인</a>
 		<hr style="margin-top: 10px;">
 	</div>
 	<table class="table">
