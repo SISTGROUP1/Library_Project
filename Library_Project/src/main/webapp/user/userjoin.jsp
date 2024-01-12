@@ -177,13 +177,13 @@ function check()
     <label id=res></label>
 	<div class="row">
       <div class="col-half1" style="width:284px">
-        <h2 style="margin-left:36.5%;margin-top:13%;">생년월일</h2>
+        <h2 style="margin-left:22%;margin-top:13%;">생년월일</h2>
           <div class="col-third">
             <input type="date" name="birthday" id="join_birth" style="margin-left:36.5%;width:180px;color:black">
           </div>
       </div>
       <div class="col-half1" style="width:380px">
-        <h2 style="margin-top:9%;margin-left:13%;">성별</h2>
+        <h2 style="margin-top:9%;margin-left:16%;">성별</h2>
         <br>
           <input id="gender_male" type="radio" name="gender" value="남자">
           <label for="gender_male" id="male" style="cursor:pointer;color:black">남자</label>
