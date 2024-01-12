@@ -71,7 +71,7 @@
 					</tr>
 					<tr>
 						<td width="15%" rowspan="4">
-							이미지
+							<img src="../images/user-profile.png" width="130px;" height="130px;">
 						</td>
 						<td width="10%">아이디</td>
 						<td width="75%">${vo.userID }</td>
