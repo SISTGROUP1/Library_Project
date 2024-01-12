@@ -77,7 +77,7 @@ $(function() {
 			  success:function(result)
 			  {
 				  let res=result.trim()
-				  if(res==='NO')
+				  if(res==='FINDNO')
 				  {
 					  alert("아이디나 질문을 다시 입력해주세요.")
 				  }
@@ -107,7 +107,7 @@ $(function() {
   <div class="right">
     <label for="find_ipwd" style="margin-top: 5%;">아이디</label>
     <input type="text" id="find_ipwd" name="find_ipwd" required>
-    <label>비밀번호 찾기 질문</label>
+    <label>계정 확인 질문</label>
     <select name="find_hno" id="find_hno">
 	<option>질문선택</option>
        <c:forEach var="vo" items="${hList}" varStatus="s">
