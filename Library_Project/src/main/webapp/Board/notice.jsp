@@ -25,13 +25,14 @@
 			</c:if>
 			<hr>
 		</div>
-		<form method="post" action="#" id="searchForm">
+		<form method="post" action="../Board/notice.do" id="searchForm">
+		<input type="hidden" name="typeno" value="${typeno }">
 		<div>
 			<div style="padding: 15px;">
-				<div>
+				<!-- <div>
 					작성일&nbsp;:&nbsp;<input type="date">&nbsp;~&nbsp;<input type="date">
-				</div>
-				<div style="margin-top: 10px;">
+				</div> -->
+				<div>
 					<select id="searchOp" name="searchType" class="input-lg" style="appearance: auto;">
 						<option value="">제목</option>
 						<option value="">내용</option>

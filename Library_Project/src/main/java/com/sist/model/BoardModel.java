@@ -29,16 +29,38 @@ import com.sist.vo.QnaCommentVO;
 import com.sist.vo.QnaVO;
 
 public class BoardModel {
+	private String[] types= {
+			"title",
+			"content"
+	};
 	@RequestMapping("Board/notice.do")
 	public String board_notice(HttpServletRequest request,HttpServletResponse response) {
+		try {
+			request.setCharacterEncoding("UTF-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		String typeno=request.getParameter("typeno");
 		String page=request.getParameter("page");
 		if(page==null) page="1";
 		int curpage=Integer.parseInt(page);
+		// 검색
+		String search=request.getParameter("search");
+		String searchType=request.getParameter("searchType");
+		//----------
 		
 		BoardDAO dao=BoardDAO.newInstance();
-		List<NoticeVO> list=dao.noticeListData(curpage, Integer.parseInt(typeno));
-		int count=dao.noticeTotalCnt(Integer.parseInt(typeno));
+		List<NoticeVO> list=null;
+		int totalcnt=0;
+		if(search==null||search=="") {
+			list=dao.noticeListData(curpage, Integer.parseInt(typeno));
+			totalcnt=dao.noticeTotalCnt(Integer.parseInt(typeno));
+		}else {
+			list=dao.noticeListData(curpage, Integer.parseInt(typeno),search,types[Integer.parseInt(searchType)]);
+			totalcnt=dao.noticeTotalCnt(Integer.parseInt(typeno),search,types[Integer.parseInt(searchType)]);
+		}
+		
+		int count=totalcnt;
 		int totalpage=(int) Math.ceil(count/(double)dao.getROW());
 		count=count-((curpage*dao.getROW())-dao.getROW());
 		final int BLOCK=10;
@@ -50,6 +72,7 @@ public class BoardModel {
 		request.setAttribute("curpage", curpage);
 		request.setAttribute("list", list);
 		request.setAttribute("count", count);
+		request.setAttribute("totalcnt", totalcnt);
 		request.setAttribute("totalpage", totalpage);
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);
@@ -100,13 +123,32 @@ public class BoardModel {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	@RequestMapping("Board/qna.do")
 	public String board_qna(HttpServletRequest request,HttpServletResponse response) {
+		try {
+			request.setCharacterEncoding("UTF-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		String page=request.getParameter("page");
 		if(page==null) page="1";
 		int curpage=Integer.parseInt(page);
 		
+		// 검색
+		String search=request.getParameter("search");
+		String searchType=request.getParameter("searchType");
+		//----------
+		
 		BoardDAO dao=BoardDAO.newInstance();
-		List<QnaVO> list=dao.qnaListData(curpage);
-		int count=dao.qnaTotalCnt();
+		List<QnaVO> list=null;
+		int totalcnt=0;
+		if(search==null||search=="") {
+			list=dao.qnaListData(curpage);
+			totalcnt=dao.qnaTotalCnt();
+		}else {
+			list=dao.qnaListData(curpage,search,types[Integer.parseInt(searchType)]);
+			totalcnt=dao.qnaTotalCnt(search,types[Integer.parseInt(searchType)]);
+		}
+
+		int count=totalcnt;
 		int totalpage=(int) Math.ceil(count/(double)dao.getROW());
 		count=count-((curpage*dao.getROW())-dao.getROW());
 		final int BLOCK=10;
@@ -117,6 +159,7 @@ public class BoardModel {
 		request.setAttribute("curpage", curpage);
 		request.setAttribute("list", list);
 		request.setAttribute("count", count);
+		request.setAttribute("totalcnt", totalcnt);
 		request.setAttribute("totalpage", totalpage);
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);

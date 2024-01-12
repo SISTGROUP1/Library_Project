@@ -45,6 +45,18 @@ public class AdminModel {
 	// 어드민 프로그램 관리 화면
 	@RequestMapping("admin/programList.do")
 	public String admin_programList(HttpServletRequest request,HttpServletResponse response) {
+		try {
+			request.setCharacterEncoding("UTF-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		String[] types= {
+				"title",
+				"place"
+		};
+		String search=request.getParameter("search");
+		String searchType=request.getParameter("searchType");
+		
 		String page=request.getParameter("page");
 		if(page==null) page="1";
 		int curpage=Integer.parseInt(page);
@@ -52,9 +64,18 @@ public class AdminModel {
 		AdminDAO dao=AdminDAO.newInstance();
 		ProgramDAO pdao=ProgramDAO.newInstance();
 		pdao.programStatusUpdate(0);
-		List<ProgramVO> list=dao.programListData(curpage);
+		List<ProgramVO> list=null;
+		int totalcount=0;
+		if(search==null||search=="") {
+			list=dao.programListData(curpage);
+			totalcount=dao.programTotalCnt();
+		}else {
+			list=dao.programListData(curpage,search,types[Integer.parseInt(searchType)]);
+			totalcount=dao.programTotalCnt(search,types[Integer.parseInt(searchType)]);
+		}
+
 		int list_size=list.size();
-		int totalcount=dao.programTotalCnt();
+		
 		int count=totalcount;
 		int totalpage=(int)(Math.ceil(count/dao.getROW_SIZE()));
 		count=count-((curpage*dao.getROW_SIZE())-dao.getROW_SIZE());
@@ -64,6 +85,8 @@ public class AdminModel {
 		int endPage=((curpage-1)/BLOCK*BLOCK)+BLOCK;
 		if(endPage>totalpage) endPage=totalpage;
 		
+		request.setAttribute("search", search);
+		request.setAttribute("searchType", searchType);
 		request.setAttribute("curpage", curpage);
 		request.setAttribute("list", list);
 		request.setAttribute("list_size", list_size);
@@ -410,15 +433,36 @@ public class AdminModel {
 	// 어드민 공지사항 목록
 	@RequestMapping("admin/noticeList.do")
 	public String admin_noticeList(HttpServletRequest request,HttpServletResponse response) {
+		try {
+			request.setCharacterEncoding("UTF-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		String[] types= {
+				"title",
+				"content"
+		};
 		String typeno=request.getParameter("typeno");
 		String page=request.getParameter("page");
+		String search=request.getParameter("search");
+		String searchType=request.getParameter("searchType");
 		
 		if(page==null) page="1";
 		if(typeno==null) typeno="0";
 		int curpage=Integer.parseInt(page);
 		BoardDAO dao=BoardDAO.newInstance();
-		List<NoticeVO> list=dao.noticeListData(curpage, Integer.parseInt(typeno));
-		int count=dao.noticeTotalCnt(Integer.parseInt(typeno));
+		List<NoticeVO> list=null;
+		int totalcnt=0;
+		if(search==null||search.equals("")) {
+			list=dao.noticeListData(curpage, Integer.parseInt(typeno));
+			totalcnt=dao.noticeTotalCnt(Integer.parseInt(typeno));
+		}else {
+			list=dao.noticeListData(curpage, Integer.parseInt(typeno),search,types[Integer.parseInt(searchType)]);
+			totalcnt=dao.noticeTotalCnt(Integer.parseInt(typeno),search,types[Integer.parseInt(searchType)]);
+		}
+		
+		
+		int count=totalcnt;
 		int totalpage=(int) Math.ceil(count/(double)dao.getROW());
 		count=count-((curpage*dao.getROW())-dao.getROW());
 		final int BLOCK=10;
@@ -430,6 +474,7 @@ public class AdminModel {
 		request.setAttribute("curpage", curpage);
 		request.setAttribute("list", list);
 		request.setAttribute("count", count);
+		request.setAttribute("totalcnt", totalcnt);
 		request.setAttribute("totalpage", totalpage);
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);

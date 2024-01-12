@@ -23,7 +23,7 @@
 <body>
 <!-- 대출현황 -->
 <!-- 도서대출정보 메뉴 include -->
-	<div>
+	<!-- <div>
 		<form method="post" action="#" id="searchForm">
 		<div>
 			<div style="padding: 15px;">
@@ -43,7 +43,7 @@
 			</div>
 		</div>
 		</form>
-	</div>
+	</div> -->
 	<div style="width: 100%;padding: 0;">
 		대출현황 <font color="red">${totalcount }</font>건
 		<hr style="margin-top: 10px;">

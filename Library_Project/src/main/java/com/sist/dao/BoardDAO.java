@@ -95,6 +95,47 @@ public class BoardDAO {
 		}
 		return list;
 	}
+	// 공지사항 및 보도자료 검색기능
+	public List<NoticeVO> noticeListData(int page,int typeno,String search,String type){
+		List<NoticeVO> list=new ArrayList<NoticeVO>();
+		System.out.println(type);
+		System.out.println(search);
+		try {
+			conn=dbconn.getConnection();
+			String sql="SELECT no,typeno,title,TO_CHAR(wrDate,'YYYY-MM-DD'),hit,filesize,status,num "
+					+ "FROM (SELECT no,typeno,title,wrDate,hit,filesize,status,rownum as num "
+					+ "FROM (SELECT /*+ INDEX_DESC(seoul_notice snt_no_pk) */no,typeno,title,wrDate,hit,filesize,status "
+					+ "FROM seoul_notice "
+					+ "WHERE typeno=? AND "+type+" LIKE '%'||?||'%' "
+					+ "ORDER BY status DESC,wrDate DESC)) "
+					+ "WHERE num BETWEEN ? AND ?";
+			ps=conn.prepareStatement(sql);
+			ps.setInt(1, typeno);
+			ps.setString(2, search);
+			int start=(page*ROW)-(ROW-1);
+			int end=page*ROW;
+			ps.setInt(3, start);
+			ps.setInt(4, end);
+			ResultSet rs=ps.executeQuery();
+			while(rs.next()){
+				NoticeVO vo=new NoticeVO();
+				vo.setNo(rs.getInt(1));
+				vo.setTypeno(rs.getInt(2));
+				vo.setTitle(rs.getString(3));
+				vo.setDbday(rs.getString(4));
+				vo.setHit(rs.getInt(5));
+				vo.setFilesize(rs.getInt(6));
+				vo.setStatus(rs.getString(7));
+				list.add(vo);
+			}
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return list;
+	}
 	
 	// 공지사항 및 보도자료 통합검색
 	public List<NoticeVO> noticeFindAllData(String search){
@@ -138,6 +179,29 @@ public class BoardDAO {
 					+ "FROM seoul_notice "
 					+ "WHERE typeno="+typeno;
 			ps=conn.prepareStatement(sql);
+			ResultSet rs=ps.executeQuery();
+			rs.next();
+			total=rs.getInt(1);
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return total;
+	}
+	
+	// 검색 기능 추가
+	public int noticeTotalCnt(int typeno,String search,String type) {
+		int total=0;
+		try {
+			conn=dbconn.getConnection();
+			String sql="SELECT COUNT(*) "
+					+ "FROM seoul_notice "
+					+ "WHERE typeno=? AND "+type+" LIKE '%'||?||'%' ";
+			ps=conn.prepareStatement(sql);
+			ps.setInt(1, typeno);
+			ps.setString(2, search);
 			ResultSet rs=ps.executeQuery();
 			rs.next();
 			total=rs.getInt(1);
@@ -260,9 +324,9 @@ public class BoardDAO {
 		List<QnaVO> list=new ArrayList<QnaVO>();
 		try {
 			conn=dbconn.getConnection();
-			String sql="SELECT no,userid,name,title,TO_CHAR(wrDate,'YYYY-MM-DD'),status,locking,num "
-					+ "FROM (SELECT no,userid,name,title,wrDate,status,locking,rownum as num "
-					+ "FROM (SELECT /*+ INDEX_DESC(seoul_qna sq_no_pk) */no,userid,name,title,wrDate,status,locking "
+			String sql="SELECT no,userid,name,title,content,TO_CHAR(wrDate,'YYYY-MM-DD'),status,locking,num "
+					+ "FROM (SELECT no,userid,name,title,content,wrDate,status,locking,rownum as num "
+					+ "FROM (SELECT /*+ INDEX_DESC(seoul_qna sq_no_pk) */no,userid,name,title,content,wrDate,status,locking "
 					+ "FROM seoul_qna)) "
 					+ "WHERE num BETWEEN ? AND ?";
 			ps=conn.prepareStatement(sql);
@@ -277,9 +341,47 @@ public class BoardDAO {
 				vo.setUserid(rs.getString(2));
 				vo.setName(rs.getString(3));
 				vo.setTitle(rs.getString(4));
-				vo.setDbday(rs.getString(5));
-				vo.setStatus(rs.getString(6));
-				vo.setLocking(rs.getString(7));
+				vo.setContent(rs.getString(5));
+				vo.setDbday(rs.getString(6));
+				vo.setStatus(rs.getString(7));
+				vo.setLocking(rs.getString(8));
+				list.add(vo);
+			}
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return list;
+	}
+	// 검색 기능 추ㅏ
+	public List<QnaVO> qnaListData(int page,String search,String type){
+		List<QnaVO> list=new ArrayList<QnaVO>();
+		try {
+			conn=dbconn.getConnection();
+			String sql="SELECT no,userid,name,title,content,TO_CHAR(wrDate,'YYYY-MM-DD'),status,locking,num "
+					+ "FROM (SELECT no,userid,name,title,content,wrDate,status,locking,rownum as num "
+					+ "FROM (SELECT /*+ INDEX_DESC(seoul_qna sq_no_pk) */no,userid,name,title,content,wrDate,status,locking "
+					+ "FROM seoul_qna WHERE "+type+" LIKE '%'||?||'%')) "
+					+ "WHERE num BETWEEN ? AND ?";
+			ps=conn.prepareStatement(sql);
+			ps.setString(1, search);
+			int start=(page*ROW)-(ROW-1);
+			int end=page*ROW;
+			ps.setInt(2, start);
+			ps.setInt(3, end);
+			ResultSet rs=ps.executeQuery();
+			while(rs.next()){
+				QnaVO vo=new QnaVO();
+				vo.setNo(rs.getInt(1));
+				vo.setUserid(rs.getString(2));
+				vo.setName(rs.getString(3));
+				vo.setTitle(rs.getString(4));
+				vo.setContent(rs.getString(5));
+				vo.setDbday(rs.getString(6));
+				vo.setStatus(rs.getString(7));
+				vo.setLocking(rs.getString(8));
 				list.add(vo);
 			}
 			rs.close();
@@ -298,6 +400,27 @@ public class BoardDAO {
 			String sql="SELECT COUNT(*) "
 					+ "FROM seoul_qna";
 			ps=conn.prepareStatement(sql);
+			ResultSet rs=ps.executeQuery();
+			rs.next();
+			total=rs.getInt(1);
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return total;
+	}
+	// 검색 기능 추가
+	public int qnaTotalCnt(String search,String type) {
+		int total=0;
+		try {
+			conn=dbconn.getConnection();
+			String sql="SELECT COUNT(*) "
+					+ "FROM seoul_qna "
+					+ "WHERE "+type+" LIKE '%'||?||'%'";
+			ps=conn.prepareStatement(sql);
+			ps.setString(1, search);
 			ResultSet rs=ps.executeQuery();
 			rs.next();
 			total=rs.getInt(1);
@@ -492,23 +615,23 @@ public class BoardDAO {
 		}
 	}
 	// QNA 답글 수정
-		public void qnaUpdateComment(QnaCommentVO vo) {
-			try {
-				conn=dbconn.getConnection();
-				String sql="UPDATE seoul_qna_comment SET "
-						+ "title=?,content=? "
-						+ "WHERE no=?";
-				ps=conn.prepareStatement(sql);
-				ps.setString(1, vo.getTitle());
-				ps.setString(2, vo.getContent());
-				ps.setInt(3, vo.getNo());
-				ps.executeUpdate();
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				dbconn.disConnection(conn, ps);
-			}
+	public void qnaUpdateComment(QnaCommentVO vo) {
+		try {
+			conn=dbconn.getConnection();
+			String sql="UPDATE seoul_qna_comment SET "
+					+ "title=?,content=? "
+					+ "WHERE no=?";
+			ps=conn.prepareStatement(sql);
+			ps.setString(1, vo.getTitle());
+			ps.setString(2, vo.getContent());
+			ps.setInt(3, vo.getNo());
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
 		}
+	}
 	//////////////////////////////////////////////////////////////
 
 	public List<ProgramVO> calendarProgramData(String year,String month){

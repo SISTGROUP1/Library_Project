@@ -71,6 +71,51 @@ public class AdminDAO {
 		}
 		return list;
 	}
+	// 검색
+	public List<ProgramVO> programListData(int page,String search,String type){
+		List<ProgramVO> list=new ArrayList<ProgramVO>();
+		try {
+			conn=dbconn.getConnection();
+			String sql="SELECT pno,title,"
+					+ "TO_CHAR(edu1,'YYYY-MM-DD'),TO_CHAR(edu2,'YYYY-MM-DD'),"
+					+ "TO_CHAR(accept1,'YYYY-MM-DD HH24:MI'),TO_CHAR(accept2,'YYYY-MM-DD HH24:MI'),TO_CHAR(regdate,'YYYY-MM-DD'),"
+					+ "capacity,applicant,waiting,waitingCap,status,num "
+					+ "FROM (SELECT pno,title,edu1,edu2,accept1,accept2,regdate,capacity,applicant,waiting,waitingCap,status,rownum as num "
+					+ "FROM (SELECT /*+ INDEX_DESC(program pg_pno_pk)*/pno,title,edu1,edu2,accept1,accept2,regdate,"
+					+ "capacity,applicant,waiting,waitingCap,status "
+					+ "FROM program WHERE "+type+" LIKE '%'||?||'%')) "
+					+ "WHERE num BETWEEN ? AND ?";
+			ps=conn.prepareStatement(sql);
+			ps.setString(1, search);
+			int start=(ROW_SIZE*page)-(ROW_SIZE-1);
+			int end=ROW_SIZE*page;
+			ps.setInt(2, start);
+			ps.setInt(3, end);
+			ResultSet rs=ps.executeQuery();
+			while(rs.next()) {
+				ProgramVO vo=new ProgramVO();
+				vo.setPno(rs.getInt(1));
+				vo.setTitle(rs.getString(2));
+				vo.setEdu1_str(rs.getString(3));
+				vo.setEdu2_str(rs.getString(4));
+				vo.setAccept1_str(rs.getString(5));
+				vo.setAccept2_str(rs.getString(6));
+				vo.setRegdate_str(rs.getString(7));
+				vo.setCapacity(rs.getInt(8));
+				vo.setApplicant(rs.getInt(9));
+				vo.setWaiting(rs.getInt(10));
+				vo.setWaitingCap(rs.getInt(11));
+				vo.setStatus(rs.getInt(12));
+				list.add(vo);
+			}
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return list;
+	}
 	
 	// 프로그램 총 갯수
 	public int programTotalCnt() {
@@ -80,6 +125,27 @@ public class AdminDAO {
 			String sql="SELECT COUNT(*) "
 					+ "FROM program";
 			ps=conn.prepareStatement(sql);
+			ResultSet rs=ps.executeQuery();
+			rs.next();
+			count=rs.getInt(1);
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbconn.disConnection(conn, ps);
+		}
+		return count;
+	}
+	
+	public int programTotalCnt(String search,String type) {
+		int count=0;
+		try {
+			conn=dbconn.getConnection();
+			String sql="SELECT COUNT(*) "
+					+ "FROM program "
+					+ "WHERE "+type+" LIKE '%'||?||'%'";
+			ps=conn.prepareStatement(sql);
+			ps.setString(1, search);
 			ResultSet rs=ps.executeQuery();
 			rs.next();
 			count=rs.getInt(1);
