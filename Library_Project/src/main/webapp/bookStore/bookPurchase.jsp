@@ -45,6 +45,8 @@ function requestPay() {
        } else {
            var msg = '결제에 실패하였습니다.';
            msg += '에러내용 : ' + rsp.error_msg;
+           
+           location.href="../mypage/bookPurchaseList.do"
        }
    });
 }
@@ -62,28 +64,48 @@ $(function(){
       let userid=$('#buy').attr("data-value");
       let isbn=$('#bookisbn').text();
       
-      // 총금액 서버로 전송
-        $.ajax({
-            type: "POST",
-            url: "../bookStore/bookPurchase_ok.do",  // 보내지는 위치
-            data: {"userid":userid, "isbn":isbn, sumprice:total}, //sumprice에 total값 저장
-            success: function(response) {
-                console.log("서버 전송 완료");
-            },
-            error: function(error) {
-                console.error("서버 전송 오류");
-            }
-        });
-   })
-   
    // 총금액 결제
-   $('#buy').click(function(){
-      if(${sessionScope.email==null})
-      {
-         alert("로그인 후 이용해주세요.")
-         return;
-      }
-      requestPay()
+      $('#buy').click(function(){
+         if(${sessionScope.email==null})
+         {
+            alert("로그인 후 이용해주세요.")
+            return;
+         }
+         requestPay()
+      // 총금액 서버로 전송
+         $.ajax({
+             type: "POST",
+             url: "../bookStore/bookPurchase_ok.do",  // 보내지는 위치
+             data: {"userid":userid, "isbn":isbn, sumprice:total}, //sumprice에 total값 저장
+             success: function(response) {
+                 console.log("서버 전송 완료");
+                 
+             },
+             error: function(error) {
+                 console.error("서버 전송 오류");
+             }
+         });
+      })
+      $('#cart').click(function(){
+         if(${sessionScope.email==null})
+         {
+            alert("로그인 후 이용해주세요.")
+            return;
+         }
+         // cart로 데이터 전송
+         $.ajax({
+             type: "POST",
+             url: "../bookStore/cart_insert.do",  // 보내지는 위치
+             data: {"userid":userid, "isbn":isbn, sumprice:total}, //sumprice에 total값 저장
+             success: function(response) {
+                 console.log("서버 전송 완료");
+                 location.href="../mypage/mypage_cart.do"
+             },
+             error: function(error) {
+                 console.error("서버 전송 오류");
+             }
+         });
+      })
    })
    
    $('#reviewBtn').click(function(){
@@ -164,7 +186,7 @@ $(function(){
 $(".pruchaseBtn").click(function(event){
    event.preventDefault();
    x=$(this).attr("href");
-   $("html, body").stop().animate({scrollTop : $(x).offset().top-130}, 1000, "easeInOutExpo");
+   $("html, body").stop().animate({scrollTop : $(x).offset().top-0}, 1000, "easeInOutExpo");
 })
 
 //별점
@@ -235,7 +257,7 @@ function star_count(e){
            </tr>
            <tr>
               <td width="50%">
-                 <a href="../bookStore/shopCart.do"><input type="button" value="장바구니" id="cart"></a>
+                 <input type="button" value="장바구니" id="cart" data-value="${sessionScope.email }">
 
                  <input type="button" value="바로구매" id="buy" data-value="${sessionScope.email }">
                  <a href="javascript:history.back()"><input type="button" value="뒤로가기" id="backto"></a>
@@ -250,10 +272,10 @@ function star_count(e){
      <hr>
      <h2 id="bookinfo_scr">책소개</h2>
      <hr>
-     <p style="margin-top:2%;width: 65%">${vo.bookinfo}</p>
+     <p style="margin-top:2%;width: 65%;height: 400px">${vo.bookinfo}</p>
      <h2 id="bookauthor_scr">저자소개</h2>
      <hr>
-     <p style="margin-top:2%;width: 65%">${vo.authorinfo}</p>
+     <p style="margin-top:2%;width: 65%;height: 400px">${vo.authorinfo}</p>
    <div class="bookpurchase_review">
    <h2 id="bookreview_scr">도서리뷰</h2>
      <hr>
