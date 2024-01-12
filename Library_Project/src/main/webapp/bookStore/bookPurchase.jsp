@@ -200,7 +200,7 @@ function star_count(e){
    <h2>도서 구매</h2>
    <hr>
    <div class="imgArea">
-      <img src="${vo.image }" class="img-fluid" style="width:500px;height:620px;">
+      <img src="${vo.image }" class="img-fluid" style="width:330px;height:530px;">
    </div>
 
    <div class="titleArea">
