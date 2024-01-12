@@ -19,7 +19,7 @@
 Shadowbox.init({
 	players:['iframe']
 })
-function updatecheck()
+function Qcheck()
 {
 	let hintA=$('#update_hintA').val();
 	if(hintA===$('#uphintA').val())
@@ -46,7 +46,7 @@ $(function(){
 	})
 })
 
-function update_check()
+function updatecheck()
 {
 	if(ufrm.update_pwd1.value.length==0)
 	{
@@ -154,9 +154,9 @@ function update_check()
     
     <input style="display:none" type="text" value="${sessionScope.hintA }" id="uphintA">
     <h6 style="color:red;margin-left:14%"></h6>
-      <input type="button" value="질문확인" onclick="updatecheck()" id="updateCheckBtn" name="updateCheckBtn" data-upid="${sessionScope.email }"
+      <input type="button" value="질문확인" onclick="Qcheck()" id="updateCheckBtn" name="updateCheckBtn" data-upid="${sessionScope.email }"
              style="cursor:pointer;float:left;margin-left:14%">
-     <input type="submit" value="수정" id="updateBtn" name="updateBtn" style="display:none;margin-left:14%">
+     <input type="submit" value="수정" onclick="return updatecheck()" id="updateBtn" name="updateBtn" style="display:none;margin-left:14%">
       <input type="button" onclick="javascript:history.back()" value="취소" style="cursor:pointer;margin-left:30%">
     <br><br><br>
     <h2 style="margin-left:5%">이용 약관</h2>

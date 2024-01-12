@@ -520,6 +520,13 @@ public class UserDAO {
 				ps.executeUpdate();
 				ps.close();
 				
+				sql="DELETE FROM all_reply "
+				   +"WHERE userid=?";
+				ps=conn.prepareStatement(sql);
+				ps.setString(1, userID);
+				ps.executeUpdate();
+				ps.close();
+				
 				sql="DELETE FROM userjoin "
 				   +"WHERE userid=?";
 				ps=conn.prepareStatement(sql);
