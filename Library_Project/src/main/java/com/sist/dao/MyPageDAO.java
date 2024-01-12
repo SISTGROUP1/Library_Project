@@ -261,7 +261,7 @@ public class MyPageDAO {
   					+ "FROM (SELECT no,pno,title,place,edu1,edu2,status,waitingno,rownum as num "
   					+ "FROM (SELECT /*+INDEX_DESC(program_application pa_no_pk */no,pa.pno,title,place,edu1,edu2,pa.status,waitingno "
   					+ "FROM program JOIN program_application pa "
-  					+ "ON program.pno=pa.pno"
+  					+ "ON program.pno=pa.pno "
   					+ "WHERE userid=?)) "
   					+ "WHERE num BETWEEN ? AND ?";
   			ps=conn.prepareStatement(sql);
