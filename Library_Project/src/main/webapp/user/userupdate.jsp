@@ -112,13 +112,13 @@ function updatecheck()
     <input type="text" value="${uvo.phone }" name="update_phone" id="update_phone">
 	<div class="row">
       <div class="col-half1" style="width:284px">
-        <h2 style="margin-left:36.5%;margin-top:13%;">생년월일</h2>
+        <h2 style="margin-left:22%;margin-top:13%;">생년월일</h2>
           <div class="col-third">
             <input type="date" name="update_birthday" value="${uvo.birth }"style="margin-left:36.5%;width:180px;color:black" readonly>
           </div>
       </div>
       <div class="col-half1" style="width:380px">
-        <h2 style="margin-top:9%;margin-left:13%;">성별</h2>
+        <h2 style="margin-top:9%;margin-left:16%;">성별</h2>
         <br>
         <c:if test="${uvo.gender!=null }">
         <c:if test="${uvo.gender=='남자' }">
@@ -159,10 +159,6 @@ function updatecheck()
      <input type="submit" value="수정" onclick="return updatecheck()" id="updateBtn" name="updateBtn" style="display:none;margin-left:14%">
       <input type="button" onclick="javascript:history.back()" value="취소" style="cursor:pointer;margin-left:30%">
     <br><br><br>
-    <h2 style="margin-left:5%">이용 약관</h2>
-      <input id="terms" type="checkbox">
-      <label for="terms" style="cursor:pointer;margin-left:5%">실명 인증된 아이디로 가입, 위치기반서비스 이용약관, 이벤트・혜택 정보 수신 동의를 포함합니다.</label>
-      <br><br>
   </div>
 </form>
 <!-- partial -->

@@ -153,7 +153,7 @@ function check()
 			      && frm.join_birth!=0 && frm.phone!=0
 			      && frm.post!=0 && frm.addr1!=0 && frm.hintA!=0)
 	{
-		alert("회원가입을 축하합니다!!");
+		alert("회원가입을 축하합니다.");
 	}
 }
 </script>
@@ -199,13 +199,13 @@ function check()
        </c:forEach>
      </select>
     <input type="text" placeholder="질문에 대한 답" id="hintA" name="hintA">
-    <h6 style="color:red;margin-left:55%">※계정 확인 QnA는 수정할 수 없습니다.</h6>
+    <h6 style="color:red;margin-left:35%">※계정 확인 QnA는 수정할 수 없습니다.</h6>
       <input type="submit" value="가입" onClick="return check()" id="joinBtn" name="joinBtn" style="cursor:pointer;float:left;margin-left:14%">
       <input type="button" onClick="javascript:history.back()" value="취소" style="cursor:pointer;margin-left:30%">
     <br><br><br>
     <h2 style="margin-left:5%">이용 약관</h2>
       <input id="terms" type="checkbox">
-      <label for="terms" style="cursor:pointer;margin-left:5%">실명 인증된 아이디로 가입, 위치기반서비스 이용약관, 이벤트・혜택 정보 수신 동의를 포함합니다.</label>
+      <label for="terms" style="cursor:pointer;margin-left:9%">실명 인증된 아이디로 가입, 위치기반서비스 이용약관, 이벤트・혜택 정보 수신 동의를 포함합니다.</label>
       <br><br>
   </div>
 </form>

@@ -101,6 +101,7 @@ $(function() {
     <label for="find_eid" style="margin-top: 10%;">이메일</label>
     <input type="text" name="find_eid" id="find_eid" required>
     <input type="button" value="아이디 찾기" id="fi">
+    <br>
     <label id=res1></label>
    </div>
 

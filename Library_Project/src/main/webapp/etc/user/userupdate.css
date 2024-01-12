@@ -13,9 +13,9 @@ form#update_form {
   overflow: hidden;
   position: relative;
   border-radius: 0.3em;
-  -moz-box-shadow: 0 0 0.1em rgb(128, 128, 128);
-  -webkit-box-shadow: 0 0 0.1em rgb(128, 128, 128);
-  box-shadow: 0 0 0.1em rgb(128, 128, 128);
+  -moz-box-shadow: 0 0 0.3em rgb(128, 128, 128);
+  -webkit-box-shadow: 0 0 0.3em rgb(128, 128, 128);
+  box-shadow: 0 0 0.3em rgb(128, 128, 128);
 }
 form#update_form div.heading {
   background: #1245AB;
@@ -127,7 +127,7 @@ input[type="radio"] {
 }
 
 #male{
-	margin-left: 13%;
+	margin-left: 16%;
 	margin-top: 1.5%
 }
 
