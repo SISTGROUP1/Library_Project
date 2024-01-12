@@ -23,7 +23,27 @@
 </style>
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 <script type="text/javascript">
-	
+$(function() {
+	$('#edu2').change(function() {
+		if($('#edu1').val()===''){
+			alert('운영시작시간을 먼저 입력해주세요')
+			$('#edu2').val('')
+			return
+		}
+		
+		let edu1=$('#edu1').val()
+		let edu2=$('#edu2').val()
+		
+		$.ajax({
+			type: 'POST',
+			url: '../admin/programSelectDate.do',
+			data: {"edu1":edu1,"edu2":edu2},
+			success:function(result){
+				$('#select_Date').html(result)
+			}
+		})
+	})
+})
 </script>
 </head>
 <body>
@@ -77,8 +97,8 @@
 		<tr>
 			<th width="10%">운영기간</th>
 			<td width="40%">
-				<input type="date" name="edu1" required class="input-sm" value="${vo.edu1_str }">&nbsp;~&nbsp;
-				<input type="date" name="edu2" required class="input-sm" value="${vo.edu2_str }">
+				<input type="date" name="edu1" required class="input-sm" id="edu1">&nbsp;~&nbsp;
+				<input type="date" name="edu2" required class="input-sm" id="edu2">
 			</td>
 			<th width="10%">시간</th>
 			<td width="40%">
@@ -87,13 +107,20 @@
 			</td>
 		</tr>
 		<tr>
+			<td></td>
+			<td colspan="2">
+				<div id="select_Date"></div>
+			</td>
+			<td></td>
+		</tr>
+		<tr>
 			<th width="10%">접수기간</th>
 			<td width="90%" colspan="3">
 				<input type="datetime-local" name="accept1" required class="input-sm" value="${vo.accept1_str }">&nbsp;~&nbsp;
 				<input type="datetime-local" name="accept2" required class="input-sm" value="${vo.accept2_str }">
 			</td>
 		</tr>
-		<tr>
+		<%-- <tr>
 			<th width="10%">요일</th>
 			<td width="90%" colspan="3">
 				<input type="checkbox" name="week" id="w_0" value="0" ${fn:contains(vo.week,'0')?"checked":"" }>
@@ -120,7 +147,7 @@
 					<option value="6">토</option>
 				</select> -->
 			</td>
-		</tr>
+		</tr> --%>
 		<tr>
 			<th width="10%">정원</th>
 			<td width="40%">

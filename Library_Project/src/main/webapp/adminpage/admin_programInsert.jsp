@@ -22,26 +22,27 @@
 </style>
 <script type="text/javascript" src="http://code.jquery.js/jquery.js"></script>
 <script type="text/javascript">
-	$(function() {
-		$('#edu2').change(function() {
-			if($('#edu1').val()===''){
-				alert('운영시작시간을 먼저 입력해주세요')
-				return
+$(function() {
+	$('#edu2').change(function() {
+		if($('#edu1').val()===''){
+			alert('운영시작시간을 먼저 입력해주세요')
+			$('#edu2').val('')
+			return
+		}
+		
+		let edu1=$('#edu1').val()
+		let edu2=$('#edu2').val()
+		
+		$.ajax({
+			type: 'POST',
+			url: '../admin/programSelectDate.do',
+			data: {"edu1":edu1,"edu2":edu2},
+			success:function(result){
+				$('#select_Date').html(result)
 			}
-			
-			let edu1=$('#edu1').val()
-			let edu2=$('#edu2').val()
-			
-			$.ajax({
-				type: 'POST',
-				url: '../admin/programSelectDate.do',
-				data: {"edu1":edu1,"edu2":edu2},
-				success:function(result){
-					$('#select_Date').html(result)
-				}
-			})
 		})
 	})
+})
 </script>
 </head>
 <body>
