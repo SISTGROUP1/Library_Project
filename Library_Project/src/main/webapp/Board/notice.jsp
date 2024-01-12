@@ -34,8 +34,8 @@
 				</div> -->
 				<div>
 					<select id="searchOp" name="searchType" class="input-lg" style="appearance: auto;">
-						<option value="">제목</option>
-						<option value="">내용</option>
+						<option value="0">제목</option>
+						<option value="1">내용</option>
 					</select>
 					<input type="text" size="15" style="float: left;width: 60%;margin-left: 10px;margin-right: 10px;line-height: 0;" name="search" class="input-lg">
 					<input type="submit" class="btn btn-sm btn-info" value="검색">
