@@ -101,7 +101,7 @@
 		</c:if>
 	</table>
 	<div style="height: 20px;"></div>
-	<c:if test="${vo.status eq 'n' }">
+	<%-- <c:if test="${vo.status eq 'n' }">
 		<c:if test="${sessionScope.admin eq 'y' }">
 		<div class="text-center">
 			<input type="button" class="btn btn-lg" value="답글작성" id="qnaCommentBtn">
@@ -123,7 +123,7 @@
 				</tr>
 				<tr>
 					<td colspan="2" class="text-center">
-						<input type="submit" value="저장" class="btn btn-sm btn-info" <%-- data-sqno="${vo.no }" id="commentBtn" --%>>
+						<input type="submit" value="저장" class="btn btn-sm btn-info" data-sqno="${vo.no }" id="commentBtn">
 						<input type="button" value="취소" class="btn btn-sm btn-info" id="commentCancleBtn">
 					</td>
 				</tr>
@@ -131,7 +131,7 @@
 			</form>
 		</div>
 		</c:if>
-	</c:if>
+	</c:if> --%>
 	<c:if test="${vo.status eq 'y' }">
 		<table class="table" style="border-collapse: unset;">
 			<tr style="background-color: rgba(144, 144, 144, 0.075);">
@@ -147,7 +147,7 @@
 					<pre style="background-color: white;border: none;white-space: pre-wrap;">${qcvo.content }</pre>
 				</td>
 			</tr>
-			<c:if test="${sessionScope.admin eq 'y' }">
+			<%-- <c:if test="${sessionScope.admin eq 'y' }">
 				<tr>
 					<td colspan="2" class="text-right">
 						<a href="#" class="btn btn-xs btn-info">수정</a>
@@ -155,7 +155,7 @@
 						<input type="button" value="목록" class="btn btn-xs btn-success" onclick="javascript:history.back()">
 					</td>
 				</tr>
-			</c:if>
+			</c:if> --%>
 		</table>
 	</c:if>
 	<!-- 댓글 영역 -->

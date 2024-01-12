@@ -453,7 +453,7 @@ public class BoardDAO {
 			dbconn.disConnection(conn, ps);
 		}
 	}
-	// QNA 답글 수정
+	// QNA 답글 조회
 	public QnaCommentVO qnaSelectComment(int no) {
 		QnaCommentVO vo=new QnaCommentVO();
 		try {
@@ -481,7 +481,7 @@ public class BoardDAO {
 		try {
 			conn=dbconn.getConnection();
 			String sql="UPDATE seoul_qna_comment SET "
-					+ "title='관리자가 삭제한 답글입니다.',content='관리자가 삭제한 답글입니다.' "
+					+ "title='관리자가 삭제한 답변입니다.',content='관리자가 삭제한 답변입니다.' "
 					+ "WHERE no="+no;
 			ps=conn.prepareStatement(sql);
 			ps.executeUpdate();
@@ -491,7 +491,24 @@ public class BoardDAO {
 			dbconn.disConnection(conn, ps);
 		}
 	}
-	
+	// QNA 답글 수정
+		public void qnaUpdateComment(QnaCommentVO vo) {
+			try {
+				conn=dbconn.getConnection();
+				String sql="UPDATE seoul_qna_comment SET "
+						+ "title=?,content=? "
+						+ "WHERE no=?";
+				ps=conn.prepareStatement(sql);
+				ps.setString(1, vo.getTitle());
+				ps.setString(2, vo.getContent());
+				ps.setInt(3, vo.getNo());
+				ps.executeUpdate();
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				dbconn.disConnection(conn, ps);
+			}
+		}
 	//////////////////////////////////////////////////////////////
 
 	public List<ProgramVO> calendarProgramData(String year,String month){

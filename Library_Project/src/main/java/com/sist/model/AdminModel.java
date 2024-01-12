@@ -32,6 +32,7 @@ import com.sist.vo.BookReserve;
 import com.sist.vo.BookReserveCountVO;
 import com.sist.vo.NoticeVO;
 import com.sist.vo.ProgramVO;
+import com.sist.vo.QnaVO;
 
 public class AdminModel {
 	// 어드민 메인 화면
@@ -526,5 +527,39 @@ public class AdminModel {
 		dao.noticeUpdate(vo);
 		
 		return "redirect:../admin/noticeList.do";
+	}
+	
+	// 어드민 묻고답하기 관리
+	@RequestMapping("admin/qnaList.do")
+	public String admin_qnaList(HttpServletRequest request,HttpServletResponse response) {
+		String page=request.getParameter("page");
+		if(page==null) page="1";
+		int curpage=Integer.parseInt(page);
+		
+		BoardDAO dao=BoardDAO.newInstance();
+		List<QnaVO> list=dao.qnaListData(curpage);
+		
+		int list_size=list.size();
+		int totalcount=dao.qnaTotalCnt();
+		int count=totalcount;
+		int totalpage=(int)(Math.ceil(totalcount/dao.getROW()));
+		count=count-((curpage*dao.getROW())-dao.getROW());
+		
+		final int BLOCK=10;
+		int startPage=((curpage-1)/BLOCK*BLOCK)+1;
+		int endPage=((curpage-1)/BLOCK*BLOCK)+BLOCK;
+		if(endPage>totalpage) endPage=totalpage;
+		
+		request.setAttribute("curpage", curpage);
+		request.setAttribute("list", list);
+		request.setAttribute("list_size", list_size);
+		request.setAttribute("totalcount", totalcount);
+		request.setAttribute("count", count);
+		request.setAttribute("totalpage", totalpage);
+		request.setAttribute("startPage", startPage);
+		request.setAttribute("endPage", endPage);
+		request.setAttribute("admin_jsp", "../adminpage/admin_qnaList.jsp");
+		request.setAttribute("main_jsp", "../adminpage/adminPage_main.jsp");
+		return "../main/main.jsp";
 	}
 }

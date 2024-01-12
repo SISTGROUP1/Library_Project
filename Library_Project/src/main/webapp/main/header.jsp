@@ -64,7 +64,7 @@
 						<a ${sessionScope.email==null?"onclick=plsLogin()":"href=../mypage/mypage_main.do" } style="cursor: pointer;">마이페이지</a>					
 					</c:if>
 					<c:if test="${sessionScope.admin eq 'y' }">
-						<a href="../admin/main.do">관리자페이지</a>
+						<a href="../admin/bookManagement.do">관리자페이지</a>
 					</c:if>
 					</c:if>
 					</nav>

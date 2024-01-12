@@ -241,7 +241,7 @@ public class BoardModel {
 		BoardDAO dao=BoardDAO.newInstance();
 		dao.qnaInsertComment(vo);
 		
-		return "redirect:../Board/qna_detail.do?no="+no;
+		return "redirect:../admin/qnaList.do";
 	}
 	@RequestMapping("Board/qna_comment_delete.do")
 	public String qna_comment_delete(HttpServletRequest request,HttpServletResponse response) {
@@ -251,6 +251,46 @@ public class BoardModel {
 		BoardDAO dao=BoardDAO.newInstance();
 		dao.qnaDeleteComment(Integer.parseInt(commentno));
 		return "redirect:../Board/qna_detail.do?no="+no;
+	}
+	@RequestMapping("Board/qna_select_comment.do")
+	public void qna_select_comment(HttpServletRequest request,HttpServletResponse response) {
+		String sqno=request.getParameter("sqno");
+		BoardDAO dao=BoardDAO.newInstance();
+		QnaCommentVO vo=dao.qnaSelectComment(Integer.parseInt(sqno));
+		
+		JSONObject obj=new JSONObject();
+		obj.put("no", vo.getNo());
+		obj.put("title", vo.getTitle());
+		obj.put("content", vo.getContent());
+		obj.put("dbday", vo.getDbday());
+		
+		try {
+			response.setContentType("application/x-www-form-urlencoded; charset=UTF-8");
+			PrintWriter out=response.getWriter();
+			out.write(obj.toJSONString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	@RequestMapping("Board/qna_comment_update.do")
+	public String qna_comment_update(HttpServletRequest request,HttpServletResponse response) {
+		String no=request.getParameter("no");
+		String title=request.getParameter("title");
+		String content=request.getParameter("content");
+		
+		System.out.println(no);
+		System.out.println(title);
+		System.out.println(content);
+		
+		QnaCommentVO vo=new QnaCommentVO();
+		vo.setNo(Integer.parseInt(no));
+		vo.setTitle(title);
+		vo.setContent(content);
+		
+		BoardDAO dao=BoardDAO.newInstance();
+		dao.qnaUpdateComment(vo);
+		
+		return "redirect:../admin/qnaList.do";
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	@RequestMapping("Board/calendar.do")
